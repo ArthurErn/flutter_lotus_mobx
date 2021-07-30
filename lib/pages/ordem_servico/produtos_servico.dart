@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
+import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_item.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
 import 'package:lotus_erp/repository/vendas/dropdown_venda_auth.dart';
@@ -43,7 +46,7 @@ class _ProdutosServicoState extends State<ProdutosServico> {
     });
     getListarProdutosOS().then((value) {
       setState(() {
-        produtosOS = value;
+        osController.produtosOS = value;
       });
     });
     getFormaPagamento().then((value) {
@@ -90,17 +93,19 @@ class _ProdutosServicoState extends State<ProdutosServico> {
             Padding(
               padding: const EdgeInsets.only(
                   left: 15, right: 15, top: 5, bottom: 10),
-              child: Container(
-                height: MediaQuery.of(context).size.height / 2.15,
-                width: 330,
-                decoration: BoxDecoration(
-                    border: Border.all(width: .6, color: Colors.black)),
-                child: ListView.builder(
-                    itemCount: produtosOS.length,
-                    itemBuilder: (context, index) {
-                      return listaProdutosOS(context, index);
-                    }),
-              ),
+              child: Observer(builder: (_) {
+                return Container(
+                  height: MediaQuery.of(context).size.height / 2.15,
+                  width: 330,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: .6, color: Colors.black)),
+                  child: ListView.builder(
+                      itemCount: osController.produtosOS.length,
+                      itemBuilder: (context, index) {
+                        return listaProdutosOS(context, index);
+                      }),
+                );
+              }),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -289,7 +294,7 @@ class _ProdutosServicoState extends State<ProdutosServico> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  produtosOS[index].idProduto.toString(),
+                  osController.produtosOS[index].idProduto.toString(),
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
                 ),
               ],
@@ -298,13 +303,15 @@ class _ProdutosServicoState extends State<ProdutosServico> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  produtosOS[index].produtoNome.length > 26
-                      ? produtosOS[index].produtoNome.substring(0, 25) + "..."
-                      : produtosOS[index].produtoNome,
+                  osController.produtosOS[index].produtoNome.length > 26
+                      ? osController.produtosOS[index].produtoNome
+                              .substring(0, 25) +
+                          "..."
+                      : osController.produtosOS[index].produtoNome,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  produtosOS[index].unidade,
+                  osController.produtosOS[index].unidade,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
                 ),
               ],
@@ -315,19 +322,21 @@ class _ProdutosServicoState extends State<ProdutosServico> {
             Row(
               children: [
                 Text(
-                  produtosOS[index].qtde.toString() + " x ",
+                  osController.produtosOS[index].qtde.toString() + " x ",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  formatter.format(produtosOS[index].vlrVendido).toString(),
+                  formatter
+                      .format(osController.produtosOS[index].vlrVendido)
+                      .toString(),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
                 Spacer(),
                 Text(
                   "TOTAL: " +
                       formatter
-                          .format(produtosOS[index].vlrVendido *
-                              produtosOS[index].qtde)
+                          .format(osController.produtosOS[index].vlrVendido *
+                              osController.produtosOS[index].qtde)
                           .toString(),
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
                 )

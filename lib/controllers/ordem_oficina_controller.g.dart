@@ -33,6 +33,20 @@ mixin _$OrdemOficinaController on _OrdemOficinaControllerBase, Store {
     return _$ordemDisplayInfoAsyncAction.run(() => super.ordemDisplayInfo());
   }
 
+  final _$_OrdemOficinaControllerBaseActionController =
+      ActionController(name: '_OrdemOficinaControllerBase');
+
+  @override
+  dynamic postOrdemOficina() {
+    final _$actionInfo = _$_OrdemOficinaControllerBaseActionController
+        .startAction(name: '_OrdemOficinaControllerBase.postOrdemOficina');
+    try {
+      return super.postOrdemOficina();
+    } finally {
+      _$_OrdemOficinaControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

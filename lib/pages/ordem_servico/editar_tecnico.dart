@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
+import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_tecnico.dart';
 import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
 import 'package:lotus_erp/constructors/ordem_servico/construtor_tecnico.dart';

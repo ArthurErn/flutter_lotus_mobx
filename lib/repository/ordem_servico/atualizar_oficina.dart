@@ -1,25 +1,20 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/repository/login/login_auth.dart';
-import 'package:lotus_erp/repository/vendas/edit_venda_auth.dart';
-import 'package:lotus_erp/pages/login/functions/index_api.dart';
+import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/ordem_servico/adicionar_produto.dart';
 import 'package:lotus_erp/pages/ordem_servico/checklist.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
-import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
 import 'package:lotus_erp/pages/ordem_servico/produtos_servico.dart';
-import 'package:lotus_erp/pages/vendas/nova_venda.dart';
 
 Future postEditOficina() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
-  var empresa = getIndexEmpresa(aux);
   var indexSelecionado = tipoOs.indexOf(selecionadoOS);
   var situacaoOS = situacao.indexOf(selecionado2);
   var combust = combustivel.indexOf(combustivelSelecionado);
-  var tot_geral_liquido = (totalLiquidoServico + totalLiquidoProdutos);
   var tot_geral_bruto = (totalProdutosOrdem + totalServicoOrdem);
   var ck_antena = antena == true ? 1 : 0;
   var ck_calotas = calota == true ? 1 : 0;

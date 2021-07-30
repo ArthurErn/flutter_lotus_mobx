@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
+import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/ordem_servico_auth.dart';
 import 'package:lotus_erp/repository/vendas/dropdown_venda_auth.dart';
@@ -12,80 +13,9 @@ import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/pages/ordem_servico/produtos_servico.dart';
 import 'package:lotus_erp/pages/vendas/nova_venda.dart';
 
-var identificadorControllerAdd = TextEditingController();
-var buscarController = TextEditingController();
-var ordemId;
-var ordemStatusNome;
-var ordemClienteNome;
-var ordemIdentificador;
-var ordemTecnicoNome;
-var ordemTotGeralLiquido;
-var descontoServico;
-var descontoProdutos;
-var ordemIndex;
-var ordemIdPessoa;
-var ordemEntradaData;
-var ordemEntradaHora;
-var ordemIdEmpresa;
-var ordemEmpresaFantasia;
-var ordemTecnicoId;
-var ordemPadraoMarca;
-var ordemPadraoModelo;
-var ordemVeicMarca;
-var ordemVeicModelo;
-var ordemVeicCor;
-var ordemVeicFrota;
-var ordemVeicChassi;
-var ordemVeicKm;
-var ordemVeicAno;
-var ordemVeicReboque1;
-var ordemVeicReboque2;
-var ordemVeicCombustivel;
-var ordemTipoOsNome;
-var ordemSituacaoNome;
-var ordemDefeitoReclamado;
-var ordemDefeitoConstado;
-var ordemPadraoObs;
-var ckAntenas;
-var ckCalotas;
-var ckTapetes;
-var ckRadio;
-var ckExtintor;
-var ckDocumentos;
-var ckManual;
-var ckChaveRodas;
-var ckMacaco;
-var ckTriangulo;
-var ckTriangulo1;
-var ckExtra1;
-var ckExtra2;
-var ckExtra3;
-var ckExtra4;
-var ckExtra5;
-var ckPneuDdBom;
-var ckPneuDdReg;
-var ckPneuDdRui;
-var ckPneuDeBom;
-var ckPneuDeReg;
-var ckPneuDeRui;
-var ckPneuTdBom;
-var ckPneuTdReg;
-var ckPneuTdRui;
-var ckPneuTeBom;
-var ckPneuTeReg;
-var ckPneuTeRui;
-var ckPneuEstBom;
-var ckPneuEstReg;
-var ckPneuEstRui;
-var ckCombo1;
-var ckCombo34;
-var ckCombo12;
-var ckCombo14;
-var ckCombo0;
-var fpagtoId;
-var fpagtoDescricao;
 
 List<Ordem> ordem = [];
+final oficina = OrdemOficinaController();
 
 class OrdemServicoOficina extends StatefulWidget {
   const OrdemServicoOficina({Key key}) : super(key: key);
@@ -95,7 +25,6 @@ class OrdemServicoOficina extends StatefulWidget {
 }
 
 class _OrdemServicoOficinaState extends State<OrdemServicoOficina> {
-  final oficina = OrdemOficinaController();
   @override
   void initState() {
     setState(() {
@@ -280,115 +209,8 @@ class _OrdemServicoOficinaState extends State<OrdemServicoOficina> {
                 IconButton(
                     onPressed: () {
                       setState(() {
-                        listaProdutoOS.clear();
-                        tecnicos.clear();
-                        ordemStatusNome =
-                            oficina.ordemDisplay[index].statusNome;
-                        ordemId = oficina.ordemDisplay[index].id;
-                        ordemEntradaData =
-                            oficina.ordemDisplay[index].entradaData;
-                        ordemEntradaHora =
-                            oficina.ordemDisplay[index].entradaHora;
-                        ordemIdEmpresa = oficina.ordemDisplay[index].idEmpresa;
-                        ordemEmpresaFantasia =
-                            oficina.ordemDisplay[index].empresaFantasia;
-                        ordemIdPessoa = oficina.ordemDisplay[index].idPessoa;
-                        ordemClienteNome =
-                            oficina.ordemDisplay[index].clienteNome;
-                        ordemTecnicoId = oficina.ordemDisplay[index].tecnicoId;
-                        ordemTecnicoNome =
-                            oficina.ordemDisplay[index].tecnicoNome;
-                        ordemIdentificador =
-                            oficina.ordemDisplay[index].identificador;
-                        ordemPadraoMarca =
-                            oficina.ordemDisplay[index].padraoMarca;
-                        ordemPadraoModelo =
-                            oficina.ordemDisplay[index].padraoModelo;
-                        ordemVeicMarca = oficina.ordemDisplay[index].veicMarca;
-                        ordemVeicModelo =
-                            oficina.ordemDisplay[index].veicModelo;
-                        ordemVeicCor = oficina.ordemDisplay[index].veicCor;
-                        ordemVeicFrota = oficina.ordemDisplay[index].veicFrota;
-                        ordemVeicChassi =
-                            oficina.ordemDisplay[index].veicChassi;
-                        ordemVeicKm = oficina.ordemDisplay[index].veicKm;
-                        ordemVeicAno = oficina.ordemDisplay[index].veicAno;
-                        ordemVeicReboque1 =
-                            oficina.ordemDisplay[index].veicReboque1;
-                        ordemVeicReboque2 =
-                            oficina.ordemDisplay[index].veicReboque2;
-                        ordemVeicCombustivel =
-                            oficina.ordemDisplay[index].veicCombustivel;
-
-                        ordemTotGeralLiquido =
-                            oficina.ordemDisplay[index].totGeralLiquido;
-                        descontoServico =
-                            oficina.ordemDisplay[index].totServicosDescVlr;
-                        descontoProdutos =
-                            oficina.ordemDisplay[index].totPecasDescVlr;
-                        ordemTipoOsNome =
-                            oficina.ordemDisplay[index].tipoOsNome;
-                        ordemSituacaoNome =
-                            oficina.ordemDisplay[index].situacaoNome;
-                        ordemStatusNome =
-                            oficina.ordemDisplay[index].statusNome;
-                        ordemDefeitoReclamado =
-                            oficina.ordemDisplay[index].defeitoReclamado;
-                        ordemDefeitoConstado =
-                            oficina.ordemDisplay[index].defeitoConstatado;
-                        ordemPadraoObs = oficina.ordemDisplay[index].padraoObs;
-
-                        ckAntenas = oficina.ordemDisplay[index].ckAntena;
-                        ckCalotas = oficina.ordemDisplay[index].ckCalotas;
-                        ckTapetes = oficina.ordemDisplay[index].ckTapetes;
-                        ckRadio = oficina.ordemDisplay[index].ckRadio;
-                        ckExtintor = oficina.ordemDisplay[index].ckExtintor;
-                        ckDocumentos = oficina.ordemDisplay[index].ckDocumentos;
-                        ckManual = oficina.ordemDisplay[index].ckManual;
-                        ckChaveRodas = oficina.ordemDisplay[index].ckChaveRodas;
-                        ckMacaco = oficina.ordemDisplay[index].ckMacaco;
-                        ckTriangulo = oficina.ordemDisplay[index].ckTriangulo;
-                        ckTriangulo1 = oficina.ordemDisplay[index].ckTriangulo1;
-
-                        ckExtra1 = oficina.ordemDisplay[index].ckExtra1;
-                        ckExtra2 = oficina.ordemDisplay[index].ckExtra2;
-                        ckExtra3 = oficina.ordemDisplay[index].ckExtra3;
-                        ckExtra4 = oficina.ordemDisplay[index].ckExtra4;
-                        ckExtra5 = oficina.ordemDisplay[index].ckExtra5;
-
-                        ckPneuDdBom = oficina.ordemDisplay[index].ckPneuDdBom;
-                        ckPneuDdReg = oficina.ordemDisplay[index].ckPneuDdReg;
-                        ckPneuDdRui = oficina.ordemDisplay[index].ckPneuDdRui;
-
-                        ckPneuDeBom = oficina.ordemDisplay[index].ckPneuDeBom;
-                        ckPneuDeReg = oficina.ordemDisplay[index].ckPneuDeReg;
-                        ckPneuDeRui = oficina.ordemDisplay[index].ckPneuDeRui;
-
-                        ckPneuTdBom = oficina.ordemDisplay[index].ckPneuTdBom;
-                        ckPneuTdReg = oficina.ordemDisplay[index].ckPneuTdReg;
-                        ckPneuTdRui = oficina.ordemDisplay[index].ckPneuTdRui;
-
-                        ckPneuTeBom = oficina.ordemDisplay[index].ckPneuTeBom;
-                        ckPneuTeReg = oficina.ordemDisplay[index].ckPneuTeReg;
-                        ckPneuTeRui = oficina.ordemDisplay[index].ckPneuTeRui;
-
-                        ckPneuEstBom = oficina.ordemDisplay[index].ckPneuEstBom;
-                        ckPneuEstReg = oficina.ordemDisplay[index].ckPneuEstReg;
-                        ckPneuEstRui = oficina.ordemDisplay[index].ckPneuEstRui;
-
-                        ckCombo1 = oficina.ordemDisplay[index].ckComb1;
-                        ckCombo34 = oficina.ordemDisplay[index].ckComb34;
-                        ckCombo12 = oficina.ordemDisplay[index].ckComb12;
-                        ckCombo14 = oficina.ordemDisplay[index].ckComb14;
-                        ckCombo0 = oficina.ordemDisplay[index].ckComb0;
-
-                        fpagtoId = oficina.ordemDisplay[index].fpagtoId != null
-                            ? oficina.ordemDisplay[index].fpagtoId
-                            : 1;
-                        fpagtoDescricao =
-                            oficina.ordemDisplay[index].fpagtoDescricao;
-
-                        ordemIndex = index;
+                        indice = index;
+                        UserData().get();
                       });
 
                       Navigator.push(

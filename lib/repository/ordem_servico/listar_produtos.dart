@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:lotus_erp/constructors/ordem_servico/construtor_produtos.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
+import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
+import 'package:mobx/mobx.dart';
 
-Future<List<ProdutoOS>> getListarProdutosOS() async {
+Future<ObservableList<ProdutoOS>> getListarProdutosOS() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
@@ -14,7 +16,7 @@ Future<List<ProdutoOS>> getListarProdutosOS() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
-  List<ProdutoOS> produtos = [];
+  ObservableList<ProdutoOS> produtos = ObservableList();
 
   for (var u in jsonData) {
     ProdutoOS produto = ProdutoOS(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_item.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
@@ -39,16 +40,16 @@ calcularTotal() {
   totalProdutosOrdem = 0;
   totalServicoOrdem = 0;
   getListarProdutosOS().then((value) {
-    produtosOS = value;
-    for (var u in produtosOS) {
-      if (produtosOS[aux].servico == 1) {
+    osController.produtosOS = value;
+    for (var u in osController.produtosOS) {
+      if (osController.produtosOS[aux].servico == 1) {
         totalServicoOrdem = totalServicoOrdem +
-            (produtosOS[aux].vlrVendido * produtosOS[aux].qtde);
+            (osController.produtosOS[aux].vlrVendido * osController.produtosOS[aux].qtde);
         totalLiquidoServico =
             totalServicoOrdem - double.parse(descontoServicoController.text);
       } else {
         totalProdutosOrdem = totalProdutosOrdem +
-            (produtosOS[aux].vlrVendido * produtosOS[aux].qtde);
+            (osController.produtosOS[aux].vlrVendido * osController.produtosOS[aux].qtde);
         totalLiquidoProdutos =
             totalProdutosOrdem - double.parse(descontoProdutoController.text);
       }
