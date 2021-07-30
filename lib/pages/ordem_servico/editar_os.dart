@@ -1,0 +1,1308 @@
+import 'package:flutter/material.dart';
+import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
+import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
+import 'package:lotus_erp/repository/ordem_servico/atualizar_oficina.dart';
+import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
+import 'package:lotus_erp/repository/ordem_servico/ordem_servico_auth.dart';
+import 'package:lotus_erp/constructors/ordem_servico/construtor_produtos.dart';
+import 'package:lotus_erp/pages/ordem_servico/adicionar_produto.dart';
+import 'package:lotus_erp/pages/ordem_servico/alocar_tecnico.dart';
+import 'package:lotus_erp/pages/ordem_servico/checklist.dart';
+import 'package:lotus_erp/pages/ordem_servico/editar_cliente.dart';
+import 'package:lotus_erp/pages/ordem_servico/imagens_os.dart';
+import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
+import 'package:lotus_erp/pages/ordem_servico/produtos_servico.dart';
+
+var identificadorController = TextEditingController();
+var controllerMarca = TextEditingController();
+var controllerModelo = TextEditingController();
+var controllerCor = TextEditingController();
+var controllerFrota = TextEditingController();
+var controllerChassi = TextEditingController();
+var controllerKm = TextEditingController();
+var controllerAno = TextEditingController();
+var controllerReboque1 = TextEditingController();
+var controllerReboque2 = TextEditingController();
+var ordemIdentificadorSave;
+var ordemSituacaoNomeSave;
+var ordemClienteNomeSave;
+var ordemClienteId;
+var ordemIdPessoaSave;
+var ordemTipoOsSave;
+var ordemVeicMarcaSave;
+var ordemVeicModeloSave;
+var ordemVeicCorSave;
+var ordemVeicFrotaSave;
+var ordemVeicChassiSave;
+var ordemVeicKmSave;
+var ordemVeicAnoSave;
+var ordemVeicReboque1Save;
+var ordemVeicReboque2Save;
+var combustivelSelecionado;
+var selecionadoOS;
+var selecionado2;
+var reclamacaoDefeito = TextEditingController();
+var constatadoResolvido = TextEditingController();
+var obsOcorrencias = TextEditingController();
+int indexTipoOs;
+List combustivel = ['GASOLINA', 'ALCOOL', 'DIESEL', 'FLEX', 'GAS'];
+
+List tipoOs = [
+  'SERVIÇO',
+  'GARANTIA',
+  'INTERNA',
+  'EXTERNA',
+  'GARANTIA FABRICA',
+  'GARANTIA EXTENDIDA',
+  'GARANTIA SERVIÇOS',
+  'FORA GARANTIA/PARTICULAR'
+];
+List situacao = [
+  'RECEBIMENTO',
+  'FINALIZADA',
+  'ORÇAMENTO',
+  'AGUARDANDO APROVAÇÃO',
+  'NÃO APROVADA',
+  'AGUARDANDO CONSERTO',
+  'AGUARDANDO PEÇAS',
+  'AGUARDANDO RETIRADA',
+  'REABERTA',
+  'ANÁLISE TÉCNICA',
+  'RETIRADA',
+  'REPARO EFETUADO',
+  'AGUARDANDO PEÇAS/PEDIDO',
+  'PRONTO/CRIAR GARANTIA',
+  'AGENDADO',
+  'VISITA TÉCNICA',
+  'PROCESSO COLETA'
+];
+var produtoLength;
+List<ProdutoOS> produtosOS = [];
+
+class EditarOrdemServico extends StatefulWidget {
+  const EditarOrdemServico({Key key}) : super(key: key);
+
+  @override
+  _EditarOrdemServicoState createState() => _EditarOrdemServicoState();
+}
+
+class _EditarOrdemServicoState extends State<EditarOrdemServico> {
+  final _oficina = OrdemOficinaController();
+  @override
+  void initState() {
+    getListarProdutosOS().then((value) {
+      produtoLength = value.length + 1;
+      produtosOS = value;
+    });
+    antena = ckAntenas == 1 ? true : false;
+    calota = ckCalotas == 1 ? true : false;
+    tapetes = ckTapetes == 1 ? true : false;
+    radioCentralMultimedia = ckRadio == 1 ? true : false;
+    extintor = ckExtintor == 1 ? true : false;
+    documentos = ckDocumentos == 1 ? true : false;
+    manual = ckManual == 1 ? true : false;
+    chaveRodas = ckChaveRodas == 1 ? true : false;
+    macaco = ckMacaco == 1 ? true : false;
+    triangulo = ckTriangulo == 1 ? true : false;
+
+    adicional1 = TextEditingController(text: ckExtra1);
+    adicional2 = TextEditingController(text: ckExtra2);
+    adicional3 = TextEditingController(text: ckExtra3);
+    adicional4 = TextEditingController(text: ckExtra4);
+    adicional5 = TextEditingController(text: ckExtra5);
+
+    ddBom = ckPneuDdBom == 1 ? true : false;
+    ddRegular = ckPneuDdReg == 1 ? true : false;
+    ddRuim = ckPneuDdRui == 1 ? true : false;
+
+    deBom = ckPneuDeBom == 1 ? true : false;
+    deRegular = ckPneuDeReg == 1 ? true : false;
+    deRuim = ckPneuDeRui == 1 ? true : false;
+
+    tdBom = ckPneuTdBom == 1 ? true : false;
+    tdRegular = ckPneuTdReg == 1 ? true : false;
+    tdRuim = ckPneuTdRui == 1 ? true : false;
+
+    teBom = ckPneuTeBom == 1 ? true : false;
+    teRegular = ckPneuTeReg == 1 ? true : false;
+    teRuim = ckPneuTeRui == 1 ? true : false;
+
+    estBom = ckPneuEstBom == 1 ? true : false;
+    estRegular = ckPneuEstReg == 1 ? true : false;
+    estRuim = ckPneuEstRui == 1 ? true : false;
+
+    combustivelUm = ckCombo1 == 1 ? true : false;
+    combustivelTresQuartos = ckCombo34 == 1 ? true : false;
+    combustivelUmMeio = ckCombo12 == 1 ? true : false;
+    combustivelUmQuarto = ckCombo14 == 1 ? true : false;
+    combustivelZero = ckCombo0 == 1 ? true : false;
+    reclamacaoDefeito = TextEditingController(text: ordemDefeitoReclamado);
+    constatadoResolvido = TextEditingController(text: ordemDefeitoConstado);
+    obsOcorrencias = TextEditingController(text: ordemPadraoObs);
+    listaProdutoOS = [];
+    quantidadeLista = [];
+
+    //VALOR INICIAL DOS DROPDOWN BUTTONS
+    selecionadoOS = ordemTipoOsNome;
+    selecionado2 = ordemSituacaoNome;
+    combustivelSelecionado = combustivel[ordemVeicCombustivel];
+
+    //VALOR INICIAL DOS TEXTFIELDS
+    identificadorController.text = ordemIdentificador;
+    controllerMarca.text = ordemVeicMarca;
+    controllerModelo.text = ordemVeicModelo;
+    controllerCor.text = ordemVeicCor;
+    controllerFrota.text = ordemVeicFrota;
+    controllerChassi.text = ordemVeicChassi;
+    controllerKm.text = ordemVeicKm != null ? ordemVeicKm.toString() : '0';
+    controllerAno.text = ordemVeicAno != null ? ordemVeicAno.toString() : '0';
+    controllerReboque1.text =
+        ordemVeicReboque1 != null ? ordemVeicReboque1.toString() : "";
+    controllerReboque2.text =
+        ordemVeicReboque2 != null ? ordemVeicReboque2.toString() : "";
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            await postEditOficina().then((value) async {
+              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => OrdemServicoOficina()));
+              await getOrdem().then((value) {
+                setState(() {
+                  _oficina.ordemDisplay = value;
+                });
+              });
+            });
+          },
+          child: Container(
+            width: 60,
+            height: 60,
+            child: Icon(
+              Icons.check,
+              size: 36,
+            ),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                    colors: [Colors.blue[900], Colors.blue],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter)),
+          ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          notchMargin: 6,
+          shape: CircularNotchedRectangle(),
+          color: Colors.blue[800],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Icon(
+                  Icons.edit,
+                  size: 40,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => ImagensOS()));
+                  },
+                  icon: Icon(
+                    Icons.camera_alt,
+                    size: 40,
+                    color: Colors.white,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        appBar: AppBar(
+          flexibleSpace: Container(
+            decoration: BoxDecoration(color: Colors.blue[900]),
+          ),
+          title: Text("Editar OS"),
+          toolbarHeight: 65,
+          centerTitle: true,
+          backgroundColor: Colors.blue[900],
+          shadowColor: Colors.transparent,
+        ),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Container(
+              height: 130,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(45),
+                  ),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[Colors.blue[900], Colors.blue])),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "OS",
+                          style:
+                              TextStyle(fontSize: 19, color: Colors.grey[400]),
+                          textAlign: TextAlign.start,
+                        ),
+                        Text(
+                          ordemId.toString(),
+                          style: TextStyle(fontSize: 19, color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 17,
+                        ),
+                        Text(
+                          "Status",
+                          style:
+                              TextStyle(fontSize: 19, color: Colors.grey[400]),
+                        ),
+                        Text(
+                          ordemStatusNome,
+                          style: TextStyle(fontSize: 19, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 25),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset(
+                              "lib/assets/images/whatsapp.png",
+                              height: 73,
+                              width: 73,
+                            ),
+                            SizedBox(
+                              width: 28,
+                            ),
+                            Image.asset(
+                              "lib/assets/images/email.png",
+                              height: 73,
+                              width: 73,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height - 264,
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) => Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            identificadorController.text = ordemIdentificador;
+                          });
+
+                          showEditarIdentificacao(context);
+                        },
+                        child: Container(
+                          height: 90,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.person_pin,
+                                  color: Colors.blue[800].withOpacity(.4),
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Identificação",
+                                      style: TextStyle(
+                                          color: Colors.grey[500],
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                        width: 240,
+                                        child: Text(
+                                          ordemClienteNome.length > 23
+                                              ? ordemClienteNome.substring(
+                                                      0, 23) +
+                                                  "..."
+                                              : ordemClienteNome,
+                                          style: TextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400),
+                                        )),
+                                  ],
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 40,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Colors.grey[400],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showEditarVeiculo(context);
+                        },
+                        child: Container(
+                          height: 90,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.time_to_leave,
+                                  color: Colors.blue[800].withOpacity(.4),
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Veiculo",
+                                      style: TextStyle(
+                                          color: Colors.grey[500],
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                        width: 240,
+                                        child: Text(
+                                          ordemVeicMarca == null
+                                              ? 'NÃO INFORMADO'
+                                              : ordemVeicMarca == ""
+                                                  ? 'NÃO INFORMADO'
+                                                  : ordemVeicMarca,
+                                          style: TextStyle(
+                                              color: Colors.grey[600],
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400),
+                                        )),
+                                  ],
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 40,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Colors.grey[400],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AlocarTecnico()));
+                        },
+                        child: Container(
+                          height: 90,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.quick_contacts_dialer,
+                                  color: Colors.blue[800].withOpacity(.4),
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Alocar Técnico",
+                                      style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 40,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Colors.grey[400],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProdutosServico()));
+                        },
+                        child: Container(
+                          height: 90,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.home_repair_service,
+                                  color: Colors.blue[800].withOpacity(.4),
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Produtos / Serviços",
+                                      style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 40,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Colors.grey[400],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CheckListOrdemOficina()));
+                        },
+                        child: Container(
+                          height: 90,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.checklist,
+                                  color: Colors.blue[800].withOpacity(.4),
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Checklist",
+                                      style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 40,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Colors.grey[400],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showOcorrencia(context);
+                        },
+                        child: Container(
+                          height: 90,
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.add_alert,
+                                  color: Colors.blue[800].withOpacity(.4),
+                                  size: 40,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Ocorrências",
+                                      style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 40,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 1,
+                        color: Colors.grey[400],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ]),
+        ));
+  }
+
+  showEditarIdentificacao(BuildContext context) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0)),
+                content: SingleChildScrollView(
+                  child: Container(
+                    height: 280,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            tipoCad = 1;
+                            await getListarCliente().then((value) {
+                              Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditarIdentificacaoCliente()))
+                                  .then((value) {
+                                setState(() {
+                                  ordemClienteId =
+                                      _oficina.ordemDisplay[ordemIndex].idPessoa;
+                                  ordemClienteNome =
+                                      _oficina.ordemDisplay[ordemIndex].clienteNome;
+                                });
+                              });
+                            });
+                          },
+                          child: Container(
+                              height: 35,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: .3, color: Colors.black)),
+                              child: Center(
+                                child: Text(
+                                  "Alterar cliente",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black),
+                                ),
+                              )),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          'Tipo OS:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                              color: Colors.black),
+                        ),
+                        DropdownButton(
+                          isExpanded: true,
+                          hint: Text('SELECIONE O TIPO DE OS'),
+                          value: selecionadoOS,
+                          items: tipoOs.map((selecionadoOS) {
+                            return DropdownMenuItem(
+                              value: selecionadoOS != null
+                                  ? selecionadoOS
+                                  : "SELECIONE O TIPO DE OS",
+                              child: Text(selecionadoOS),
+                            );
+                          }).toList(),
+                          onChanged: (valorNovo) {
+                            setState(() {
+                              selecionadoOS = valorNovo;
+                              ordemTipoOsSave = valorNovo;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          'Situação:',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17,
+                              color: Colors.black),
+                        ),
+                        DropdownButton(
+                          isExpanded: true,
+                          hint: Text('SELECIONE A SITUAÇÃO'),
+                          value: selecionado2,
+                          items: situacao.map((selecionado2) {
+                            return DropdownMenuItem(
+                              value: selecionado2 != null
+                                  ? selecionado2
+                                  : "SELECIONE A SITUAÇÃO",
+                              child: Text(selecionado2),
+                            );
+                          }).toList(),
+                          onChanged: (valorNovo) {
+                            setState(() {
+                              selecionado2 = valorNovo;
+                              ordemSituacaoNomeSave = valorNovo;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (ordemIdentificadorSave != null) {
+                                ordemIdentificador = ordemIdentificadorSave;
+                                _oficina.ordemDisplay[ordemIndex].identificador =
+                                    ordemIdentificadorSave;
+                              }
+                              if (ordemTipoOsSave != null) {
+                                ordemTipoOsNome = ordemTipoOsSave;
+                                _oficina.ordemDisplay[ordemIndex].tipoOsNome =
+                                    ordemTipoOsNome;
+                              }
+                              if (ordemSituacaoNomeSave != null) {
+                                ordemSituacaoNome = ordemSituacaoNomeSave;
+                                _oficina.ordemDisplay[ordemIndex].situacaoNome =
+                                    ordemSituacaoNome;
+                              }
+                              if (ordemIdPessoaSave != null) {
+                                ordemIdPessoa = ordemIdPessoaSave;
+                                _oficina.ordemDisplay[ordemIndex].idPessoa =
+                                    ordemIdPessoaSave;
+                              }
+                              if (ordemClienteNomeSave != null) {
+                                ordemClienteNome = ordemClienteNomeSave;
+                                _oficina.ordemDisplay[ordemIndex].clienteNome =
+                                    ordemClienteNomeSave;
+                              }
+                            });
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                border:
+                                    Border.all(width: .3, color: Colors.black)),
+                            child: Center(
+                              child: Text(
+                                "Salvar alterações",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {});
+  }
+
+  showEditarVeiculo(BuildContext context) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0)),
+                content: SingleChildScrollView(
+                  child: Container(
+                    height: 484,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Marca / Modelo",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.3, color: Colors.black)),
+                              height: 40,
+                              width: 110,
+                              child: TextField(
+                                controller: controllerMarca,
+                                onChanged: (valor) {
+                                  ordemVeicMarcaSave = valor;
+                                },
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                style: TextStyle(fontSize: 22),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.3, color: Colors.black)),
+                              height: 40,
+                              width: 110,
+                              child: TextField(
+                                onChanged: (valor) {
+                                  ordemVeicModeloSave = valor;
+                                },
+                                controller: controllerModelo,
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                style: TextStyle(fontSize: 22),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Cor / Frota",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.3, color: Colors.black)),
+                              height: 40,
+                              width: 110,
+                              child: TextField(
+                                onChanged: (valor) {
+                                  ordemVeicCorSave = valor;
+                                },
+                                controller: controllerCor,
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                style: TextStyle(fontSize: 22),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.3, color: Colors.black)),
+                              height: 40,
+                              width: 110,
+                              child: TextField(
+                                onChanged: (valor) {
+                                  ordemVeicFrotaSave = valor;
+                                },
+                                controller: controllerFrota,
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                style: TextStyle(fontSize: 22),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Chassi",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(width: 0.3, color: Colors.black)),
+                          height: 40,
+                          width: 240,
+                          child: TextField(
+                            onChanged: (valor) {
+                              ordemVeicChassiSave = valor;
+                            },
+                            controller: controllerChassi,
+                            decoration:
+                                InputDecoration(border: InputBorder.none),
+                            style: TextStyle(fontSize: 22),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "KM / Ano",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.3, color: Colors.black)),
+                              height: 40,
+                              width: 110,
+                              child: TextField(
+                                onChanged: (valor) {
+                                  ordemVeicKmSave = valor;
+                                },
+                                controller: controllerKm,
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                style: TextStyle(fontSize: 22),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 0.3, color: Colors.black)),
+                              height: 40,
+                              width: 110,
+                              child: TextField(
+                                onChanged: (valor) {
+                                  ordemVeicAnoSave = valor;
+                                },
+                                controller: controllerAno,
+                                decoration:
+                                    InputDecoration(border: InputBorder.none),
+                                style: TextStyle(fontSize: 22),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Reboques",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        Row(children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.3, color: Colors.black)),
+                            height: 40,
+                            width: 110,
+                            child: TextField(
+                              onChanged: (valor) {
+                                ordemVeicReboque1Save = valor;
+                              },
+                              controller: controllerReboque1,
+                              decoration:
+                                  InputDecoration(border: InputBorder.none),
+                              style: TextStyle(fontSize: 22),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 12,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.3, color: Colors.black)),
+                            height: 40,
+                            width: 110,
+                            child: TextField(
+                              onChanged: (valor) {
+                                ordemVeicReboque2Save = valor;
+                              },
+                              controller: controllerReboque2,
+                              decoration:
+                                  InputDecoration(border: InputBorder.none),
+                              style: TextStyle(fontSize: 22),
+                            ),
+                          )
+                        ]),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Combustível",
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        ),
+                        DropdownButton(
+                          isExpanded: true,
+                          hint: Text('SELECIONAR COMBUSTÍVEL'),
+                          value: combustivelSelecionado,
+                          items: combustivel.map((combustivelSelecionado) {
+                            return DropdownMenuItem(
+                              value: combustivelSelecionado != null
+                                  ? combustivelSelecionado
+                                  : "SELECIONAR COMBUSTÍVEL",
+                              child: Text(combustivelSelecionado),
+                            );
+                          }).toList(),
+                          onChanged: (valorNovo) {
+                            setState(() {
+                              combustivelSelecionado = valorNovo;
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (ordemVeicMarcaSave != null ||
+                                  ordemVeicMarcaSave != "") {
+                                ordemVeicMarca = ordemVeicMarcaSave;
+                                _oficina.ordemDisplay[ordemIndex].veicMarca =
+                                    ordemVeicMarca;
+                              }
+                              if (ordemVeicModeloSave != null ||
+                                  ordemVeicModeloSave != "") {
+                                ordemVeicModelo = ordemVeicModeloSave;
+                                _oficina.ordemDisplay[ordemIndex].veicModelo =
+                                    ordemVeicModelo;
+                              }
+                              if (ordemVeicCorSave != null ||
+                                  ordemVeicModeloSave != "") {
+                                ordemVeicCor = ordemVeicCorSave;
+                                _oficina.ordemDisplay[ordemIndex].veicCor = ordemVeicCor;
+                              }
+                              if (ordemVeicFrotaSave != null ||
+                                  ordemVeicFrotaSave != "") {
+                                ordemVeicFrota = ordemVeicFrotaSave;
+                                _oficina.ordemDisplay[ordemIndex].veicFrota =
+                                    ordemVeicFrota;
+                              }
+                              if (ordemVeicChassiSave != null ||
+                                  ordemVeicChassiSave != "") {
+                                ordemVeicChassi = ordemVeicChassiSave;
+                                _oficina.ordemDisplay[ordemIndex].veicChassi =
+                                    ordemVeicChassi;
+                              }
+                              if (ordemVeicKmSave != null ||
+                                  ordemVeicKmSave != "") {
+                                ordemVeicKm = ordemVeicKmSave;
+                                _oficina.ordemDisplay[ordemIndex].veicKm = ordemVeicKm;
+                              }
+                              if (ordemVeicAnoSave != null ||
+                                  ordemVeicAnoSave != "") {
+                                ordemVeicAno = ordemVeicAnoSave;
+                                _oficina.ordemDisplay[ordemIndex].veicAno = ordemVeicAno;
+                              }
+                              if (ordemVeicReboque1Save != null ||
+                                  ordemVeicReboque1Save != "") {
+                                ordemVeicReboque1 = ordemVeicReboque1Save;
+                                _oficina.ordemDisplay[ordemIndex].veicReboque1 =
+                                    ordemVeicReboque1;
+                              }
+                              if (ordemVeicReboque2Save != null ||
+                                  ordemVeicReboque2Save != "") {
+                                ordemVeicReboque2 = ordemVeicReboque2Save;
+                                _oficina.ordemDisplay[ordemIndex].veicReboque2 =
+                                    ordemVeicReboque2;
+                              }
+                              if (combustivelSelecionado != null ||
+                                  combustivelSelecionado != "") {
+                                var combust =
+                                    combustivel.indexOf(combustivelSelecionado);
+                                ordemVeicCombustivel = combust;
+                                _oficina.ordemDisplay[ordemIndex].veicCombustivel =
+                                    combust;
+                              }
+                            });
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: .3, color: Colors.black),
+                                color: Colors.grey[300]),
+                            height: 45,
+                            width: 240,
+                            child: Center(
+                              child: Text("Salvar alterações",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {});
+  }
+
+  showOcorrencia(BuildContext context) {
+    showGeneralDialog(
+        barrierColor: Colors.black.withOpacity(0.5),
+        transitionBuilder: (context, a1, a2, widget) {
+          return Transform.scale(
+            scale: a1.value,
+            child: Opacity(
+              opacity: a1.value,
+              child: AlertDialog(
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16.0)),
+                content: SingleChildScrollView(
+                    child: Container(
+                        height: 490,
+                        width: 200,
+                        child: Column(
+                          children: [
+                            Text("Reclamação / Defeito",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600)),
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        width: .8, color: Colors.black)),
+                                width: 245,
+                                height: 120,
+                                child: TextFormField(
+                                  minLines: 1,
+                                  maxLines: 5,
+                                  keyboardType: TextInputType.multiline,
+                                  controller: reclamacaoDefeito,
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text("Constatado / Resolvido",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w600)),
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        width: .8, color: Colors.black)),
+                                width: 245,
+                                height: 120,
+                                child: TextFormField(
+                                  minLines: 1,
+                                  maxLines: 5,
+                                  keyboardType: TextInputType.multiline,
+                                  controller: constatadoResolvido,
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Obs / Ocorrências",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        width: .8, color: Colors.black)),
+                                width: 245,
+                                height: 120,
+                                child: TextFormField(
+                                  minLines: 1,
+                                  maxLines: 5,
+                                  keyboardType: TextInputType.multiline,
+                                  controller: obsOcorrencias,
+                                  decoration:
+                                      InputDecoration(border: InputBorder.none),
+                                )),
+                            SizedBox(
+                              height: 18,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                height: 35,
+                                width: 180,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.blue[900]),
+                                child: Center(
+                                  child: Text(
+                                    "SALVAR OCORRÊNCIAS",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ))),
+              ),
+            ),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 200),
+        barrierDismissible: true,
+        barrierLabel: '',
+        context: context,
+        pageBuilder: (context, animation1, animation2) {});
+  }
+}
