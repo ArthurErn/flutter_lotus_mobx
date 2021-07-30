@@ -151,39 +151,6 @@ class _ClientesPageState extends State<ClientesPage> {
                           }),
                     );
                   })),
-              // SizedBox(
-              //   height: 5,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 10),
-              //   child: Container(
-              //     height: 60,
-              //     width: MediaQuery.of(context).size.width - 27,
-              //     decoration: BoxDecoration(
-              //         border: Border(
-              //           top: BorderSide(width: 1, color: Colors.black),
-              //           bottom: BorderSide(width: 1, color: Colors.black),
-              //           left: BorderSide(width: 1, color: Colors.black),
-              //           right: BorderSide(width: 1, color: Colors.black),
-              //         ),
-              //         color: Colors.yellow,
-              //         borderRadius: BorderRadius.circular(4)),
-              //     child: FlatButton(
-              //         onPressed: () {
-              //           Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                   builder: (context) => CadastroCliente()));
-              //         },
-              //         child: Text(
-              //           "Adicionar Cliente",
-              //           style: TextStyle(
-              //               fontSize: 20,
-              //               fontWeight: FontWeight.w700,
-              //               color: Colors.black),
-              //         )),
-              //   ),
-              // )
             ],
           ),
         ),
