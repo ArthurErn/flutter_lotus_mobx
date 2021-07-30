@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
+import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';
+import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
+import 'package:mobx/mobx.dart';
 
 //RECEBE O ID PARA PODER EDITAR
 var clienteId;
@@ -29,8 +34,6 @@ class ClientesPage extends StatefulWidget {
 }
 
 class _ClientesPageState extends State<ClientesPage> {
-  List<EditPessoa> clientes = [];
-  List<EditPessoa> clientesDisplay = [];
   var clienteController = TextEditingController();
 
   @override
@@ -40,13 +43,8 @@ class _ClientesPageState extends State<ClientesPage> {
       isSearch = false;
       persistNomeRazao = "";
     });
+    osController.listarClientes();
     //PROCEDIMENTO PADRÃO PARA GERAR A LISTA
-    getListarCliente().then((clientesValor) {
-      setState(() {
-        clientes.addAll(clientesValor);
-        clientesDisplay = clientes;
-      });
-    });
     super.initState();
   }
 
@@ -137,20 +135,22 @@ class _ClientesPageState extends State<ClientesPage> {
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                   ),
-                  child: Container(
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: clientesDisplay.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (clientesDisplay.length > 0) {
-                            return listClientes(context, index);
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }),
-                  )),
+                  child: Observer(builder: (_) {
+                    return Container(
+                      child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: osController.clientesDisplay.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (osController.clientesDisplay.length > 0) {
+                              return listClientes(context, index);
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                    );
+                  })),
               // SizedBox(
               //   height: 5,
               // ),
@@ -197,7 +197,8 @@ class _ClientesPageState extends State<ClientesPage> {
       onChanged: (text) {
         text = text.toLowerCase();
         setState(() {
-          clientesDisplay = clientes.where((cliente) {
+          osController.clientesDisplay =
+              ObservableList.of(osController.clientes.where((cliente) {
             var clienteId = cliente.id.toString();
             var clienteNome = cliente.nomeRazao != null
                 ? cliente.nomeRazao.toLowerCase()
@@ -208,7 +209,7 @@ class _ClientesPageState extends State<ClientesPage> {
             return clienteId.contains(text) ||
                 clienteNome.contains(text) ||
                 clienteFantasia.contains(text);
-          }).toList();
+          }));
         });
       },
       controller: clienteController,
@@ -264,20 +265,8 @@ class _ClientesPageState extends State<ClientesPage> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        clienteId = clientesDisplay[index].id;
-                        persistNomeRazao = clientesDisplay[index].nomeRazao;
-                        persistApelidoFantasia =
-                            clientesDisplay[index].apelidoFantasia;
-                        persistCNPJ = clientesDisplay[index].cpfCnpj;
-                        persistRG = clientesDisplay[index].rgInsc;
-                        persistTelefone = clientesDisplay[index].fone1;
-                        persistEmail = clientesDisplay[index].email;
-                        persistLogradouro = clientesDisplay[index].endereco;
-                        persistNumero = clientesDisplay[index].enderecoNumero;
-                        persistBairro = clientesDisplay[index].bairro;
-                        persistComplemento = clientesDisplay[index].complemento;
-                        persistCep = clientesDisplay[index].cep;
-                        persistMunicipio = clientesDisplay[index].municipioId;
+                        indice = index;
+                        ClienteData().get();
                       });
                       Navigator.push(
                           context,
@@ -295,8 +284,11 @@ class _ClientesPageState extends State<ClientesPage> {
                           children: [
                             RichText(
                               text: TextSpan(
-                                  text: clientesDisplay[index].nomeRazao != null
-                                      ? clientesDisplay[index].nomeRazao
+                                  text: osController.clientesDisplay[index]
+                                              .nomeRazao !=
+                                          null
+                                      ? osController
+                                          .clientesDisplay[index].nomeRazao
                                       : "NOME NÃO INFORMADO",
                                   style: TextStyle(
                                       fontSize: 13,
@@ -308,8 +300,11 @@ class _ClientesPageState extends State<ClientesPage> {
                             ),
                             RichText(
                               text: TextSpan(
-                                  text: clientesDisplay[index].id != null
-                                      ? clientesDisplay[index].id.toString()
+                                  text: osController
+                                              .clientesDisplay[index].id !=
+                                          null
+                                      ? osController.clientesDisplay[index].id
+                                          .toString()
                                       : "ID NÃO INFORMADO",
                                   style: TextStyle(
                                       fontSize: 15,
@@ -317,11 +312,15 @@ class _ClientesPageState extends State<ClientesPage> {
                                       color: Colors.black87),
                                   children: [
                                     TextSpan(
-                                        text: clientesDisplay[index].cpfCnpj !=
+                                        text: osController
+                                                    .clientesDisplay[index]
+                                                    .cpfCnpj !=
                                                 null
                                             ? "   CPF/CNPJ: " +
                                                 "\n" +
-                                                clientesDisplay[index].cpfCnpj
+                                                osController
+                                                    .clientesDisplay[index]
+                                                    .cpfCnpj
                                             : "\n" + "CPF/CNPJ NÃO INFORMADO",
                                         style: TextStyle(
                                             fontSize: 14,

@@ -24,6 +24,37 @@ mixin _$EditarOSController on _EditarOSControllerBase, Store {
     });
   }
 
+  final _$clientesAtom = Atom(name: '_EditarOSControllerBase.clientes');
+
+  @override
+  ObservableList<EditPessoa> get clientes {
+    _$clientesAtom.reportRead();
+    return super.clientes;
+  }
+
+  @override
+  set clientes(ObservableList<EditPessoa> value) {
+    _$clientesAtom.reportWrite(value, super.clientes, () {
+      super.clientes = value;
+    });
+  }
+
+  final _$clientesDisplayAtom =
+      Atom(name: '_EditarOSControllerBase.clientesDisplay');
+
+  @override
+  ObservableList<EditPessoa> get clientesDisplay {
+    _$clientesDisplayAtom.reportRead();
+    return super.clientesDisplay;
+  }
+
+  @override
+  set clientesDisplay(ObservableList<EditPessoa> value) {
+    _$clientesDisplayAtom.reportWrite(value, super.clientesDisplay, () {
+      super.clientesDisplay = value;
+    });
+  }
+
   final _$_EditarOSControllerBaseActionController =
       ActionController(name: '_EditarOSControllerBase');
 
@@ -39,9 +70,33 @@ mixin _$EditarOSController on _EditarOSControllerBase, Store {
   }
 
   @override
+  dynamic listarClientes() {
+    final _$actionInfo = _$_EditarOSControllerBaseActionController.startAction(
+        name: '_EditarOSControllerBase.listarClientes');
+    try {
+      return super.listarClientes();
+    } finally {
+      _$_EditarOSControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic getIdInfo() {
+    final _$actionInfo = _$_EditarOSControllerBaseActionController.startAction(
+        name: '_EditarOSControllerBase.getIdInfo');
+    try {
+      return super.getIdInfo();
+    } finally {
+      _$_EditarOSControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-produtosOS: ${produtosOS}
+produtosOS: ${produtosOS},
+clientes: ${clientes},
+clientesDisplay: ${clientesDisplay}
     ''';
   }
 }

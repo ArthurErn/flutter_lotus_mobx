@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/atualizar_oficina.dart';
@@ -90,7 +91,6 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
   final _oficina = OrdemOficinaController();
   @override
   void initState() {
-    
     ProcessedData().dataProcess();
     super.initState();
   }
@@ -614,21 +614,12 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                         GestureDetector(
                           onTap: () async {
                             tipoCad = 1;
-                            await getListarCliente().then((value) {
-                              Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditarIdentificacaoCliente()))
-                                  .then((value) {
-                                setState(() {
-                                  ordemClienteId = _oficina
-                                      .ordemDisplay[ordemIndex].idPessoa;
-                                  ordemClienteNome = _oficina
-                                      .ordemDisplay[ordemIndex].clienteNome;
-                                });
-                              });
-                            });
+                            osController.getIdInfo();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditarIdentificacaoCliente()));
                           },
                           child: Container(
                               height: 35,

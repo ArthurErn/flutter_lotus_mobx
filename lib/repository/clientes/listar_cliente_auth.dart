@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
+import 'package:mobx/mobx.dart';
 
 var tipoCad = 0;
 //RETORNA UMA LISTA DE TODOS OS CLIENTES DA ROTA
@@ -16,7 +17,7 @@ Future getListarCliente() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonDecode = json.decode(data.body);
-  List<EditPessoa> pessoas = [];
+  ObservableList<EditPessoa> pessoas = ObservableList();
 
   for (var u in jsonDecode) {
     EditPessoa pessoa = EditPessoa(
