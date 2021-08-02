@@ -6,9 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:mobx/mobx.dart';
 
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA
-Future<List<ListaPedidos>> getPedidos() async {
+Future<ObservableList<ListaPedidos>> getPedidos() async {
   DateTime now = DateTime.now();
   var _datafinal = DateFormat('dMMyyyy').format(now);
   var _data = dataText != "" ? dataText : _datafinal;
@@ -24,7 +25,7 @@ Future<List<ListaPedidos>> getPedidos() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
-  List<ListaPedidos> pedidos = [];
+    ObservableList<ListaPedidos> pedidos = ObservableList();
 
   for (var u in jsonData) {
     ListaPedidos pedido = ListaPedidos(

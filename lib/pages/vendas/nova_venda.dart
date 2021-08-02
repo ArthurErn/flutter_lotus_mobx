@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/consulta.controller.dart';
 import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
 import 'package:lotus_erp/controllers/nova.venda.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
@@ -35,11 +36,12 @@ class NovaVenda extends StatefulWidget {
 }
 
 class _NovaVendaState extends State<NovaVenda> {
-
-  
-
   @override
   void initState() {
+    setState(() {
+      produtoVendas = product;
+    });
+    
     resetarValores();
     editVenda.listarPagamento();
     novaVenda.listarClientes();
@@ -202,16 +204,18 @@ class _NovaVendaState extends State<NovaVenda> {
                       )
                     ],
                   ),
-                  Container(
-                    height: persistNomeRazao != ""
-                        ? MediaQuery.of(context).size.height / 3 - 10
-                        : MediaQuery.of(context).size.height / 2.5 - 10,
-                    child: ListView.builder(
-                        itemCount: produtoVendas.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return listVenda(context, index);
-                        }),
-                  ),
+                  Observer(builder: (_) {
+                    return Container(
+                      height: persistNomeRazao != ""
+                          ? MediaQuery.of(context).size.height / 3 - 10
+                          : MediaQuery.of(context).size.height / 2.5 - 10,
+                      child: ListView.builder(
+                          itemCount: product.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return listVenda(context, index);
+                          }),
+                    );
+                  }),
                   if (descontoIndividual == 0)
                     Container(
                       height: 60,
@@ -340,6 +344,7 @@ class _NovaVendaState extends State<NovaVenda> {
               height: 7,
             ),
             Container(
+              height: 50,
               child: Text(
                 totalLiquidoVenda != 0.0
                     ? "TOTAL: " + totalLiquido.toStringAsFixed(2)
@@ -458,7 +463,7 @@ class _NovaVendaState extends State<NovaVenda> {
 
   afterPost() {
     return showDialog(
-        context: context,
+        context: formKey.currentContext,
         builder: (context) => AlertDialog(
             content: Container(
                 height: 120,
@@ -479,11 +484,11 @@ class _NovaVendaState extends State<NovaVenda> {
                     SizedBox(height: 20),
                     FlatButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => VendasPage()));
+                          // Navigator.of(context).pop();
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => VendasPage()));
                         },
                         child: Text('OK'))
                   ],
@@ -552,14 +557,14 @@ class _NovaVendaState extends State<NovaVenda> {
           children: [
             RichText(
               text: TextSpan(
-                  text: produtoVendas[index].id_produto.toString(),
+                  text: product[index].id_produto.toString(),
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                   children: [
                     TextSpan(
-                        text: "  " + produtoVendas[index].descricao,
+                        text: "  " + product[index].descricao,
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.normal,
@@ -569,7 +574,7 @@ class _NovaVendaState extends State<NovaVenda> {
             SizedBox(height: 10),
             RichText(
               text: TextSpan(
-                  text: produtoVendas[index].fabricante_nome,
+                  text: product[index].fabricante_nome,
                   style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   children: []),
             ),
@@ -701,6 +706,7 @@ class _NovaVendaState extends State<NovaVenda> {
       ],
     );
   }
+
   resetarValores() {
     valorDescontoTotalN = 0;
     valorDescontoTotal =

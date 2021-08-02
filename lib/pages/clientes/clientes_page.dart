@@ -32,7 +32,6 @@ class _ClientesPageState extends State<ClientesPage> {
       persistNomeRazao = "";
     });
     osController.listarClientes();
-    //PROCEDIMENTO PADRÃO PARA GERAR A LISTA
     super.initState();
   }
 

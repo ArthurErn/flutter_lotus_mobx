@@ -93,13 +93,6 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
                 margin: EdgeInsets.all(14),
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    // borderRadius: BorderRadius.circular(4),
-                    // border: Border(
-                    //   top: BorderSide(width: 1, color: Colors.black),
-                    //   bottom: BorderSide(width: 1, color: Colors.black),
-                    //   left: BorderSide(width: 1, color: Colors.black),
-                    //   right: BorderSide(width: 1, color: Colors.black),
-                    // ),
                     color: Colors.transparent),
                 child: Column(children: [
                   searchBar(),

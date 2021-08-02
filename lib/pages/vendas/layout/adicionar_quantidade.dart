@@ -441,7 +441,6 @@ class _AdicionarQuantidadeState extends State<AdicionarQuantidade> {
 
                               Navigator.pop(context);
                               Navigator.pop(context);
-                              Navigator.pop(context);
                               asuka.showSnackBar(SnackBar(
                                   duration: Duration(seconds: 1),
                                   content: Row(
@@ -456,7 +455,7 @@ class _AdicionarQuantidadeState extends State<AdicionarQuantidade> {
                                       )
                                     ],
                                   )));
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => NovaVenda()));
@@ -480,8 +479,7 @@ class _AdicionarQuantidadeState extends State<AdicionarQuantidade> {
                               editVenda().then((value) {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => EditarPedido()));

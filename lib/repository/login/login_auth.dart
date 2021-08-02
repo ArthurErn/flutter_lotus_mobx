@@ -74,13 +74,6 @@ class AuthenticationEmpresas {
       empresas.add(empresa);
     }
     return empresas;
-/*
-    for (_element in tags) {
-      Map obj = _element;
-      String empresas = await obj['codigo_descricao'];
-      listaApi.add(empresas);
-    }
-    //return listaApi;*/
   }
 }
 
@@ -120,16 +113,6 @@ class AuthenticationLogin {
       }
     });
   }
-
-  //NAO UTILIZADO
-  /*Future getEmpresa() async {
-    await inicializar().then((resposta) async {
-      var responseJson = await json.decode(resposta.body);
-      String empresaData = await responseJson[0]["empresa_fantasia"];
-      print(empresaData);
-      return empresaData;
-    });
-  }*/
 
   Future getUsuario() async {
     await inicializar().then((resposta) async {
