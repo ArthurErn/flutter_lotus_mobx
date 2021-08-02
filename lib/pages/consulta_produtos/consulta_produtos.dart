@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/consulta.controller.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
-import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:mobx/mobx.dart';
 import 'functions/consulta_barcode.dart';
 
 class ConsultaProduto extends StatefulWidget {
@@ -14,9 +16,6 @@ class ConsultaProduto extends StatefulWidget {
 class _ConsultaProdutoState extends State<ConsultaProduto> {
   var tipoController = TextEditingController();
   var valorController = TextEditingController(text: valorCodigoBarras);
-  List<Produtos> produtoEstoque = List<Produtos>();
-  List<Produtos> produtoEstoqueDisplay = List<Produtos>();
-
   @override
   void initState() {
     setState(() {
@@ -25,24 +24,7 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
       tipo = 1;
       pvalor = "";
     });
-    getProdutos().then((value) {
-      setState(() {
-        produtoEstoque.addAll(value);
-        produtoEstoqueDisplay = produtoEstoque;
-        if (valorCodigoBarras != null) {
-          setState(() {
-            produtoEstoqueDisplay = produtoEstoque.where((produto) {
-              var produtoGtin = produto.gtin;
-              if (produtoGtin != null) {
-                return produtoGtin.contains(valorCodigoBarras);
-              } else {
-                return false;
-              }
-            }).toList();
-          });
-        }
-      });
-    });
+    consulta.listarProdutos();
     super.initState();
   }
 
@@ -100,34 +82,35 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
                     ]),
                   )
                 : Center(),
-            Expanded(
-                child: Container(
-                    height: MediaQuery.of(context).size.height / 1.6,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 14, right: 14),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      // borderRadius: BorderRadius.circular(8),
-                      // border: Border(
-                      //   top: BorderSide(width: 1, color: Colors.black),
-                      //   bottom: BorderSide(width: 1, color: Colors.black),
-                      //   left: BorderSide(width: 1, color: Colors.black),
-                      //   right: BorderSide(width: 1, color: Colors.black),
-                      // ),
-                    ),
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: produtoEstoqueDisplay.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (produtoEstoqueDisplay.length > 0) {
-                            return listProduto(context, index);
-                          } else {
-                            return Container(
-                              height: 200,
-                              color: Colors.red,
-                            );
-                          }
-                        })))
+            Expanded(child: Observer(builder: (_) {
+              return Container(
+                  height: MediaQuery.of(context).size.height / 1.6,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(left: 14, right: 14),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    // borderRadius: BorderRadius.circular(8),
+                    // border: Border(
+                    //   top: BorderSide(width: 1, color: Colors.black),
+                    //   bottom: BorderSide(width: 1, color: Colors.black),
+                    //   left: BorderSide(width: 1, color: Colors.black),
+                    //   right: BorderSide(width: 1, color: Colors.black),
+                    // ),
+                  ),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: consulta.produtoEstoqueDisplay.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (consulta.produtoEstoqueDisplay.length > 0) {
+                          return listProduto(context, index);
+                        } else {
+                          return Container(
+                            height: 200,
+                            color: Colors.red,
+                          );
+                        }
+                      }));
+            }))
           ])),
     );
   }
@@ -170,7 +153,8 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
                           padding: const EdgeInsets.symmetric(
                               vertical: 1, horizontal: 7),
                           child: Text(
-                            produtoEstoqueDisplay[index].id_produto.toString(),
+                            consulta.produtoEstoqueDisplay[index].id_produto
+                                .toString(),
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
@@ -193,7 +177,8 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
                                   color: Colors.grey[600],
                                 )))),
                     Text(
-                      produtoEstoqueDisplay[index].produto_saldo.toString(),
+                      consulta.produtoEstoqueDisplay[index].produto_saldo
+                          .toString(),
                       style: TextStyle(
                           color: Colors.grey[850],
                           fontWeight: FontWeight.w400,
@@ -207,7 +192,7 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      produtoEstoqueDisplay[index].descricao,
+                      consulta.produtoEstoqueDisplay[index].descricao,
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -215,7 +200,7 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
                     ),
                     SizedBox(height: 3),
                     Text(
-                      produtoEstoqueDisplay[index].fabricante_nome,
+                      consulta.produtoEstoqueDisplay[index].fabricante_nome,
                       style: TextStyle(
                           color: Colors.grey[600],
                           fontWeight: FontWeight.normal,
@@ -225,8 +210,8 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
                     Text(
                       "R\$" +
                           formatoValores
-                              .format(
-                                  produtoEstoqueDisplay[index].produto_pvenda)
+                              .format(consulta
+                                  .produtoEstoqueDisplay[index].produto_pvenda)
                               .toString(),
                       style: TextStyle(
                         color: Colors.blue[900],
@@ -256,7 +241,8 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
         onChanged: (texto) {
           texto = texto.toUpperCase();
           setState(() {
-            produtoEstoqueDisplay = produtoEstoque.where((produto) {
+            consulta.produtoEstoqueDisplay =
+                ObservableList.of(consulta.produtoEstoque.where((produto) {
               var produtoConsultaId = produto.id_produto.toString();
               var produtoDescricao = produto.descricao;
               var produtoGtin = produto.gtin;
@@ -275,7 +261,7 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
               } else {
                 return false;
               }
-            }).toList();
+            }));
           });
         },
         controller: valorController,

@@ -15,7 +15,7 @@ int val;
 String pvalor = "";
 
 //RETORNA UMA LISTA COM TODOS OS PRODUTOS
-Future<List<Produtos>> getProdutos() async {
+Future<ObservableList<Produtos>> getProdutos() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
@@ -27,7 +27,7 @@ Future<List<Produtos>> getProdutos() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
-  List<Produtos> produtos = [];
+  ObservableList<Produtos> produtos = ObservableList();
 
   for (var u in jsonData) {
     Produtos produto = Produtos(
