@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:lotus_erp/controllers/clientes.controller.dart';
 import 'package:lotus_erp/model/cadastro_clientes/construtor_cadastro.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
@@ -22,21 +23,21 @@ Future postUsuario() async {
   var jsonProduto = jsonEncode({
     "id_empresa": _empresa,
     "id": 0,
-    "nome_razao": nomeRazaoText.toUpperCase(),
-    "apelido_fantasia": apelidoFantasiaText.toUpperCase(),
-    "tp_pessoa": cnpjText.length==14?1:0,
-    "cpf_cnpj": cnpjText,
-    "rg_insc": rgInscText,
-    "fone1": telefoneText,
+    "nome_razao": clientes.nomeRazaoText.toUpperCase(),
+    "apelido_fantasia": clientes.apelidoFantasiaText.toUpperCase(),
+    "tp_pessoa": clientes.cnpjText.length==14?1:0,
+    "cpf_cnpj": clientes.cnpjText,
+    "rg_insc": clientes.rgInscText,
+    "fone1": clientes.telefoneText,
     "fone2": "",
     "fone3": "",
-    "cep": cepText,
-    "endereco": logradouroText,
-    "endereco_numero": numeroText,
-    "bairro": bairroText,
-    "id_municipio": municipioId!=null?municipioId:0,
-    "complemento": complementoText,
-    "email": emailText
+    "cep": clientes.cepText,
+    "endereco": clientes.logradouroText,
+    "endereco_numero": clientes.numeroText,
+    "bairro": clientes.bairroText,
+    "id_municipio": clientes.municipioId!=null?clientes.municipioId:0,
+    "complemento": clientes.complementoText,
+    "email": clientes.emailText
   });
   var encoded = base64Encode(utf8.encode(jsonProduto));
 

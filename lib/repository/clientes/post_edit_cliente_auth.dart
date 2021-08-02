@@ -1,9 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/model/cadastro_clientes/construtor_cadastro.dart';
-import 'package:lotus_erp/pages/clientes/clientes_page.dart';
-import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';
 import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
 import 'package:lotus_erp/pages/login/layout/login_dropdown.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';

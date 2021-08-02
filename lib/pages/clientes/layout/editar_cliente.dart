@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lotus_erp/controllers/clientes.controller.dart';
 import 'package:lotus_erp/pages/clientes/funct.editar.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/municipio_auth.dart';
 import 'package:lotus_erp/repository/clientes/cep_edit_auth.dart';
 import 'package:lotus_erp/repository/clientes/cnpj_edit_auth.dart';
-import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.edit.data.dart';
 import 'package:lotus_erp/repository/clientes/post_edit_cliente_auth.dart';
-import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
-import 'package:lotus_erp/pages/clientes/clientes_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
-import 'package:asuka/asuka.dart' as asuka;
 
 class EditarClientes extends StatefulWidget {
   const EditarClientes({Key key}) : super(key: key);
@@ -218,7 +215,7 @@ class _EditarClientesState extends State<EditarClientes> {
                                                       //PEGA O IBGE PARA PREENCHER ID DO MUNICIPIO
                                                       getEditIBGE()
                                                           .then((value) {
-                                                        ibge = value;
+                                                        clientes.ibge = value;
 
                                                         //CONFIRMAÇÃO DO MUNICIPIO
                                                         getMunicipio()
@@ -317,7 +314,7 @@ class _EditarClientesState extends State<EditarClientes> {
                                       cepEditText =
                                           cepEditText.replaceAll("-", "");
                                       getEditIBGE().then((value) {
-                                        ibge = value;
+                                        clientes.ibge = value;
                                         //CONFIRMAÇÃO DO MUNICIPIO
                                         getMunicipio().then((value) {
                                           setState(() {

@@ -42,6 +42,39 @@ mixin _$NovaVendaController on _NovaVendaControllerBase, Store {
     });
   }
 
+  final _$produtoEstoqueAddAtom =
+      Atom(name: '_NovaVendaControllerBase.produtoEstoqueAdd');
+
+  @override
+  ObservableList<Produtos> get produtoEstoqueAdd {
+    _$produtoEstoqueAddAtom.reportRead();
+    return super.produtoEstoqueAdd;
+  }
+
+  @override
+  set produtoEstoqueAdd(ObservableList<Produtos> value) {
+    _$produtoEstoqueAddAtom.reportWrite(value, super.produtoEstoqueAdd, () {
+      super.produtoEstoqueAdd = value;
+    });
+  }
+
+  final _$produtoEstoqueAddDisplayAtom =
+      Atom(name: '_NovaVendaControllerBase.produtoEstoqueAddDisplay');
+
+  @override
+  ObservableList<Produtos> get produtoEstoqueAddDisplay {
+    _$produtoEstoqueAddDisplayAtom.reportRead();
+    return super.produtoEstoqueAddDisplay;
+  }
+
+  @override
+  set produtoEstoqueAddDisplay(ObservableList<Produtos> value) {
+    _$produtoEstoqueAddDisplayAtom
+        .reportWrite(value, super.produtoEstoqueAddDisplay, () {
+      super.produtoEstoqueAddDisplay = value;
+    });
+  }
+
   final _$_NovaVendaControllerBaseActionController =
       ActionController(name: '_NovaVendaControllerBase');
 
@@ -57,10 +90,23 @@ mixin _$NovaVendaController on _NovaVendaControllerBase, Store {
   }
 
   @override
+  dynamic listarProdutos() {
+    final _$actionInfo = _$_NovaVendaControllerBaseActionController.startAction(
+        name: '_NovaVendaControllerBase.listarProdutos');
+    try {
+      return super.listarProdutos();
+    } finally {
+      _$_NovaVendaControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 clientesNovaVenda: ${clientesNovaVenda},
-clientesDisplayNovaVenda: ${clientesDisplayNovaVenda}
+clientesDisplayNovaVenda: ${clientesDisplayNovaVenda},
+produtoEstoqueAdd: ${produtoEstoqueAdd},
+produtoEstoqueAddDisplay: ${produtoEstoqueAddDisplay}
     ''';
   }
 }

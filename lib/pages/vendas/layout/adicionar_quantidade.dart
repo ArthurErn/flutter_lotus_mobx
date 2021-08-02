@@ -4,7 +4,6 @@ import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
 import 'package:lotus_erp/repository/vendas/persist_produto.dart';
 import 'package:lotus_erp/pages/login/layout/login_dropdown.dart';
 import 'package:lotus_erp/pages/vendas/layout/adicionar_produto.dart';
-
 import 'package:intl/intl.dart';
 import 'package:asuka/asuka.dart' as asuka;
 import 'package:lotus_erp/pages/vendas/layout/editar_venda.dart';

@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:lotus_erp/controllers/clientes.controller.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 
 class ResetFieldCadastro {
   resetFieldCadastro() {
-    nomeRazao = TextEditingController(text: "");
-    apelidoFantasia = TextEditingController(text: "");
-    cnpj = TextEditingController(text: "");
-    rgInsc = TextEditingController(text: "");
-    telefone = TextEditingController(text: "");
-    email = TextEditingController(text: "");
-    logradouro = TextEditingController(text: "");
-    numero = TextEditingController(text: "");
-    bairro = TextEditingController(text: "");
-    complemento = TextEditingController(text: "");
-    cep = TextEditingController(text: "");
+    clientes.nomeRazao = TextEditingController(text: "");
+    clientes.apelidoFantasia = TextEditingController(text: "");
+    clientes.cnpj = TextEditingController(text: "");
+    clientes.rgInsc = TextEditingController(text: "");
+    clientes.telefone = TextEditingController(text: "");
+    clientes.email = TextEditingController(text: "");
+    clientes.logradouro = TextEditingController(text: "");
+    clientes.numero = TextEditingController(text: "");
+    clientes.bairro = TextEditingController(text: "");
+    clientes.complemento = TextEditingController(text: "");
+    clientes.cep = TextEditingController(text: "");
 
-    nomeRazaoText = "";
-    cepText = "";
-    cnpjText = "";
-    apelidoFantasiaText = "";
-    rgInscText = "";
-    telefoneText = "";
-    emailText = "";
-    logradouroText = "";
-    numeroText = "";
-    bairroText = "";
-    complementoText = "";
-    ibge = "";
+    clientes.nomeRazaoText = "";
+    clientes.cepText = "";
+    clientes.cnpjText = "";
+    clientes.apelidoFantasiaText = "";
+    clientes.rgInscText = "";
+    clientes.telefoneText = "";
+    clientes.emailText = "";
+    clientes.logradouroText = "";
+    clientes.numeroText = "";
+    clientes.bairroText = "";
+    clientes.complementoText = "";
+    clientes.ibge = "";
 
-    cepField = null;
-    logradouroField = null;
-    numeroField = null;
-    bairroField = null;
-    complementoField = null;
+    clientes.cepField = null;
+    clientes.logradouroField = null;
+    clientes.numeroField = null;
+    clientes.bairroField = null;
+    clientes.complementoField = null;
   }
 }

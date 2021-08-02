@@ -1,5 +1,6 @@
 //CONTROLLER DOS CAMPOS
 import 'package:flutter/material.dart';
+import 'package:lotus_erp/controllers/clientes.controller.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 
@@ -36,7 +37,7 @@ class ClienteDataEdit {
     nomeRazaoEdit = TextEditingController(text: persistNomeRazao);
       apelidoFantasiaEdit = TextEditingController(text: persistApelidoFantasia);
       cnpjEdit = TextEditingController(text: persistCNPJ);
-      cnpjText = persistCNPJ;
+      clientes.cnpjText = persistCNPJ;
       rgInscEdit = TextEditingController(text: persistRG);
       telefoneEdit = TextEditingController(text: persistTelefone);
       emailEdit = TextEditingController(text: persistEmail);

@@ -4,8 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/vendas.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
-import 'package:lotus_erp/repository/vendas/lista_pedido_auth.dart';
-import 'package:lotus_erp/model/vendas/construtor_pedidos.dart';
 import 'package:intl/intl.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'package:lotus_erp/pages/consulta_produtos/functions/consulta_barcode.dart';
@@ -29,36 +27,12 @@ class VendasPage extends StatefulWidget {
 }
 
 class _VendasPageState extends State<VendasPage> {
-  resetarCampos() {
-    setState(() {
-      valorCodigoBarras = "";
-      dataText = "";
-      isSearch = false;
-      valoresProduto.clear();
-      porcentagensProdutos.clear();
-      valorFinalProduto.clear();
-      idEdit = null;
-      clienteEdit = null;
-      indexCliente = "";
-      persistNomeRazao = "";
-      produtoVendas = [];
-      complementoLista = [];
-      product = [];
-      valoresProduto = [];
-      totalLiquidoVenda = 0;
-      aux = -1;
-      indice = 0;
-      qtdItens = 0;
-      totalBrutoVenda = 0;
-    });
-  }
 
   @override
   void initState() {
     resetarCampos();
     vendas.listarPedidos();
     dataController = TextEditingController(text: "");
-
     super.initState();
   }
 
@@ -385,5 +359,28 @@ class _VendasPageState extends State<VendasPage> {
         ),
       ],
     );
+  }
+  resetarCampos() {
+    setState(() {
+      valorCodigoBarras = "";
+      dataText = "";
+      isSearch = false;
+      valoresProduto.clear();
+      porcentagensProdutos.clear();
+      valorFinalProduto.clear();
+      idEdit = null;
+      clienteEdit = null;
+      indexCliente = "";
+      persistNomeRazao = "";
+      produtoVendas = [];
+      complementoLista = [];
+      product = [];
+      valoresProduto = [];
+      totalLiquidoVenda = 0;
+      aux = -1;
+      indice = 0;
+      qtdItens = 0;
+      totalBrutoVenda = 0;
+    });
   }
 }

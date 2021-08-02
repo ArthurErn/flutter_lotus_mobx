@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:lotus_erp/controllers/consulta.controller.dart';
 import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
 import 'package:lotus_erp/controllers/nova.venda.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
@@ -384,7 +383,7 @@ class _NovaVendaState extends State<NovaVenda> {
                           errorPagamento(context);
                         } else {
                           Navigator.pop(context);
-                          showAfterVender(context);
+                          showAfterVender(formKey.currentContext);
                         }
                       },
                     ),
@@ -437,7 +436,7 @@ class _NovaVendaState extends State<NovaVenda> {
                               statusCabecalho = 0;
                               postItem().then((value) {
                                 movimentarEstoque().then((value) {
-                                  afterPost();
+                                  afterPost(context);
                                 });
                               });
                             },
@@ -448,7 +447,7 @@ class _NovaVendaState extends State<NovaVenda> {
                               Navigator.of(context).pop();
                               statusCabecalho = 1;
                               postItem().then((value) {
-                                afterPost();
+                                afterPost(context);
                               });
                             },
                             child: Text("Não"),
@@ -461,11 +460,11 @@ class _NovaVendaState extends State<NovaVenda> {
             ));
   }
 
-  afterPost() {
-    return showDialog(
-        context: formKey.currentContext,
-        builder: (context) => AlertDialog(
-            content: Container(
+  afterPost(BuildContext _context) {
+    showDialog(
+        context: _context,
+        builder: (context) => Dialog(
+            child: Container(
                 height: 120,
                 child: Column(
                   children: [
@@ -484,11 +483,11 @@ class _NovaVendaState extends State<NovaVenda> {
                     SizedBox(height: 20),
                     FlatButton(
                         onPressed: () {
-                          // Navigator.of(context).pop();
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) => VendasPage()));
+                          Navigator.of(_context).pop();
+                          Navigator.push(
+                              _context,
+                              MaterialPageRoute(
+                                  builder: (context) => VendasPage()));
                         },
                         child: Text('OK'))
                   ],

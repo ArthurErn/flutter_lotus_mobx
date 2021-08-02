@@ -11,7 +11,7 @@ void errorTotalLiquido(BuildContext context) {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 Image.asset(
                   'lib/assets/images/alerta.png',
                   width: 50,
@@ -38,7 +38,6 @@ void errorTotalLiquido(BuildContext context) {
                 )),
               ],
             )),
-            actions: <Widget>[],
           ));
 }
 

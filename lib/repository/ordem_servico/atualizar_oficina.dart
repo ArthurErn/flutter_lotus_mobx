@@ -5,7 +5,6 @@ import 'package:lotus_erp/repository/login/login_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/ordem_servico/adicionar_produto.dart';
-import 'package:lotus_erp/pages/ordem_servico/checklist.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/pages/ordem_servico/produtos_servico.dart';
 
@@ -33,7 +32,6 @@ Future postEditOficina() async {
   var tot_servicos_desc_vlr = descontoServicoController.text != ""
       ? double.parse(descontoServicoController.text)
       : 0;
-  var selecionadoVendaa = fpagtoId;
   var jsonProduto = jsonEncode({
     "tipo_servico": indexSelecionado,
     "situacao_os": situacaoOS,
