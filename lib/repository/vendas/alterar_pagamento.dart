@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:lotus_erp/pages/login/login_page.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/pages/vendas/nova_venda.dart';
-import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:lotus_erp/views/vendas/nova_venda.dart';
+import 'package:lotus_erp/views/vendas/vendas_page.dart';
 
 Future alterarPagamento() async {
   var _usuario = configLoginControllerText;

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/controllers/clientes.controller.dart';
-import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
+import 'package:lotus_erp/views/clientes/cadastro_page.dart';
 
 //SEGUNDA ROTA, COM O CONTEUDO DO CEP DA AUTENTICACAO DE CNPJ, COLOCAMOS ELE NESSA URL PRA RETORNAR O IBGE
 Future getIBGE() async {

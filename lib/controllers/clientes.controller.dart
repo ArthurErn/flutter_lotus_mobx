@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
-import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
+import 'package:lotus_erp/views/clientes/cadastro_page.dart';
+import 'package:lotus_erp/views/clientes/layout/error_message.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/cadastro_cliente_auth.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/cep_auth.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/cnpj_auth.dart';

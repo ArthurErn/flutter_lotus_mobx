@@ -1,5 +1,5 @@
 import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
-import 'package:lotus_erp/pages/consulta_produtos/functions/consulta_barcode.dart';
+import 'package:lotus_erp/views/consulta_produtos/functions/consulta_barcode.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
 import 'package:mobx/mobx.dart';
 part 'consulta.controller.g.dart';

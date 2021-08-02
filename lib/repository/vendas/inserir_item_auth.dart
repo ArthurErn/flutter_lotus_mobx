@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/repository/login/login_auth.dart';
-import 'package:lotus_erp/pages/homepage/home_page.dart';
-import 'package:lotus_erp/pages/login/functions/index_api.dart';
-import 'package:lotus_erp/pages/login/layout/login_dropdown.dart';
-import 'package:lotus_erp/pages/login/login_page.dart';
-import 'package:lotus_erp/pages/vendas/layout/adicionar_quantidade.dart';
+import 'package:lotus_erp/views/homepage/home_page.dart';
+import 'package:lotus_erp/views/login/functions/index_api.dart';
+import 'package:lotus_erp/views/login/layout/login_dropdown.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/vendas/layout/adicionar_quantidade.dart';
 
-import 'package:lotus_erp/pages/vendas/nova_venda.dart';
-import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:lotus_erp/views/vendas/nova_venda.dart';
+import 'package:lotus_erp/views/vendas/vendas_page.dart';
 
 double totalLiquidoVenda = 0;
 var idVenda;

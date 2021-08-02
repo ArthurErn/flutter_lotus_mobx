@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
-import 'package:lotus_erp/pages/login/login_page.dart';
-import 'package:lotus_erp/pages/balanco_estoque/layout/produtos_balanco.dart';
+import 'package:lotus_erp/views/balanco_estoque/balanco_estoque.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/balanco_estoque/layout/produtos_balanco.dart';
 
 //DELETA O PRODUTO DE UM BALANÇO ESPECIFICO
 Future deleteProdutos() async {

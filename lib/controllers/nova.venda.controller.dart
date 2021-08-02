@@ -1,6 +1,6 @@
 import 'package:lotus_erp/model/clientes/construtor_edit_pessoa.dart';
 import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
-import 'package:lotus_erp/pages/balanco_estoque/functions/balanco_barcode.dart';
+import 'package:lotus_erp/views/balanco_estoque/functions/balanco_barcode.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
 import 'package:mobx/mobx.dart';

@@ -2,12 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/repository/login/login_auth.dart';
-import 'package:lotus_erp/pages/login/functions/index_api.dart';
-import 'package:lotus_erp/pages/login/login_page.dart';
-import 'package:lotus_erp/pages/ordem_servico/adicionar_produto.dart';
-import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
-import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
-import 'package:lotus_erp/pages/ordem_servico/produtos_servico.dart';
+import 'package:lotus_erp/views/login/functions/index_api.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/ordem_servico/adicionar_produto.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 
 Future postItem() async {

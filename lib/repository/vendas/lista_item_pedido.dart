@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 import 'package:lotus_erp/model/vendas/construtor_lista_pedido.dart';
 import 'dart:convert';
 import 'dart:async';
-import 'package:lotus_erp/pages/login/login_page.dart';
-import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/vendas/vendas_page.dart';
 
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA
 Future<List<ListVenda>> getItensPedido() async {

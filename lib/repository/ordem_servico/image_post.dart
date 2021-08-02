@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/pages/login/login_page.dart';
-import 'package:lotus_erp/pages/ordem_servico/imagens_os.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/ordem_servico/imagens_os.dart';
 
 Future postImage() async {
   var _usuario = configLoginControllerText;

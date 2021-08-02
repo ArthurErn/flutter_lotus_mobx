@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:lotus_erp/repository/login/login_auth.dart';
 import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
-import 'package:lotus_erp/pages/login/functions/index_api.dart';
-import 'package:lotus_erp/pages/login/login_page.dart';
+import 'package:lotus_erp/views/login/functions/index_api.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:http/http.dart' as http;
 
 Future movimentarEstoque() async {

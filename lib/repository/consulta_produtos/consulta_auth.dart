@@ -3,8 +3,8 @@ import 'package:lotus_erp/model/balanco_estoque/construtor_categoria.dart';
 import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'dart:convert';
 import 'dart:async';
-import 'package:lotus_erp/pages/login/login_page.dart';
-import 'package:lotus_erp/pages/login/functions/index_api.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/login/functions/index_api.dart';
 import 'package:mobx/mobx.dart';
 
 //TIPO = 1 CASO NÃO UTILIZE CÓDIGO DE BARRAS, AO CONTRÁRIO UTILIZARÁ TIPO = 5

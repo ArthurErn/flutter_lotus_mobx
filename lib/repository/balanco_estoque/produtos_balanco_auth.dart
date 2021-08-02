@@ -1,9 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/model/balanco_estoque/construtor_produtos_balanco.dart';
-import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
+import 'package:lotus_erp/views/balanco_estoque/balanco_estoque.dart';
 import 'dart:convert';
 import 'dart:async';
-import 'package:lotus_erp/pages/login/login_page.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:mobx/mobx.dart';
 
 //RETORNA OS ITENS DE UM BALANÇO ESPECIFICO

@@ -3,9 +3,9 @@ import 'package:lotus_erp/model/vendas/construtor_pedidos.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:intl/intl.dart';
-import 'package:lotus_erp/pages/login/functions/index_api.dart';
-import 'package:lotus_erp/pages/login/login_page.dart';
-import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:lotus_erp/views/login/functions/index_api.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/vendas/vendas_page.dart';
 import 'package:mobx/mobx.dart';
 
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA

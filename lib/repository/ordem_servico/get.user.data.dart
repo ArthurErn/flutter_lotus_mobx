@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
-import 'package:lotus_erp/pages/ordem_servico/alocar_tecnico.dart';
-import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
-import 'package:lotus_erp/pages/ordem_servico/produtos_servico.dart';
+import 'package:lotus_erp/views/ordem_servico/alocar_tecnico.dart';
+import 'package:lotus_erp/views/ordem_servico/ordem_oficina.dart';
+import 'package:lotus_erp/views/ordem_servico/produtos_servico.dart';
 
 var indice;
 

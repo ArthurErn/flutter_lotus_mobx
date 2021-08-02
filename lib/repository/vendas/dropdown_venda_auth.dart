@@ -2,8 +2,8 @@ import 'package:http/http.dart' as http;
 import 'package:lotus_erp/model/vendas/construtor_forma_pagamento.dart';
 import 'dart:convert';
 import 'dart:async';
-import 'package:lotus_erp/pages/login/functions/index_api.dart';
-import 'package:lotus_erp/pages/login/login_page.dart';
+import 'package:lotus_erp/views/login/functions/index_api.dart';
+import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:mobx/mobx.dart';
 
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA
