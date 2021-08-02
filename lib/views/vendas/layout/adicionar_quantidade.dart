@@ -475,7 +475,7 @@ class _AdicionarQuantidadeState extends State<AdicionarQuantidade> {
                               getPersistProdutos();
 
                               getTotalEdit();
-                              editVenda().then((value) {
+                              editsVenda().then((value) {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                                 Navigator.pushReplacement(

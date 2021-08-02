@@ -98,7 +98,6 @@ class AuthenticationLogin {
   //CHECA SE A RESPOSTA FOI 200 (SUCESSO), CASO NAO SEJA RETORNA UM ERRO
   Future fetch() async {
     inicializar().then((resposta) async {
-      // ignore: unused_local_variable
       var responseJson = await json.decode(resposta.body);
       if (resposta.statusCode == 200) {
         if (resposta.body.contains("MESSAGE")) {

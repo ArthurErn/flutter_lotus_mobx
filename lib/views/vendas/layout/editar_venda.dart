@@ -15,8 +15,6 @@ import 'package:lotus_erp/views/vendas/nova_venda.dart';
 import 'package:lotus_erp/views/vendas/vendas_page.dart';
 
 bool isCliente = true;
-List<ListVenda> itensPedidosEdit = [];
-List<ListVenda> itensPedidosEditDisplay = [];
 var posicaoItem;
 
 class EditarPedido extends StatefulWidget {
@@ -37,14 +35,9 @@ class _EditarPedidoState extends State<EditarPedido> {
       isEdit = true;
       selecionadoVenda = null;
     });
+    editVenda.listarItensPedido();
     editVenda.listarPagamento();
-    getItensPedido().then((value) {
-      setState(() {
-        produtoVendas = product;
-        itensPedidosEdit = value;
-        itensPedidosEditDisplay = itensPedidosEdit;
-      });
-    });
+
     super.initState();
   }
 
@@ -105,32 +98,41 @@ class _EditarPedidoState extends State<EditarPedido> {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Container(
-                          height: isCliente == true
-                              ? MediaQuery.of(context).size.height / 2.5
-                              : MediaQuery.of(context).size.height / 1.15 - 194,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border(
-                                top: BorderSide(width: 1, color: Colors.black),
-                                bottom:
-                                    BorderSide(width: 1, color: Colors.black),
-                                left: BorderSide(width: 1, color: Colors.black),
-                                right:
-                                    BorderSide(width: 1, color: Colors.black),
-                              ),
-                              borderRadius: BorderRadius.circular(4)),
-                          child: ListView.builder(
-                              itemCount: itensPedidosEditDisplay.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                if (itensPedidosEditDisplay.length > 0) {
-                                  return listItensPedido(context, index);
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                              }),
-                        ),
+                            height: isCliente == true
+                                ? MediaQuery.of(context).size.height / 2.5
+                                : MediaQuery.of(context).size.height / 1.15 -
+                                    194,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border(
+                                  top:
+                                      BorderSide(width: 1, color: Colors.black),
+                                  bottom:
+                                      BorderSide(width: 1, color: Colors.black),
+                                  left:
+                                      BorderSide(width: 1, color: Colors.black),
+                                  right:
+                                      BorderSide(width: 1, color: Colors.black),
+                                ),
+                                borderRadius: BorderRadius.circular(4)),
+                            child: Observer(builder: (_) {
+                              return ListView.builder(
+                                  itemCount:
+                                      editVenda.itensPedidosEditDisplay.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    if (editVenda
+                                            .itensPedidosEditDisplay.length >
+                                        0) {
+                                      return listItensPedido(context, index);
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  });
+                            }),
+                          )
                       ),
                       Center(
                         child: Container(
@@ -230,8 +232,8 @@ class _EditarPedidoState extends State<EditarPedido> {
               children: [
                 RichText(
                     text: TextSpan(
-                        text:
-                            itensPedidosEditDisplay[index].idProduto.toString(),
+                        text: editVenda.itensPedidosEditDisplay[index].idProduto
+                            .toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -239,7 +241,8 @@ class _EditarPedidoState extends State<EditarPedido> {
                         children: [
                       TextSpan(
                         text: "  " +
-                            itensPedidosEditDisplay[index].produtoDescricao,
+                            editVenda.itensPedidosEditDisplay[index]
+                                .produtoDescricao,
                         style: TextStyle(
                             fontSize: 13,
                             color: Colors.black,
@@ -251,15 +254,19 @@ class _EditarPedidoState extends State<EditarPedido> {
                 ),
                 RichText(
                     text: TextSpan(
-                        text: itensPedidosEditDisplay[index].refFabrica != null
+                        text: editVenda.itensPedidosEditDisplay[index]
+                                    .refFabrica !=
+                                null
                             ? "Referencia: " +
-                                itensPedidosEditDisplay[index].refFabrica
+                                editVenda
+                                    .itensPedidosEditDisplay[index].refFabrica
                             : "Referencia não informada",
                         style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                         children: [
                       TextSpan(
                         text: "      Quantidade: " +
-                            itensPedidosEditDisplay[index].qtde.toString(),
+                            editVenda.itensPedidosEditDisplay[index].qtde
+                                .toString(),
                         style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                       ),
                     ])),
@@ -268,13 +275,10 @@ class _EditarPedidoState extends State<EditarPedido> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          posicaoItem = itensPedidosEditDisplay[index].item;
+                          posicaoItem =
+                              editVenda.itensPedidosEditDisplay[index].item;
                           excluirItem().then((value) {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditarPedido()));
+                            editVenda.listarItensPedido();
                             asuka.showSnackBar(SnackBar(
                                 duration: Duration(seconds: 2),
                                 content: Row(

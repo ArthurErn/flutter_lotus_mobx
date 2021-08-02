@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
 import 'package:lotus_erp/repository/login/login_auth.dart';
 import 'package:lotus_erp/views/homepage/home_page.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
@@ -30,16 +31,17 @@ getTotalEdit() {
   }
 }
 
-Future editVenda() async {
+Future editsVenda() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
+  
 
   // ignore: unused_local_variable
   for (var produto in produtoVendas) {
     aux = 0;
 
-    qtdItens = qtdItens + itensPedidosEdit.length + 1;
+    qtdItens = qtdItens + editVenda.itensPedidosEdit.length + 1;
     dynamic _totalBruto =
         produtoVendas[aux].produto_pvenda * valoresProduto[aux];
     dynamic _valorPorcentagemFinal =

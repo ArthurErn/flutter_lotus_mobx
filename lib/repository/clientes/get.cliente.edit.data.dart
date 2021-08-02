@@ -1,7 +1,6 @@
 //CONTROLLER DOS CAMPOS
 import 'package:flutter/material.dart';
 import 'package:lotus_erp/controllers/clientes.controller.dart';
-import 'package:lotus_erp/views/clientes/cadastro_page.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 
 TextEditingController nomeRazaoEdit;

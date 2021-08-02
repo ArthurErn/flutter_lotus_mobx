@@ -24,6 +24,39 @@ mixin _$EditarVendaController on _EditarVendaControllerBase, Store {
     });
   }
 
+  final _$itensPedidosEditAtom =
+      Atom(name: '_EditarVendaControllerBase.itensPedidosEdit');
+
+  @override
+  ObservableList<ListVenda> get itensPedidosEdit {
+    _$itensPedidosEditAtom.reportRead();
+    return super.itensPedidosEdit;
+  }
+
+  @override
+  set itensPedidosEdit(ObservableList<ListVenda> value) {
+    _$itensPedidosEditAtom.reportWrite(value, super.itensPedidosEdit, () {
+      super.itensPedidosEdit = value;
+    });
+  }
+
+  final _$itensPedidosEditDisplayAtom =
+      Atom(name: '_EditarVendaControllerBase.itensPedidosEditDisplay');
+
+  @override
+  ObservableList<ListVenda> get itensPedidosEditDisplay {
+    _$itensPedidosEditDisplayAtom.reportRead();
+    return super.itensPedidosEditDisplay;
+  }
+
+  @override
+  set itensPedidosEditDisplay(ObservableList<ListVenda> value) {
+    _$itensPedidosEditDisplayAtom
+        .reportWrite(value, super.itensPedidosEditDisplay, () {
+      super.itensPedidosEditDisplay = value;
+    });
+  }
+
   final _$_EditarVendaControllerBaseActionController =
       ActionController(name: '_EditarVendaControllerBase');
 
@@ -39,9 +72,22 @@ mixin _$EditarVendaController on _EditarVendaControllerBase, Store {
   }
 
   @override
+  dynamic listarItensPedido() {
+    final _$actionInfo = _$_EditarVendaControllerBaseActionController
+        .startAction(name: '_EditarVendaControllerBase.listarItensPedido');
+    try {
+      return super.listarItensPedido();
+    } finally {
+      _$_EditarVendaControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-formas: ${formas}
+formas: ${formas},
+itensPedidosEdit: ${itensPedidosEdit},
+itensPedidosEditDisplay: ${itensPedidosEditDisplay}
     ''';
   }
 }

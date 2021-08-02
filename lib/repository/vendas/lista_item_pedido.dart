@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:lotus_erp/views/vendas/vendas_page.dart';
+import 'package:mobx/mobx.dart';
 
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA
-Future<List<ListVenda>> getItensPedido() async {
+Future<ObservableList<ListVenda>> getItensPedido() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
@@ -15,7 +16,7 @@ Future<List<ListVenda>> getItensPedido() async {
   var url = Uri.parse('http://$_ip/mobile/vendas_listar_itens?idvenda=$idEdit');
   var data = await http.get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
-  List<ListVenda> itensPedido = [];
+  ObservableList<ListVenda> itensPedido = ObservableList();
 
   for (var u in jsonData) {
     ListVenda itemPedido = ListVenda(
