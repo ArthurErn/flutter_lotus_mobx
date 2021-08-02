@@ -102,7 +102,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
           onPressed: () async {
             await postEditOficina().then((value) async {
               Navigator.pop(context);
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => OrdemServicoOficina()));
@@ -701,8 +701,8 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                             setState(() {
                               if (ordemIdentificadorSave != null) {
                                 ordemIdentificador = ordemIdentificadorSave;
-                                oficina.ordemDisplay[ordemIndex]
-                                    .identificador = ordemIdentificadorSave;
+                                oficina.ordemDisplay[ordemIndex].identificador =
+                                    ordemIdentificadorSave;
                               }
                               if (ordemTipoOsSave != null) {
                                 ordemTipoOsNome = ordemTipoOsSave;
