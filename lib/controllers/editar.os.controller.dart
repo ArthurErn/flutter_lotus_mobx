@@ -22,6 +22,7 @@ abstract class _EditarOSControllerBase with Store {
   @action
   listarTecnico() {
     getListarTecnico().then((value) {
+      tecnicos.clear();
       tecnicos = value;
     });
   }

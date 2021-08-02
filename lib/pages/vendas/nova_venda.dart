@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
+import 'package:lotus_erp/controllers/nova.venda.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
-import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
 import 'package:lotus_erp/repository/vendas/movimentar_estoque.dart';
 import 'package:lotus_erp/pages/balanco_estoque/functions/balanco_barcode.dart';
@@ -11,13 +11,10 @@ import 'package:lotus_erp/pages/consulta_produtos/functions/consulta_barcode.dar
 import 'package:lotus_erp/pages/homepage/home_page.dart';
 import 'package:lotus_erp/pages/login/layout/login_dropdown.dart';
 import 'package:lotus_erp/pages/vendas/layout/adicionar_produto.dart';
-import 'package:lotus_erp/repository/vendas/dropdown_venda_auth.dart';
-import 'package:lotus_erp/model/clientes/construtor_edit_pessoa.dart';
-import 'package:lotus_erp/model/vendas/construtor_forma_pagamento.dart';
-import 'package:lotus_erp/pages/clientes/clientes_page.dart';
 import 'package:lotus_erp/pages/vendas/layout/adicionar_quantidade.dart';
 import 'package:lotus_erp/pages/vendas/layout/error_message.dart';
 import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:mobx/mobx.dart';
 
 TextEditingController porcentagemDescontoTotal;
 TextEditingController valorDescontoTotal;
@@ -28,8 +25,6 @@ bool isEdit;
 var statusCabecalho;
 bool isCliente;
 TextEditingController pesquisarClienteController;
-List<EditPessoa> clientesNovaVenda = [];
-List<EditPessoa> clientesDisplayNovaVenda = [];
 var selecionadoVenda;
 var indexCliente;
 
@@ -40,39 +35,14 @@ class NovaVenda extends StatefulWidget {
 }
 
 class _NovaVendaState extends State<NovaVenda> {
+
+  
+
   @override
   void initState() {
-    valorDescontoTotalN = 0;
-    valorDescontoTotal =
-        TextEditingController(text: valorDescontoTotalN.toStringAsFixed(2));
-    porcentagemDescontoTotal = TextEditingController(text: "00.00");
-    complemento = TextEditingController(text: "");
-    totalLiquido = totalLiquidoVenda - valorDescontoTotalN;
-    porcentagemDescontoTotalN = 0;
-    isEdit = false;
-    valorCodigoBarras = "";
-    pesquisarClienteController = TextEditingController(text: '');
-    selecionadoVenda = null;
-    persistApelidoFantasia = "";
-    persistCNPJ = "";
-    persistRG = "";
-    persistTelefone = "";
-    persistEmail = "";
-    persistLogradouro = "";
-    persistNumero = "";
-    persistBairro = "";
-    persistComplemento = "";
-    persistCep = "";
-    persistMunicipio = "";
-    isCliente = false;
+    resetarValores();
     editVenda.listarPagamento();
-    getListarCliente().then((clientesValor) {
-      setState(() {
-        clientesNovaVenda.addAll(clientesValor);
-        clientesDisplayNovaVenda = clientesNovaVenda;
-      });
-    });
-
+    novaVenda.listarClientes();
     super.initState();
   }
 
@@ -138,22 +108,24 @@ class _NovaVendaState extends State<NovaVenda> {
                     ),
                   ),
                   isCliente == true ? searchBar() : Container(),
-                  AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    height: isCliente == true ? 300 : 0,
-                    color: Colors.transparent,
-                    child: ListView.builder(
-                        itemCount: clientesDisplayNovaVenda.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (clientesDisplayNovaVenda.length > 0) {
-                            return listclientes(context, index);
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }),
-                  ),
+                  Observer(builder: (_) {
+                    return AnimatedContainer(
+                      duration: Duration(milliseconds: 300),
+                      height: isCliente == true ? 300 : 0,
+                      color: Colors.transparent,
+                      child: ListView.builder(
+                          itemCount: novaVenda.clientesDisplayNovaVenda.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (novaVenda.clientesDisplayNovaVenda.length > 0) {
+                              return listclientes(context, index);
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                    );
+                  }),
                   Padding(
                     padding: EdgeInsets.only(top: 5),
                     child: Container(
@@ -526,7 +498,8 @@ class _NovaVendaState extends State<NovaVenda> {
           onChanged: (text) {
             text = text.toLowerCase();
             setState(() {
-              clientesDisplayNovaVenda = clientesNovaVenda.where((cliente) {
+              novaVenda.clientesDisplayNovaVenda = ObservableList.of(
+                  novaVenda.clientesNovaVenda.where((cliente) {
                 var clienteId = cliente.id.toString();
                 var clienteNome = cliente.nomeRazao != null
                     ? cliente.nomeRazao.toLowerCase()
@@ -537,7 +510,7 @@ class _NovaVendaState extends State<NovaVenda> {
                 return clienteId.contains(text) ||
                     clienteNome.contains(text) ||
                     clienteFantasia.contains(text);
-              }).toList();
+              }));
             });
           },
           controller: pesquisarClienteController,
@@ -648,43 +621,56 @@ class _NovaVendaState extends State<NovaVenda> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        indexCliente = clientesDisplayNovaVenda[index].id;
-                        clienteId = clientesDisplayNovaVenda[index].id;
+                        indexCliente =
+                            novaVenda.clientesDisplayNovaVenda[index].id;
+                        clienteId =
+                            novaVenda.clientesDisplayNovaVenda[index].id;
                         persistNomeRazao =
-                            clientesDisplayNovaVenda[index].nomeRazao;
-                        persistApelidoFantasia =
-                            clientesDisplayNovaVenda[index].apelidoFantasia;
-                        persistCNPJ = clientesDisplayNovaVenda[index].cpfCnpj;
-                        persistRG = clientesDisplayNovaVenda[index].rgInsc;
-                        persistTelefone = clientesDisplayNovaVenda[index].fone1;
-                        persistEmail = clientesDisplayNovaVenda[index].email;
+                            novaVenda.clientesDisplayNovaVenda[index].nomeRazao;
+                        persistApelidoFantasia = novaVenda
+                            .clientesDisplayNovaVenda[index].apelidoFantasia;
+                        persistCNPJ =
+                            novaVenda.clientesDisplayNovaVenda[index].cpfCnpj;
+                        persistRG =
+                            novaVenda.clientesDisplayNovaVenda[index].rgInsc;
+                        persistTelefone =
+                            novaVenda.clientesDisplayNovaVenda[index].fone1;
+                        persistEmail =
+                            novaVenda.clientesDisplayNovaVenda[index].email;
                         persistLogradouro =
-                            clientesDisplayNovaVenda[index].endereco;
-                        persistNumero =
-                            clientesDisplayNovaVenda[index].enderecoNumero;
-                        persistBairro = clientesDisplayNovaVenda[index].bairro;
-                        persistComplemento =
-                            clientesDisplayNovaVenda[index].complemento;
-                        persistCep = clientesDisplayNovaVenda[index].cep;
-                        persistMunicipio =
-                            clientesDisplayNovaVenda[index].municipioId;
+                            novaVenda.clientesDisplayNovaVenda[index].endereco;
+                        persistNumero = novaVenda
+                            .clientesDisplayNovaVenda[index].enderecoNumero;
+                        persistBairro =
+                            novaVenda.clientesDisplayNovaVenda[index].bairro;
+                        persistComplemento = novaVenda
+                            .clientesDisplayNovaVenda[index].complemento;
+                        persistCep =
+                            novaVenda.clientesDisplayNovaVenda[index].cep;
+                        persistMunicipio = novaVenda
+                            .clientesDisplayNovaVenda[index].municipioId;
                         isCliente = false;
                       });
                     },
                     child: ListTile(
                         title: Text(
-                          clientesDisplayNovaVenda[index].apelidoFantasia !=
+                          novaVenda.clientesDisplayNovaVenda[index]
+                                      .apelidoFantasia !=
                                   null
-                              ? clientesDisplayNovaVenda[index].nomeRazao
+                              ? novaVenda
+                                  .clientesDisplayNovaVenda[index].nomeRazao
                               : "NOME NÃO INFORMADO",
                           style: TextStyle(fontSize: 13),
                         ),
                         subtitle: Row(
                           children: [
                             Text(
-                              clientesDisplayNovaVenda[index].cpfCnpj != null
+                              novaVenda.clientesDisplayNovaVenda[index]
+                                          .cpfCnpj !=
+                                      null
                                   ? "CNPJ/CPF: " +
-                                      clientesDisplayNovaVenda[index].cpfCnpj
+                                      novaVenda.clientesDisplayNovaVenda[index]
+                                          .cpfCnpj
                                   : 'CNPJ não informado',
                               style:
                                   TextStyle(fontSize: 12, color: Colors.black),
@@ -693,11 +679,12 @@ class _NovaVendaState extends State<NovaVenda> {
                               width: 20,
                             ),
                             Text(
-                              clientesDisplayNovaVenda[index].id.toString() !=
+                              novaVenda.clientesDisplayNovaVenda[index].id
+                                          .toString() !=
                                       null
                                   ? "ID: " +
-                                      clientesDisplayNovaVenda[index]
-                                          .id
+                                      novaVenda
+                                          .clientesDisplayNovaVenda[index].id
                                           .toString()
                                   : "ID não informado",
                               style:
@@ -713,5 +700,30 @@ class _NovaVendaState extends State<NovaVenda> {
         ),
       ],
     );
+  }
+  resetarValores() {
+    valorDescontoTotalN = 0;
+    valorDescontoTotal =
+        TextEditingController(text: valorDescontoTotalN.toStringAsFixed(2));
+    porcentagemDescontoTotal = TextEditingController(text: "00.00");
+    complemento = TextEditingController(text: "");
+    totalLiquido = totalLiquidoVenda - valorDescontoTotalN;
+    porcentagemDescontoTotalN = 0;
+    isEdit = false;
+    valorCodigoBarras = "";
+    pesquisarClienteController = TextEditingController(text: '');
+    selecionadoVenda = null;
+    persistApelidoFantasia = "";
+    persistCNPJ = "";
+    persistRG = "";
+    persistTelefone = "";
+    persistEmail = "";
+    persistLogradouro = "";
+    persistNumero = "";
+    persistBairro = "";
+    persistComplemento = "";
+    persistCep = "";
+    persistMunicipio = "";
+    isCliente = false;
   }
 }

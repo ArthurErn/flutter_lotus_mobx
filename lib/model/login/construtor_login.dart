@@ -1,7 +1,5 @@
 import 'dart:convert';
 //CONSTRUTOR DO LOGIN
-
-////////////NAO UTILIZADO////////////
 List<BuilderApi> builderApiFromMap(String str) => List<BuilderApi>.from(json.decode(str).map((x) => BuilderApi.fromMap(x)));
 
 String builderApiToMap(List<BuilderApi> data) => json.encode(List<dynamic>.from(data.map((x) => x.toMap())));
