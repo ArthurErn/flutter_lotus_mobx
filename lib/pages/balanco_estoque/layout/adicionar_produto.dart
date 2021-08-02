@@ -11,6 +11,7 @@ import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/pages/balanco_estoque/functions/balanco_barcode.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/vendas/vendas_page.dart';
+import 'package:mobx/mobx.dart';
 import 'adicionar_saldo.dart';
 
 int valorId;
@@ -28,34 +29,14 @@ class AdicionarProduto extends StatefulWidget {
 
 class _AdicionarProdutoState extends State<AdicionarProduto> {
   var valorController = TextEditingController(text: valorCodigoBarrasProduto);
-  List<Produtos> produtoVendasLista = [];
-  List<Produtos> produtoVendasListaDisplay = [];
 
   @override
   void initState() {
     // TIPO = DIGITADO OU BARCODE
     tipo = 1;
     pvalor = "";
-    getProdutos().then((value) {
-      setState(() {
-        produtoVendasLista.addAll(value);
-        produtoVendasListaDisplay = produtoVendasLista;
-        if (valorCodigoBarrasProduto != null) {
-          setState(() {
-            produtoVendasListaDisplay = produtoVendasLista.where((produto) {
-              var produtoGtin = produto.gtin;
-              if (produtoGtin != null) {
-                return produtoGtin.contains(valorCodigoBarrasProduto);
-              } else {
-                return false;
-              }
-            }).toList();
-          });
-        }
-      });
-      balanco.getListaGrupo();
-    });
-
+    balanco.getListaProdutos();
+    balanco.getListaGrupo();
     super.initState();
   }
 
@@ -130,32 +111,36 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                  height: MediaQuery.of(context).size.height / 1.5,
-                  margin: EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: produtoVendasListaDisplay.length,
-                      // ignore: missing_return
-                      itemBuilder: (BuildContext context, int index) {
-                        if (produtoVendasListaDisplay.length > 0) {
-                          return listProduto(context, index);
-                        } else if (produtoVendasListaDisplay.length == 1) {
-                          getProdutos().then((value) {
-                            setState(() {
-                              produtoVendasLista.addAll(value);
-                              produtoVendasListaDisplay = produtoVendasLista;
-                            });
+              Observer(builder: (_) {
+                return Container(
+                    height: MediaQuery.of(context).size.height / 1.83,
+                    margin: EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: balanco.produtoVendasListaDisplay.length,
+                        // ignore: missing_return
+                        itemBuilder: (BuildContext context, int index) {
+                          if (balanco.produtoVendasListaDisplay.length > 0) {
                             return listProduto(context, index);
-                          });
-                        } else {
-                          return Center();
-                        }
-                      }))
+                          } else if (balanco.produtoVendasListaDisplay.length ==
+                              1) {
+                            getProdutos().then((value) {
+                              setState(() {
+                                balanco.produtoVendasLista.addAll(value);
+                                balanco.produtoVendasListaDisplay =
+                                    balanco.produtoVendasLista;
+                              });
+                              return listProduto(context, index);
+                            });
+                          } else {
+                            return Center();
+                          }
+                        }));
+              })
             ]),
           )),
     );
@@ -172,7 +157,8 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
           getProdutos().then((value) {
             setState(() {
               produtosGrupo.addAll(value);
-              produtoVendasListaDisplay = produtosGrupo;
+              balanco.produtoVendasListaDisplay =
+                  ObservableList.of(produtosGrupo);
             });
           });
         });
@@ -234,14 +220,14 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
 
   //LISTA TODOS OS PRODUTOS
   listProduto(BuildContext context, index) {
-    produtoId = produtoVendasListaDisplay[index].id_produto_formatado;
+    produtoId = balanco.produtoVendasListaDisplay[index].id_produto_formatado;
     return GestureDetector(
       onTap: () {
         setState(() {
-          produtoBalanco = produtoVendasListaDisplay[index].descricao;
+          produtoBalanco = balanco.produtoVendasListaDisplay[index].descricao;
           valorProduto = 0;
         });
-        valorId = produtoVendasListaDisplay[index].id_produto;
+        valorId = balanco.produtoVendasListaDisplay[index].id_produto;
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => AdicionarValorProduto()));
       },
@@ -281,8 +267,8 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 1, horizontal: 7),
                             child: Text(
-                              produtoVendasListaDisplay[index]
-                                  .id_produto
+                              balanco
+                                  .produtoVendasListaDisplay[index].id_produto
                                   .toString(),
                               style: TextStyle(
                                   fontSize: 15,
@@ -311,7 +297,7 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            produtoVendasListaDisplay[index].descricao,
+                            balanco.produtoVendasListaDisplay[index].descricao,
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
@@ -319,7 +305,8 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
                           ),
                           SizedBox(height: 3),
                           Text(
-                            produtoVendasListaDisplay[index].fabricante_nome,
+                            balanco.produtoVendasListaDisplay[index]
+                                .fabricante_nome,
                             style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.normal,
@@ -329,7 +316,8 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
                           Text(
                             "R\$" +
                                 formatoValores
-                                    .format(produtoVendasListaDisplay[index]
+                                    .format(balanco
+                                        .produtoVendasListaDisplay[index]
                                         .produto_pvenda)
                                     .toString(),
                             style: TextStyle(
@@ -363,7 +351,8 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
         onChanged: (texto) {
           texto = texto.toUpperCase();
           setState(() {
-            produtoVendasListaDisplay = produtoVendasLista.where((produto) {
+            balanco.produtoVendasListaDisplay =
+                ObservableList.of(balanco.produtoVendasLista.where((produto) {
               var produtoId = produto.id_produto.toString();
               var produtoDescricao = produto.descricao;
               var produtoGtin = produto.gtin;
@@ -382,7 +371,7 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
               } else {
                 return false;
               }
-            }).toList();
+            }));
           });
         },
         controller: valorController,

@@ -42,6 +42,39 @@ mixin _$BalancoEstoqueController on _BalancoEstoqueControllerBase, Store {
     });
   }
 
+  final _$produtoVendasListaAtom =
+      Atom(name: '_BalancoEstoqueControllerBase.produtoVendasLista');
+
+  @override
+  ObservableList<Produtos> get produtoVendasLista {
+    _$produtoVendasListaAtom.reportRead();
+    return super.produtoVendasLista;
+  }
+
+  @override
+  set produtoVendasLista(ObservableList<Produtos> value) {
+    _$produtoVendasListaAtom.reportWrite(value, super.produtoVendasLista, () {
+      super.produtoVendasLista = value;
+    });
+  }
+
+  final _$produtoVendasListaDisplayAtom =
+      Atom(name: '_BalancoEstoqueControllerBase.produtoVendasListaDisplay');
+
+  @override
+  ObservableList<Produtos> get produtoVendasListaDisplay {
+    _$produtoVendasListaDisplayAtom.reportRead();
+    return super.produtoVendasListaDisplay;
+  }
+
+  @override
+  set produtoVendasListaDisplay(ObservableList<Produtos> value) {
+    _$produtoVendasListaDisplayAtom
+        .reportWrite(value, super.produtoVendasListaDisplay, () {
+      super.produtoVendasListaDisplay = value;
+    });
+  }
+
   final _$grupoValueAtom =
       Atom(name: '_BalancoEstoqueControllerBase.grupoValue');
 
@@ -89,6 +122,17 @@ mixin _$BalancoEstoqueController on _BalancoEstoqueControllerBase, Store {
   }
 
   @override
+  dynamic getListaProdutos() {
+    final _$actionInfo = _$_BalancoEstoqueControllerBaseActionController
+        .startAction(name: '_BalancoEstoqueControllerBase.getListaProdutos');
+    try {
+      return super.getListaProdutos();
+    } finally {
+      _$_BalancoEstoqueControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic getListaGrupo() {
     final _$actionInfo = _$_BalancoEstoqueControllerBaseActionController
         .startAction(name: '_BalancoEstoqueControllerBase.getListaGrupo');
@@ -104,6 +148,8 @@ mixin _$BalancoEstoqueController on _BalancoEstoqueControllerBase, Store {
     return '''
 balancoEstoque: ${balancoEstoque},
 balancoEstoqueDisplay: ${balancoEstoqueDisplay},
+produtoVendasLista: ${produtoVendasLista},
+produtoVendasListaDisplay: ${produtoVendasListaDisplay},
 grupoValue: ${grupoValue},
 grupoDisplay: ${grupoDisplay}
     ''';
