@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
-import 'package:lotus_erp/constructors/consulta_produtos/construtor_consulta.dart';
+import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'package:lotus_erp/pages/vendas/vendas_page.dart';
 import 'functions/consulta_barcode.dart';

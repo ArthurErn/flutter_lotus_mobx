@@ -1,4 +1,4 @@
-import 'package:lotus_erp/constructors/ordem_servico/ordem_servico.dart';
+import 'package:lotus_erp/model/ordem_servico/ordem_servico.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/ordem_servico_auth.dart';
 import 'package:mobx/mobx.dart';

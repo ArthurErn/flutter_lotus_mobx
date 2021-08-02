@@ -1,4 +1,4 @@
-import 'package:lotus_erp/constructors/balanco_estoque/construtor_produtos_balanco.dart';
+import 'package:lotus_erp/model/balanco_estoque/construtor_produtos_balanco.dart';
 import 'package:lotus_erp/repository/balanco_estoque/produtos_balanco_auth.dart';
 import 'package:mobx/mobx.dart';
 part 'balanco.produtos.controller.g.dart';

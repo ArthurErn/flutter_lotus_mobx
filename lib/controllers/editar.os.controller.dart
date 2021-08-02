@@ -1,5 +1,5 @@
-import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
-import 'package:lotus_erp/constructors/ordem_servico/construtor_tecnico.dart';
+import 'package:lotus_erp/model/clientes/construtor_edit_pessoa.dart';
+import 'package:lotus_erp/model/ordem_servico/construtor_tecnico.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';

@@ -5,7 +5,7 @@ import 'package:asuka/asuka.dart' as asuka;
 import 'package:lotus_erp/repository/vendas/excluir_item.dart';
 import 'package:lotus_erp/repository/vendas/lista_item_pedido.dart';
 import 'package:lotus_erp/repository/vendas/lista_pedido_auth.dart';
-import 'package:lotus_erp/constructors/vendas/construtor_lista_pedido.dart';
+import 'package:lotus_erp/model/vendas/construtor_lista_pedido.dart';
 import 'package:lotus_erp/pages/homepage/home_page.dart';
 import 'package:lotus_erp/pages/vendas/layout/adicionar_produto.dart';
 import 'package:lotus_erp/pages/vendas/nova_venda.dart';

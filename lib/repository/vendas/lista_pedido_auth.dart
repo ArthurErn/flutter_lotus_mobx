@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/constructors/vendas/construtor_pedidos.dart';
+import 'package:lotus_erp/model/vendas/construtor_pedidos.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:intl/intl.dart';

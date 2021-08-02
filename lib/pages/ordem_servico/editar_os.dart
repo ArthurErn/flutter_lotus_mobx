@@ -6,7 +6,7 @@ import 'package:lotus_erp/repository/ordem_servico/atualizar_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
 import 'package:lotus_erp/repository/ordem_servico/ordem_servico_auth.dart';
-import 'package:lotus_erp/constructors/ordem_servico/construtor_produtos.dart';
+import 'package:lotus_erp/model/ordem_servico/construtor_produtos.dart';
 import 'package:lotus_erp/pages/ordem_servico/adicionar_produto.dart';
 import 'package:lotus_erp/pages/ordem_servico/alocar_tecnico.dart';
 import 'package:lotus_erp/pages/ordem_servico/checklist.dart';

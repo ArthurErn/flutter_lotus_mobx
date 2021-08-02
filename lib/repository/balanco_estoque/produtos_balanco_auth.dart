@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/constructors/balanco_estoque/construtor_produtos_balanco.dart';
+import 'package:lotus_erp/model/balanco_estoque/construtor_produtos_balanco.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'dart:convert';
 import 'dart:async';

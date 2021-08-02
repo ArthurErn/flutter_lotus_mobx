@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/constructors/cadastro_clientes/construtor_cadastro.dart';
+import 'package:lotus_erp/model/cadastro_clientes/construtor_cadastro.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 
 

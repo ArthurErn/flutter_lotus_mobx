@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
-import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
+import 'package:lotus_erp/model/clientes/construtor_edit_pessoa.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';

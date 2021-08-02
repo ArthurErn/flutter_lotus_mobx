@@ -5,7 +5,7 @@ import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_item.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
 import 'package:lotus_erp/repository/vendas/dropdown_venda_auth.dart';
-import 'package:lotus_erp/constructors/consulta_produtos/construtor_consulta.dart';
+import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/pages/ordem_servico/adicionar_produto.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';

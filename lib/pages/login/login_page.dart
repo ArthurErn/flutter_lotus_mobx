@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lotus_erp/constructors/login/construtor_empresa.dart';
+import 'package:lotus_erp/model/login/construtor_empresa.dart';
 import 'package:lotus_erp/pages/login/layout/api_field.dart';
 import 'package:lotus_erp/pages/login/layout/login_field.dart';
 import 'package:lotus_erp/pages/login/functions/persist_fields.dart';

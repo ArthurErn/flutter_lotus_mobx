@@ -6,7 +6,7 @@ import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/ordem_servico_auth.dart';
 import 'package:lotus_erp/repository/vendas/dropdown_venda_auth.dart';
-import 'package:lotus_erp/constructors/ordem_servico/ordem_servico.dart';
+import 'package:lotus_erp/model/ordem_servico/ordem_servico.dart';
 import 'package:lotus_erp/pages/ordem_servico/adicionar_cliente.dart';
 import 'package:lotus_erp/pages/ordem_servico/alocar_tecnico.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';

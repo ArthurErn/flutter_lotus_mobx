@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/balanco.produtos.controller.dart';
 import 'package:lotus_erp/repository/balanco_estoque/delete_produto.dart';
 import 'package:lotus_erp/repository/balanco_estoque/produtos_balanco_auth.dart';
-import 'package:lotus_erp/constructors/balanco_estoque/construtor_produtos_balanco.dart';
+import 'package:lotus_erp/model/balanco_estoque/construtor_produtos_balanco.dart';
 import 'package:lotus_erp/pages/balanco_estoque/functions/balanco_barcode.dart';
 import 'package:lotus_erp/pages/consulta_produtos/functions/consulta_barcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';

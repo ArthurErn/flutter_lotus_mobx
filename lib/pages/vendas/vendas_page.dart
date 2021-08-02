@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
 import 'package:lotus_erp/repository/vendas/lista_pedido_auth.dart';
-import 'package:lotus_erp/constructors/vendas/construtor_pedidos.dart';
+import 'package:lotus_erp/model/vendas/construtor_pedidos.dart';
 import 'package:intl/intl.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'package:lotus_erp/pages/clientes/clientes_page.dart';

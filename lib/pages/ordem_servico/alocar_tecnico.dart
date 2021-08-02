@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_tecnico.dart';
-import 'package:lotus_erp/constructors/ordem_servico/construtor_tecnico.dart';
+import 'package:lotus_erp/model/ordem_servico/construtor_tecnico.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_tecnico.dart';
 
 List<Tecnico> tecnicos = [];

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/balanco.controller.dart';
-import 'package:lotus_erp/constructors/balanco_estoque/construtor_balanco.dart';
+import 'package:lotus_erp/model/balanco_estoque/construtor_balanco.dart';
 import 'package:lotus_erp/pages/balanco_estoque/layout/produtos_balanco.dart';
 import 'package:lotus_erp/pages/consulta_produtos/functions/consulta_barcode.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';

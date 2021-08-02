@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lotus_erp/constructors/consulta_produtos/construtor_consulta.dart';
+import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/pages/homepage/functions/bottom_homepage.dart';
 import 'package:lotus_erp/pages/homepage/layout/logo_homepage.dart';
 List<Produtos> product = [];

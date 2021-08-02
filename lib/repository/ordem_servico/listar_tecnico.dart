@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
-import 'package:lotus_erp/constructors/ordem_servico/construtor_tecnico.dart';
+import 'package:lotus_erp/model/clientes/construtor_edit_pessoa.dart';
+import 'package:lotus_erp/model/ordem_servico/construtor_tecnico.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';

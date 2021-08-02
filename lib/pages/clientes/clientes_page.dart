@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
-import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
+import 'package:lotus_erp/model/clientes/construtor_edit_pessoa.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';

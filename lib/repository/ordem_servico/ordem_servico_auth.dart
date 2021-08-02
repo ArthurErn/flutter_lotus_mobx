@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/constructors/ordem_servico/ordem_servico.dart';
+import 'package:lotus_erp/model/ordem_servico/ordem_servico.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/constructors/login/construtor_empresa.dart';
+import 'package:lotus_erp/model/login/construtor_empresa.dart';
 import 'package:lotus_erp/pages/homepage/home_page.dart';
 import 'package:lotus_erp/pages/login/layout/error_messages.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
 import 'dart:convert';
 import '../../pages/login/login_page.dart';
 import '../../pages/login/layout/login_dropdown.dart';
-import '../../constructors/login/construtor_login.dart';
+import '../../model/login/construtor_login.dart';
 
 var grade;
 var empresa = 0;

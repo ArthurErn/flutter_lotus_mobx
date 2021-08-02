@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:lotus_erp/constructors/cadastro_clientes/construtor_cadastro.dart';
+import 'package:lotus_erp/model/cadastro_clientes/construtor_cadastro.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
 import 'package:lotus_erp/pages/login/layout/login_dropdown.dart';
