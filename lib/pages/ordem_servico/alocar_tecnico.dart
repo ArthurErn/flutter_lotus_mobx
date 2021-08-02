@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_tecnico.dart';
 import 'package:lotus_erp/constructors/ordem_servico/construtor_tecnico.dart';
@@ -16,11 +18,7 @@ class AlocarTecnico extends StatefulWidget {
 class _AlocarTecnicoState extends State<AlocarTecnico> {
   @override
   void initState() {
-    getListarTecnico().then((value) {
-      setState(() {
-        tecnicos = value;
-      });
-    });
+    osController.listarTecnico();
     setState(() {
       tipoCad = 3;
     });
@@ -54,17 +52,19 @@ class _AlocarTecnicoState extends State<AlocarTecnico> {
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
-            child: Container(
-              height: MediaQuery.of(context).size.height / 1.5,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  border: Border.all(width: .7, color: Colors.black)),
-              child: ListView.builder(
-                  itemCount: tecnicos.length,
-                  itemBuilder: (context, index) {
-                    return listTecnico(index);
-                  }),
-            ),
+            child: Observer(builder: (_) {
+              return Container(
+                height: MediaQuery.of(context).size.height / 1.5,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    border: Border.all(width: .7, color: Colors.black)),
+                child: ListView.builder(
+                    itemCount: osController.tecnicos.length,
+                    itemBuilder: (context, index) {
+                      return listTecnico(index);
+                    }),
+              );
+            }),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -109,7 +109,7 @@ class _AlocarTecnicoState extends State<AlocarTecnico> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'ID ' + tecnicos[index].ordemTecnicoId.toString(),
+                      'ID ' + osController.tecnicos[index].ordemTecnicoId.toString(),
                       style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
@@ -122,7 +122,7 @@ class _AlocarTecnicoState extends State<AlocarTecnico> {
                   height: 10,
                 ),
                 Text(
-                  tecnicos[index].ordemTecnicoNome,
+                  osController.tecnicos[index].ordemTecnicoNome,
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w500,

@@ -88,7 +88,6 @@ class EditarOrdemServico extends StatefulWidget {
 }
 
 class _EditarOrdemServicoState extends State<EditarOrdemServico> {
-  final _oficina = OrdemOficinaController();
   @override
   void initState() {
     ProcessedData().dataProcess();
@@ -109,7 +108,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                       builder: (context) => OrdemServicoOficina()));
               await getOrdem().then((value) {
                 setState(() {
-                  _oficina.ordemDisplay = value;
+                  oficina.ordemDisplay = value;
                 });
               });
             });
@@ -702,27 +701,27 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                             setState(() {
                               if (ordemIdentificadorSave != null) {
                                 ordemIdentificador = ordemIdentificadorSave;
-                                _oficina.ordemDisplay[ordemIndex]
+                                oficina.ordemDisplay[ordemIndex]
                                     .identificador = ordemIdentificadorSave;
                               }
                               if (ordemTipoOsSave != null) {
                                 ordemTipoOsNome = ordemTipoOsSave;
-                                _oficina.ordemDisplay[ordemIndex].tipoOsNome =
+                                oficina.ordemDisplay[ordemIndex].tipoOsNome =
                                     ordemTipoOsNome;
                               }
                               if (ordemSituacaoNomeSave != null) {
                                 ordemSituacaoNome = ordemSituacaoNomeSave;
-                                _oficina.ordemDisplay[ordemIndex].situacaoNome =
+                                oficina.ordemDisplay[ordemIndex].situacaoNome =
                                     ordemSituacaoNome;
                               }
                               if (ordemIdPessoaSave != null) {
                                 ordemIdPessoa = ordemIdPessoaSave;
-                                _oficina.ordemDisplay[ordemIndex].idPessoa =
+                                oficina.ordemDisplay[ordemIndex].idPessoa =
                                     ordemIdPessoaSave;
                               }
                               if (ordemClienteNomeSave != null) {
                                 ordemClienteNome = ordemClienteNomeSave;
-                                _oficina.ordemDisplay[ordemIndex].clienteNome =
+                                oficina.ordemDisplay[ordemIndex].clienteNome =
                                     ordemClienteNomeSave;
                               }
                             });
@@ -1023,55 +1022,55 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                               if (ordemVeicMarcaSave != null ||
                                   ordemVeicMarcaSave != "") {
                                 ordemVeicMarca = ordemVeicMarcaSave;
-                                _oficina.ordemDisplay[ordemIndex].veicMarca =
+                                oficina.ordemDisplay[ordemIndex].veicMarca =
                                     ordemVeicMarca;
                               }
                               if (ordemVeicModeloSave != null ||
                                   ordemVeicModeloSave != "") {
                                 ordemVeicModelo = ordemVeicModeloSave;
-                                _oficina.ordemDisplay[ordemIndex].veicModelo =
+                                oficina.ordemDisplay[ordemIndex].veicModelo =
                                     ordemVeicModelo;
                               }
                               if (ordemVeicCorSave != null ||
                                   ordemVeicModeloSave != "") {
                                 ordemVeicCor = ordemVeicCorSave;
-                                _oficina.ordemDisplay[ordemIndex].veicCor =
+                                oficina.ordemDisplay[ordemIndex].veicCor =
                                     ordemVeicCor;
                               }
                               if (ordemVeicFrotaSave != null ||
                                   ordemVeicFrotaSave != "") {
                                 ordemVeicFrota = ordemVeicFrotaSave;
-                                _oficina.ordemDisplay[ordemIndex].veicFrota =
+                                oficina.ordemDisplay[ordemIndex].veicFrota =
                                     ordemVeicFrota;
                               }
                               if (ordemVeicChassiSave != null ||
                                   ordemVeicChassiSave != "") {
                                 ordemVeicChassi = ordemVeicChassiSave;
-                                _oficina.ordemDisplay[ordemIndex].veicChassi =
+                                oficina.ordemDisplay[ordemIndex].veicChassi =
                                     ordemVeicChassi;
                               }
                               if (ordemVeicKmSave != null ||
                                   ordemVeicKmSave != "") {
                                 ordemVeicKm = ordemVeicKmSave;
-                                _oficina.ordemDisplay[ordemIndex].veicKm =
+                                oficina.ordemDisplay[ordemIndex].veicKm =
                                     ordemVeicKm;
                               }
                               if (ordemVeicAnoSave != null ||
                                   ordemVeicAnoSave != "") {
                                 ordemVeicAno = ordemVeicAnoSave;
-                                _oficina.ordemDisplay[ordemIndex].veicAno =
+                                oficina.ordemDisplay[ordemIndex].veicAno =
                                     ordemVeicAno;
                               }
                               if (ordemVeicReboque1Save != null ||
                                   ordemVeicReboque1Save != "") {
                                 ordemVeicReboque1 = ordemVeicReboque1Save;
-                                _oficina.ordemDisplay[ordemIndex].veicReboque1 =
+                                oficina.ordemDisplay[ordemIndex].veicReboque1 =
                                     ordemVeicReboque1;
                               }
                               if (ordemVeicReboque2Save != null ||
                                   ordemVeicReboque2Save != "") {
                                 ordemVeicReboque2 = ordemVeicReboque2Save;
-                                _oficina.ordemDisplay[ordemIndex].veicReboque2 =
+                                oficina.ordemDisplay[ordemIndex].veicReboque2 =
                                     ordemVeicReboque2;
                               }
                               if (combustivelSelecionado != null ||
@@ -1079,7 +1078,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                                 var combust =
                                     combustivel.indexOf(combustivelSelecionado);
                                 ordemVeicCombustivel = combust;
-                                _oficina.ordemDisplay[ordemIndex]
+                                oficina.ordemDisplay[ordemIndex]
                                     .veicCombustivel = combust;
                               }
                             });

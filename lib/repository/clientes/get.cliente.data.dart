@@ -1,6 +1,19 @@
 import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/pages/clientes/clientes_page.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
+var clienteId;
+var persistNomeRazao;
+var persistApelidoFantasia;
+var persistCNPJ;
+var persistRG;
+var persistTelefone;
+var persistEmail;
+var persistLogradouro;
+var persistNumero;
+var persistBairro;
+var persistComplemento;
+var persistCep;
+var persistMunicipio;
 
 class ClienteData {
   get() {

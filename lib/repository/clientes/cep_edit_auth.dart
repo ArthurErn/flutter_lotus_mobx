@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';
+import 'package:lotus_erp/repository/clientes/get.cliente.edit.data.dart';
 
 //SEGUNDA ROTA, COM O CONTEUDO DO CEP DA AUTENTICACAO DE CNPJ, COLOCAMOS ELE NESSA URL PRA RETORNAR O IBGE
 Future getEditIBGE() async {

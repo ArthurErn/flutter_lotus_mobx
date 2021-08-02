@@ -1,41 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lotus_erp/pages/clientes/funct.editar.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/municipio_auth.dart';
 import 'package:lotus_erp/repository/clientes/cep_edit_auth.dart';
 import 'package:lotus_erp/repository/clientes/cnpj_edit_auth.dart';
+import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
+import 'package:lotus_erp/repository/clientes/get.cliente.edit.data.dart';
 import 'package:lotus_erp/repository/clientes/post_edit_cliente_auth.dart';
 import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/clientes/clientes_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
-
-//CONTROLLER DOS CAMPOS
-TextEditingController nomeRazaoEdit;
-TextEditingController apelidoFantasiaEdit;
-TextEditingController cnpjEdit;
-TextEditingController rgInscEdit;
-TextEditingController telefoneEdit;
-TextEditingController emailEdit;
-TextEditingController logradouroEdit;
-TextEditingController numeroEdit;
-TextEditingController bairroEdit;
-TextEditingController complementoEdit;
-TextEditingController cepEdit;
-
-//CAMPOS ESCRITOS NA MÃO
-var cnpjEditText = cnpjEdit.text;
-var nomeRazaoEditText = nomeRazaoEdit.text;
-var apelidoFantasiaEditText = apelidoFantasiaEdit.text;
-var rgInscEditText = rgInscEdit.text;
-var telefoneEditText = telefoneEdit.text;
-var emailEditText = emailEdit.text;
-var logradouroEditText = logradouroEdit.text;
-var numeroEditText = numeroEdit.text;
-var bairroEditText = bairroEdit.text;
-var complementoEditText = complementoEdit.text;
-var cepEditText = cepEdit.text;
-
-//CAMPOS RESGATADOS POR API
-var municipioEditId;
+import 'package:asuka/asuka.dart' as asuka;
 
 class EditarClientes extends StatefulWidget {
   const EditarClientes({Key key}) : super(key: key);
@@ -49,32 +24,7 @@ class _EditarClientesState extends State<EditarClientes> {
   void initState() {
     setState(() {
       //TRAZER O CONTEUDO DOS CAMPOS
-      nomeRazaoEdit = TextEditingController(text: persistNomeRazao);
-      apelidoFantasiaEdit = TextEditingController(text: persistApelidoFantasia);
-      cnpjEdit = TextEditingController(text: persistCNPJ);
-      cnpjText = persistCNPJ;
-      rgInscEdit = TextEditingController(text: persistRG);
-      telefoneEdit = TextEditingController(text: persistTelefone);
-      emailEdit = TextEditingController(text: persistEmail);
-      logradouroEdit = TextEditingController(text: persistLogradouro);
-      numeroEdit = TextEditingController(text: persistNumero);
-      bairroEdit = TextEditingController(text: persistBairro);
-      complementoEdit = TextEditingController(text: persistComplemento);
-      cepEdit = TextEditingController(text: persistCep);
-
-      //ATRIBUIR OS VALORES DO CLIENTE NAS VARIAVEIS PARA EDIÇÃO
-      municipioEditId = persistMunicipio;
-      cepEditText = persistCep;
-      nomeRazaoEditText = persistNomeRazao;
-      apelidoFantasiaEditText = persistApelidoFantasia;
-      cnpjEditText = persistCNPJ;
-      rgInscEditText = persistRG;
-      telefoneEditText = persistTelefone;
-      emailEditText = persistEmail;
-      logradouroEditText = persistLogradouro;
-      numeroEditText = persistNumero;
-      bairroEditText = persistBairro;
-      complementoEditText = persistComplemento;
+      ClienteDataEdit().get();
     });
     super.initState();
   }
@@ -703,25 +653,7 @@ class _EditarClientesState extends State<EditarClientes> {
                               color: Colors.yellow[600]),
                           child: FlatButton(
                               onPressed: () {
-                                if (cepEditText == null ||
-                                    cepEditText == "" ||
-                                    nomeRazaoEditText == null ||
-                                    nomeRazaoEditText == "" ||
-                                    logradouroEditText == null ||
-                                    logradouroEditText == "" ||
-                                    numeroEditText == null ||
-                                    numeroEditText == "" ||
-                                    bairroEditText == null ||
-                                    bairroEditText == "") {
-                                  errorCampos(context);
-                                } else {
-                                  if (cnpjEditText == null ||
-                                      cnpjEditText == "") {
-                                    errorCNPJvazio(context);
-                                  } else {
-                                    postEditUsuario();
-                                  }
-                                }
+                                FuncEditarCliente().editarCliente(context);
                               },
                               child: Text('EDITAR CLIENTE')),
                         ),

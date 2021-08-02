@@ -4,10 +4,11 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
+import 'package:mobx/mobx.dart';
 
 
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA
-Future<List<Balanco>> getBalanco() async {
+Future<ObservableList<Balanco>> getBalanco() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _empresa = getIndexEmpresa(val);
@@ -19,7 +20,7 @@ Future<List<Balanco>> getBalanco() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
-  List<Balanco> balancos = [];
+  ObservableList<Balanco> balancos = ObservableList();
 
   for (var u in jsonData) {
     Balanco balanco = Balanco(

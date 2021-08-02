@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/balanco.produtos.controller.dart';
 import 'package:lotus_erp/repository/balanco_estoque/delete_produto.dart';
 import 'package:lotus_erp/repository/balanco_estoque/produtos_balanco_auth.dart';
 import 'package:lotus_erp/constructors/balanco_estoque/construtor_produtos_balanco.dart';
@@ -21,20 +23,11 @@ class ItensBalanco extends StatefulWidget {
 }
 
 class _ItensBalancoState extends State<ItensBalanco> {
-  List<ProdutosBalanco> balancoEstoqueProdutos = List<ProdutosBalanco>();
-  List<ProdutosBalanco> balancoEstoqueProdutosDisplay = List<ProdutosBalanco>();
-
   @override
   void initState() {
     valorProduto = 0;
     initSharedPreferences();
-    getProdutosBalanco().then((value) {
-      setState(() {
-        balancoEstoqueProdutos.addAll(value);
-        balancoEstoqueProdutosDisplay = balancoEstoqueProdutos;
-      });
-    });
-
+    balancoProdutos.getLista();
     super.initState();
   }
 
@@ -118,26 +111,29 @@ class _ItensBalancoState extends State<ItensBalanco> {
               color: Colors.transparent,
               margin: EdgeInsets.only(top: 10, left: 10, right: 10),
             ),
-            Expanded(
-                child: Container(
-                    margin: EdgeInsets.only(bottom: 20, left: 4.8, right: 4.8),
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: balancoEstoqueProdutos.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (balancoEstoqueProdutos.length > 0) {
-                            return listBalancoProduto(context, index);
-                          } else if (balancoEstoqueProdutos.length == 0) {
-                            return Center(
-                              child: Text("Produto não encontrado"),
-                            );
-                          } else {
-                            return Center();
-                          }
-                        }))),
+            Expanded(child: Observer(builder: (_) {
+              return Container(
+                  margin: EdgeInsets.only(bottom: 20, left: 4.8, right: 4.8),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: balancoProdutos.balancoEstoqueProdutos.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (balancoProdutos.balancoEstoqueProdutos.length > 0) {
+                          return listBalancoProduto(context, index);
+                        } else if (balancoProdutos
+                                .balancoEstoqueProdutos.length ==
+                            0) {
+                          return Center(
+                            child: Text("Produto não encontrado"),
+                          );
+                        } else {
+                          return Center();
+                        }
+                      }));
+            })),
           ])),
     );
   }
@@ -176,8 +172,8 @@ class _ItensBalancoState extends State<ItensBalanco> {
                                 width: 35,
                                 margin: EdgeInsets.only(left: 10, right: 10),
                                 child: Text(
-                                    balancoEstoqueProdutos[index]
-                                        .idProduto
+                                    balancoProdutos
+                                        .balancoEstoqueProdutos[index].idProduto
                                         .toString(),
                                     style: TextStyle(fontSize: 12)),
                               ),
@@ -186,7 +182,8 @@ class _ItensBalancoState extends State<ItensBalanco> {
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width / 2.3,
                                 child: Text(
-                                  balancoEstoqueProdutos[index].descricao,
+                                  balancoProdutos
+                                      .balancoEstoqueProdutos[index].descricao,
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ),
@@ -194,8 +191,8 @@ class _ItensBalancoState extends State<ItensBalanco> {
                                 alignment: Alignment.center,
                                 width: 30,
                                 child: Text(
-                                  balancoEstoqueProdutos[index]
-                                      .saldoNovo
+                                  balancoProdutos
+                                      .balancoEstoqueProdutos[index].saldoNovo
                                       .toString(),
                                   style: TextStyle(fontSize: 12),
                                 ),
@@ -204,8 +201,8 @@ class _ItensBalancoState extends State<ItensBalanco> {
                                 alignment: Alignment.center,
                                 onPressed: () {
                                   setState(() {
-                                    idProduto = balancoEstoqueProdutos[index]
-                                        .idProduto
+                                    idProduto = balancoProdutos
+                                        .balancoEstoqueProdutos[index].idProduto
                                         .toString();
                                     deleteProdutos();
                                     Navigator.push(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
@@ -11,6 +13,7 @@ import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/ordem_servico/alocar_tecnico.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
+import 'package:mobx/mobx.dart';
 
 //RECEBE O ID PARA PODER EDITAR
 var clienteId;
@@ -35,9 +38,6 @@ class EditarTecnico extends StatefulWidget {
 }
 
 class _EditarTecnicoState extends State<EditarTecnico> {
-  final _oficina = OrdemOficinaController();
-  List<EditPessoa> clientes = [];
-  List<EditPessoa> clientesDisplay = [];
   var clienteController = TextEditingController();
 
   @override
@@ -47,12 +47,8 @@ class _EditarTecnicoState extends State<EditarTecnico> {
       persistNomeRazao = "";
     });
     //PROCEDIMENTO PADRÃO PARA GERAR A LISTA
-    getListarCliente().then((clientesValor) {
-      setState(() {
-        clientes.addAll(clientesValor);
-        clientesDisplay = clientes;
-      });
-    });
+
+    osController.listarClientes();
     super.initState();
   }
 
@@ -134,20 +130,22 @@ class _EditarTecnicoState extends State<EditarTecnico> {
                     //   right: BorderSide(width: 1, color: Colors.black),
                     // )
                   ),
-                  child: Container(
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: clientesDisplay.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (clientesDisplay.length > 0) {
-                            return listClientes(context, index);
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }),
-                  )),
+                  child: Observer(builder: (_) {
+                    return Container(
+                      child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: osController.clientesDisplay.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (osController.clientesDisplay.length > 0) {
+                              return listClientes(context, index);
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                    );
+                  })),
             ],
           ),
         ),
@@ -161,7 +159,8 @@ class _EditarTecnicoState extends State<EditarTecnico> {
       onChanged: (text) {
         text = text.toLowerCase();
         setState(() {
-          clientesDisplay = clientes.where((cliente) {
+          osController.clientesDisplay =
+              ObservableList.of(osController.clientes.where((cliente) {
             var clienteId = cliente.id.toString();
             var clienteNome = cliente.nomeRazao != null
                 ? cliente.nomeRazao.toLowerCase()
@@ -172,7 +171,7 @@ class _EditarTecnicoState extends State<EditarTecnico> {
             return clienteId.contains(text) ||
                 clienteNome.contains(text) ||
                 clienteFantasia.contains(text);
-          }).toList();
+          }));
         });
       },
       controller: clienteController,
@@ -228,10 +227,13 @@ class _EditarTecnicoState extends State<EditarTecnico> {
                   child: GestureDetector(
                     onTap: () async {
                       setState(() {
-                        ordemTecnicoId = clientesDisplay[index].id;
-                        ordemTecnicoNome = clientesDisplay[index].nomeRazao;
-                        _oficina.ordemDisplay[ordemIndex].tecnicoId = ordemTecnicoId;
-                        _oficina.ordemDisplay[ordemIndex].tecnicoNome = ordemTecnicoNome;
+                        ordemTecnicoId = osController.clientesDisplay[index].id;
+                        ordemTecnicoNome =
+                            osController.clientesDisplay[index].nomeRazao;
+                        oficina.ordemDisplay[ordemIndex].tecnicoId =
+                            ordemTecnicoId;
+                        oficina.ordemDisplay[ordemIndex].tecnicoNome =
+                            ordemTecnicoNome;
                       });
                       await postTecnico().then((value) {
                         Navigator.pushReplacement(
@@ -251,8 +253,11 @@ class _EditarTecnicoState extends State<EditarTecnico> {
                           children: [
                             RichText(
                               text: TextSpan(
-                                  text: clientesDisplay[index].nomeRazao != null
-                                      ? clientesDisplay[index].nomeRazao
+                                  text: osController.clientesDisplay[index]
+                                              .nomeRazao !=
+                                          null
+                                      ? osController
+                                          .clientesDisplay[index].nomeRazao
                                       : "NOME NÃO INFORMADO",
                                   style: TextStyle(
                                       fontSize: 13,
@@ -264,8 +269,11 @@ class _EditarTecnicoState extends State<EditarTecnico> {
                             ),
                             RichText(
                               text: TextSpan(
-                                  text: clientesDisplay[index].id != null
-                                      ? clientesDisplay[index].id.toString()
+                                  text: osController
+                                              .clientesDisplay[index].id !=
+                                          null
+                                      ? osController.clientesDisplay[index].id
+                                          .toString()
                                       : "ID NÃO INFORMADO",
                                   style: TextStyle(
                                       fontSize: 15,
@@ -273,11 +281,15 @@ class _EditarTecnicoState extends State<EditarTecnico> {
                                       color: Colors.black87),
                                   children: [
                                     TextSpan(
-                                        text: clientesDisplay[index].cpfCnpj !=
+                                        text: osController
+                                                    .clientesDisplay[index]
+                                                    .cpfCnpj !=
                                                 null
                                             ? "   CPF/CNPJ: " +
                                                 "\n" +
-                                                clientesDisplay[index].cpfCnpj
+                                                osController
+                                                    .clientesDisplay[index]
+                                                    .cpfCnpj
                                             : "\n" + "CPF/CNPJ NÃO INFORMADO",
                                         style: TextStyle(
                                             fontSize: 14,

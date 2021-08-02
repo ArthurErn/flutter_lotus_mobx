@@ -19,7 +19,7 @@ Future postItem() async {
 
   var jsonProduto = jsonEncode({
     "id_os": ordemId,
-    "item": osController.produtoLength,
+    "item": osController.produtoLength + 1,
     "id_produto": produtosOrdem.id_produto,
     "complemento": '',
     "vlr_vendido": produtosOrdem.produto_pvenda,

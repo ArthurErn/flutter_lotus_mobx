@@ -4,9 +4,10 @@ import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:lotus_erp/pages/login/login_page.dart';
+import 'package:mobx/mobx.dart';
 
 //RETORNA OS ITENS DE UM BALANÇO ESPECIFICO
-Future<List<ProdutosBalanco>> getProdutosBalanco() async {
+Future<ObservableList<ProdutosBalanco>> getProdutosBalanco() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
@@ -17,7 +18,7 @@ Future<List<ProdutosBalanco>> getProdutosBalanco() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
-  List<ProdutosBalanco> produtosBalanco = [];
+  ObservableList<ProdutosBalanco> produtosBalanco = ObservableList();
 
   for (var u in jsonData) {
     ProdutosBalanco produto = ProdutosBalanco(

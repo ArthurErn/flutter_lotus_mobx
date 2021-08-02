@@ -5,6 +5,7 @@ import 'package:lotus_erp/constructors/ordem_servico/construtor_tecnico.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
+import 'package:mobx/mobx.dart';
 
 //RETORNA UMA LISTA DE TODOS OS CLIENTES DA ROTA
 Future getListarTecnico() async {
@@ -18,7 +19,7 @@ Future getListarTecnico() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonDecode = json.decode(data.body);
-  List<Tecnico> tecnicos = [];
+  ObservableList<Tecnico> tecnicos = ObservableList();
 
   for (var u in jsonDecode) {
     Tecnico tecnico = Tecnico(

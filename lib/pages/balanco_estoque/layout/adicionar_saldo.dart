@@ -4,6 +4,7 @@ import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/services.dart';
 import 'package:lotus_erp/pages/balanco_estoque/layout/adicionar_produto.dart';
 import 'package:lotus_erp/pages/balanco_estoque/layout/produtos_balanco.dart';
+import 'package:lotus_erp/pages/balanco_estoque/post.produto.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/repository/balanco_estoque/adicionar_produto_auth.dart';
 
@@ -168,35 +169,7 @@ class _AdicionarValorProdutoState extends State<AdicionarValorProduto> {
                               ),
                               child: TextButton(
                                   onPressed: () {
-                                    setState(() {
-                                      if (valorProduto > 0) {
-                                        postProdutos().then((value) {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ItensBalanco()));
-                                          asuka.showSnackBar(SnackBar(
-                                              duration: Duration(seconds: 2),
-                                              content: Row(
-                                                children: [
-                                                  Text("Item adicionado!"),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Icon(
-                                                    Icons.check,
-                                                    color: Colors.white,
-                                                  )
-                                                ],
-                                              )));
-                                        });
-                                      } else {
-                                        errorSaldoInput(context);
-                                      }
-                                    });
+                                    PostProduto().postProduto(context);
                                   },
                                   child: Text(
                                     'ADICIONAR PRODUTO',
@@ -230,43 +203,44 @@ class _AdicionarValorProdutoState extends State<AdicionarValorProduto> {
   }
 
   //ERRO ESPECIFICO PARA VALORES MENORES QUE ZERO NO SALDO DO PRODUTO
-  void errorSaldoInput(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-              content: Container(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Image.asset(
-                    'lib/assets/images/alerta.png',
-                    width: 50,
-                    height: 50,
+
+}
+
+void errorSaldoInput(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            content: Container(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.asset(
+                  'lib/assets/images/alerta.png',
+                  width: 50,
+                  height: 50,
+                ),
+                Divider(
+                  height: 20.0,
+                  color: Colors.transparent,
+                ),
+                Container(
+                    child: Text(
+                  "VALOR NÃO DISPONÍVEL",
+                  style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
+                )),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                    child: Text(
+                  "Adicione um valor maior que zero",
+                  style: TextStyle(
+                    fontSize: 15.0,
                   ),
-                  Divider(
-                    height: 20.0,
-                    color: Colors.transparent,
-                  ),
-                  Container(
-                      child: Text(
-                    "VALOR NÃO DISPONÍVEL",
-                    style:
-                        TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-                  )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                      child: Text(
-                    "Adicione um valor maior que zero",
-                    style: TextStyle(
-                      fontSize: 15.0,
-                    ),
-                  )),
-                ],
-              )),
-              actions: <Widget>[],
-            ));
-  }
+                )),
+              ],
+            )),
+            actions: <Widget>[],
+          ));
 }

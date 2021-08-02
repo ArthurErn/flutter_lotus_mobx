@@ -4,6 +4,7 @@ import 'package:lotus_erp/constructors/cadastro_clientes/construtor_cadastro.dar
 import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';
 import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
 import 'package:lotus_erp/pages/login/layout/login_dropdown.dart';
+import 'package:lotus_erp/repository/clientes/get.cliente.edit.data.dart';
 
 //PRIMEIRA ROTA, PARA RECOLHER O CNPJ E TRAZER OUTROS CAMPOS JUNTO
 Future getEditCNPJ() async {

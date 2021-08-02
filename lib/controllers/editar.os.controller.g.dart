@@ -9,6 +9,21 @@ part of 'editar.os.controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$EditarOSController on _EditarOSControllerBase, Store {
+  final _$tecnicosAtom = Atom(name: '_EditarOSControllerBase.tecnicos');
+
+  @override
+  ObservableList<Tecnico> get tecnicos {
+    _$tecnicosAtom.reportRead();
+    return super.tecnicos;
+  }
+
+  @override
+  set tecnicos(ObservableList<Tecnico> value) {
+    _$tecnicosAtom.reportWrite(value, super.tecnicos, () {
+      super.tecnicos = value;
+    });
+  }
+
   final _$produtosOSAtom = Atom(name: '_EditarOSControllerBase.produtosOS');
 
   @override
@@ -59,6 +74,17 @@ mixin _$EditarOSController on _EditarOSControllerBase, Store {
       ActionController(name: '_EditarOSControllerBase');
 
   @override
+  dynamic listarTecnico() {
+    final _$actionInfo = _$_EditarOSControllerBaseActionController.startAction(
+        name: '_EditarOSControllerBase.listarTecnico');
+    try {
+      return super.listarTecnico();
+    } finally {
+      _$_EditarOSControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic listarProdutos() {
     final _$actionInfo = _$_EditarOSControllerBaseActionController.startAction(
         name: '_EditarOSControllerBase.listarProdutos');
@@ -94,6 +120,7 @@ mixin _$EditarOSController on _EditarOSControllerBase, Store {
   @override
   String toString() {
     return '''
+tecnicos: ${tecnicos},
 produtosOS: ${produtosOS},
 clientes: ${clientes},
 clientesDisplay: ${clientesDisplay}

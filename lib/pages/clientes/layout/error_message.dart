@@ -124,7 +124,7 @@ void errorCNPJvazio(BuildContext context) {
 //MENSAGEM DE CAMPOS INVALIDOS != CNPJ
 void errorCampos(BuildContext context) {
   showDialog(
-      context: formKey.currentContext,
+      context: context,
       builder: (context) => AlertDialog(
             content: Container(
                 child: Column(

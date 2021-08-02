@@ -12,19 +12,7 @@ import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:mobx/mobx.dart';
 
 //RECEBE O ID PARA PODER EDITAR
-var clienteId;
-var persistNomeRazao;
-var persistApelidoFantasia;
-var persistCNPJ;
-var persistRG;
-var persistTelefone;
-var persistEmail;
-var persistLogradouro;
-var persistNumero;
-var persistBairro;
-var persistComplemento;
-var persistCep;
-var persistMunicipio;
+
 
 class ClientesPage extends StatefulWidget {
   const ClientesPage({Key key}) : super(key: key);

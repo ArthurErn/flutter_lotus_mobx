@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/constructors/cadastro_clientes/construtor_cadastro.dart';
-import 'package:asuka/asuka.dart' as asuka;
 import 'package:lotus_erp/pages/clientes/clientes_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';
 import 'package:lotus_erp/pages/clientes/layout/error_message.dart';
 import 'package:lotus_erp/pages/login/layout/login_dropdown.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
+import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
+import 'package:lotus_erp/repository/clientes/get.cliente.edit.data.dart';
 
-List<Cnpj>cnpjsEdit;
+List<Cnpj> cnpjsEdit;
 
 //SAO FEITAS TODAS AS OUTRAS AUTENTICACOES ANTES DE CHEGAR NESSA
 //METODO POST QUE EDITA USUÁRIO NA API
@@ -24,7 +25,7 @@ Future postEditUsuario() async {
     "id": clienteId,
     "nome_razao": nomeRazaoEditText.toUpperCase(),
     "apelido_fantasia": apelidoFantasiaEditText.toUpperCase(),
-    "tp_pessoa": cnpjEditText.length==14?1:0,
+    "tp_pessoa": cnpjEditText.length == 14 ? 1 : 0,
     "cpf_cnpj": cnpjEditText,
     "rg_insc": rgInscEditText,
     "fone1": telefoneEditText,
@@ -58,22 +59,7 @@ Future postEditUsuario() async {
     } else {
       print(data.body);
       //CASO CRIE O USUARIO, ELE RETORNA UMA MENSAGEM DE SUCESSO
-      Navigator.pop(formKey.currentContext);
-      Navigator.pop(formKey.currentContext);
-      asuka.showSnackBar(SnackBar(
-          duration: Duration(seconds: 2),
-          content: Row(
-            children: [
-              Text("Usuário editado"),
-              SizedBox(
-                width: 10,
-              ),
-              Icon(
-                Icons.check,
-                color: Colors.white,
-              )
-            ],
-          )));
+      
       final String dataString = data.body;
       print(dataString);
       return null;

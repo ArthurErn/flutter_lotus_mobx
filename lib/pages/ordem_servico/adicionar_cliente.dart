@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/constructors/clientes/construtor_edit_pessoa.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
@@ -7,6 +9,7 @@ import 'package:lotus_erp/pages/clientes/cadastro_page.dart';
 import 'package:lotus_erp/pages/clientes/layout/editar_cliente.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/pages/ordem_servico/ordem_oficina.dart';
+import 'package:mobx/mobx.dart';
 
 //RECEBE O ID PARA PODER EDITAR
 var clienteId;
@@ -31,8 +34,6 @@ class AdicionarCliente extends StatefulWidget {
 }
 
 class _AdicionarClienteState extends State<AdicionarCliente> {
-  List<EditPessoa> clientes = [];
-  List<EditPessoa> clientesDisplay = [];
   var clienteController = TextEditingController();
 
   @override
@@ -41,13 +42,10 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
       isSearch = false;
       persistNomeRazao = "";
     });
+    osController.clientes.clear();
+    osController.clientesDisplay.clear();
     //PROCEDIMENTO PADRÃO PARA GERAR A LISTA
-    getListarCliente().then((clientesValor) {
-      setState(() {
-        clientes.addAll(clientesValor);
-        clientesDisplay = clientes;
-      });
-    });
+    osController.listarClientes();
     super.initState();
   }
 
@@ -147,20 +145,22 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
                     //   right: BorderSide(width: 1, color: Colors.black),
                     // )
                   ),
-                  child: Container(
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: clientesDisplay.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (clientesDisplay.length > 0) {
-                            return listClientes(context, index);
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }),
-                  )),
+                  child: Observer(builder: (_) {
+                    return Container(
+                      child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: osController.clientesDisplay.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (osController.clientesDisplay.length > 0) {
+                              return listClientes(context, index);
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                    );
+                  })),
             ],
           ),
         ),
@@ -174,7 +174,8 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
       onChanged: (text) {
         text = text.toLowerCase();
         setState(() {
-          clientesDisplay = clientes.where((cliente) {
+          osController.clientesDisplay =
+              ObservableList.of(osController.clientes.where((cliente) {
             var clienteId = cliente.id.toString();
             var clienteNome = cliente.nomeRazao != null
                 ? cliente.nomeRazao.toLowerCase()
@@ -185,7 +186,7 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
             return clienteId.contains(text) ||
                 clienteNome.contains(text) ||
                 clienteFantasia.contains(text);
-          }).toList();
+          }));
         });
       },
       controller: clienteController,
@@ -241,8 +242,10 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        ordemIdPessoaSave = clientesDisplay[index].id;
-                        ordemClienteNomeSave = clientesDisplay[index].nomeRazao;
+                        ordemIdPessoaSave =
+                            osController.clientesDisplay[index].id;
+                        ordemClienteNomeSave =
+                            osController.clientesDisplay[index].nomeRazao;
                       });
                       Navigator.pop(context);
                       Navigator.pop(context);
@@ -258,8 +261,11 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
                           children: [
                             RichText(
                               text: TextSpan(
-                                  text: clientesDisplay[index].nomeRazao != null
-                                      ? clientesDisplay[index].nomeRazao
+                                  text: osController.clientesDisplay[index]
+                                              .nomeRazao !=
+                                          null
+                                      ? osController
+                                          .clientesDisplay[index].nomeRazao
                                       : "NOME NÃO INFORMADO",
                                   style: TextStyle(
                                       fontSize: 13,
@@ -271,8 +277,11 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
                             ),
                             RichText(
                               text: TextSpan(
-                                  text: clientesDisplay[index].id != null
-                                      ? clientesDisplay[index].id.toString()
+                                  text: osController
+                                              .clientesDisplay[index].id !=
+                                          null
+                                      ? osController.clientesDisplay[index].id
+                                          .toString()
                                       : "ID NÃO INFORMADO",
                                   style: TextStyle(
                                       fontSize: 15,
@@ -280,11 +289,15 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
                                       color: Colors.black87),
                                   children: [
                                     TextSpan(
-                                        text: clientesDisplay[index].cpfCnpj !=
+                                        text: osController
+                                                    .clientesDisplay[index]
+                                                    .cpfCnpj !=
                                                 null
                                             ? "   CPF/CNPJ: " +
                                                 "\n" +
-                                                clientesDisplay[index].cpfCnpj
+                                                osController
+                                                    .clientesDisplay[index]
+                                                    .cpfCnpj
                                             : "\n" + "CPF/CNPJ NÃO INFORMADO",
                                         style: TextStyle(
                                             fontSize: 14,

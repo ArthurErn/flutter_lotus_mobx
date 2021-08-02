@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lotus_erp/pages/clientes/reset.fields.cadastro.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/cadastro_cliente_auth.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/cep_auth.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/cnpj_auth.dart';
@@ -54,36 +55,7 @@ class CadastroCliente extends StatefulWidget {
 class _CadastroClienteState extends State<CadastroCliente> {
   @override
   void initState() {
-    nomeRazao = TextEditingController(text: "");
-    apelidoFantasia = TextEditingController(text: "");
-    cnpj = TextEditingController(text: "");
-    rgInsc = TextEditingController(text: "");
-    telefone = TextEditingController(text: "");
-    email = TextEditingController(text: "");
-    logradouro = TextEditingController(text: "");
-    numero = TextEditingController(text: "");
-    bairro = TextEditingController(text: "");
-    complemento = TextEditingController(text: "");
-    cep = TextEditingController(text: "");
-
-    nomeRazaoText = "";
-    cepText = "";
-    cnpjText = "";
-    apelidoFantasiaText = "";
-    rgInscText = "";
-    telefoneText = "";
-    emailText = "";
-    logradouroText = "";
-    numeroText = "";
-    bairroText = "";
-    complementoText = "";
-    ibge = "";
-
-    cepField = null;
-    logradouroField = null;
-    numeroField = null;
-    bairroField = null;
-    complementoField = null;
+    ResetFieldCadastro().resetFieldCadastro();
     super.initState();
   }
 
@@ -109,13 +81,13 @@ class _CadastroClienteState extends State<CadastroCliente> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          flexibleSpace: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: <Color>[Colors.blue[900], Colors.blue])),
-              ),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: <Color>[Colors.blue[900], Colors.blue])),
+            ),
             toolbarHeight: 65,
             title: Text("Dados do cliente"),
             backgroundColor: Colors.blue[900]),

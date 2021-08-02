@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lotus_erp/repository/balanco_estoque/balanco_auth.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/balanco.controller.dart';
 import 'package:lotus_erp/constructors/balanco_estoque/construtor_balanco.dart';
 import 'package:lotus_erp/pages/balanco_estoque/layout/produtos_balanco.dart';
 import 'package:lotus_erp/pages/consulta_produtos/functions/consulta_barcode.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
+import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var idEmpresa = getIndexEmpresa(val);
@@ -21,22 +23,15 @@ class BalancoEstoque extends StatefulWidget {
 
 class _BalancoEstoqueState extends State<BalancoEstoque> {
   var balancoController = TextEditingController();
-  List<Balanco> balancoEstoque = [];
-  List<Balanco> balancoEstoqueDisplay = [];
+
   @override
   void initState() {
     setState(() {
       valorCodigoBarras = "";
       isSearch = false;
     });
-    //PROCEDIMENTO PADRÃO PARA GERAR A LISTA
     initSharedPreferences();
-    getBalanco().then((value) {
-      setState(() {
-        balancoEstoque.addAll(value);
-        balancoEstoqueDisplay = balancoEstoque;
-      });
-    });
+    balanco.getListaBalanco();
     super.initState();
   }
 
@@ -96,82 +91,69 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
                     ]),
                   )
                 : Center(),
-            Expanded(
-                child: Container(
-                    height: MediaQuery.of(context).size.height / 1.6,
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 14, right: 14),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      // borderRadius: BorderRadius.circular(8),
-                      // border: Border(
-                      //   top: BorderSide(width: 1, color: Colors.black),
-                      //   bottom: BorderSide(width: 1, color: Colors.black),
-                      //   left: BorderSide(width: 1, color: Colors.black),
-                      //   right: BorderSide(width: 1, color: Colors.black),
-                      // ),
-                    ),
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: balancoEstoqueDisplay.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (balancoEstoqueDisplay.length > 0) {
-                            return listBalanco(context, index);
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        }))),
+            Expanded(child: Observer(builder: (_) {
+              return Container(
+                  height: MediaQuery.of(context).size.height / 1.6,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(left: 14, right: 14),
+                  color: Colors.transparent,
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: balanco.balancoEstoqueDisplay.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (balanco.balancoEstoqueDisplay.length > 0) {
+                          return listBalanco(context, index);
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }));
+            })),
           ])),
     );
   }
 
   searchBar() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            bottom: BorderSide(width: .5, color: Colors.black),
-          )),
-      child: TextField(
-        onChanged: (text) {
-          text = text.toLowerCase();
-          setState(() {
-            balancoEstoqueDisplay = balancoEstoque.where((balanco) {
+    return Observer(builder: (_) {
+      return Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              bottom: BorderSide(width: .5, color: Colors.black),
+            )),
+        child: TextField(
+          onChanged: (text) {
+            text = text.toLowerCase();
+            balanco.balancoEstoqueDisplay =
+                ObservableList.of(balanco.balancoEstoque.where((balanco) {
               var balancoData = balanco.data.toLowerCase();
               var balancoId = balanco.id.toString();
               var balancoMotivo = balanco.balanco_motivo.toLowerCase();
               return balancoData.contains(text) ||
                   balancoMotivo.contains(text) ||
                   balancoId.contains(text);
-            }).toList();
-          });
-        },
-        controller: balancoController,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          // suffixIcon: IconButton(
-          //   onPressed: () {
-          //     saveData();
-          //   },
-          //   icon: Icon(Icons.search, color: Colors.blue[900]),
-          // ),
-          hintText: "Pesquisar",
-          hintStyle: TextStyle(color: Colors.grey[700]),
-          enabledBorder: OutlineInputBorder(
+            }));
+          },
+          controller: balancoController,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            hintText: "Pesquisar",
+            hintStyle: TextStyle(color: Colors.grey[700]),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(4)),
+                borderSide: BorderSide.none),
+            focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(4)),
-              borderSide: BorderSide.none),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
-            borderSide: BorderSide(
-              color: Colors.transparent,
+              borderSide: BorderSide(
+                color: Colors.transparent,
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   listBalanco(BuildContext context, index) {
@@ -188,7 +170,7 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
               onTap: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ItensBalanco()));
-                idBalanco = balancoEstoque[index].id;
+                idBalanco = balanco.balancoEstoque[index].id;
                 print(idBalanco);
               },
               child: Container(
@@ -218,7 +200,8 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
                         children: [
                           RichText(
                               text: TextSpan(
-                            text: balancoEstoqueDisplay[index].id.toString(),
+                            text: balanco.balancoEstoqueDisplay[index].id
+                                .toString(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -227,8 +210,8 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
                           )),
                           RichText(
                               text: TextSpan(
-                                  text: balancoEstoqueDisplay[index]
-                                      .data
+                                  text: balanco
+                                      .balancoEstoqueDisplay[index].data
                                       .toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
@@ -240,7 +223,7 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
                         height: 3,
                       ),
                       Text(
-                        balancoEstoqueDisplay[index].balanco_motivo,
+                        balanco.balancoEstoqueDisplay[index].balanco_motivo,
                         style: TextStyle(fontSize: 12, color: Colors.grey[700]),
                       )
                     ],
@@ -255,15 +238,16 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
   //////////////////////////////////////////////////////////////////////////////
   //NAO UTILIZADO
   void saveData() {
-    List<String> balancoSalvo =
-        balancoEstoque.map((item) => json.encode(item.toMap())).toList();
+    List<String> balancoSalvo = balanco.balancoEstoque
+        .map((item) => json.encode(item.toMap()))
+        .toList();
     sharedPreferences.setStringList('list', balancoSalvo);
   }
 
   //NAO UTILIZADO
   void loadData() {
     List<String> balancoSalvo = sharedPreferences.getStringList('list');
-    balancoEstoque =
+    balanco.balancoEstoque =
         balancoSalvo.map((item) => Balanco.fromMap(json.decode(item))).toList();
   }
   //////////////////////////////////////////////////////////////////////////////
