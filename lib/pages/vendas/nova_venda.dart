@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
@@ -28,7 +30,6 @@ bool isCliente;
 TextEditingController pesquisarClienteController;
 List<EditPessoa> clientesNovaVenda = [];
 List<EditPessoa> clientesDisplayNovaVenda = [];
-List<FormaPagamento> formas = [];
 var selecionadoVenda;
 var indexCliente;
 
@@ -64,12 +65,7 @@ class _NovaVendaState extends State<NovaVenda> {
     persistCep = "";
     persistMunicipio = "";
     isCliente = false;
-    getFormaPagamento().then((value) {
-      setState(() {
-        produtoVendas = product;
-        formas = value;
-      });
-    });
+    editVenda.listarPagamento();
     getListarCliente().then((clientesValor) {
       setState(() {
         clientesNovaVenda.addAll(clientesValor);
@@ -332,31 +328,33 @@ class _NovaVendaState extends State<NovaVenda> {
                       ),
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 6),
-                    child: DropdownButton(
-                      //isExpanded: true,
-                      hint: Text(
-                        'SELECIONE FORMA DE PAGAMENTO',
-                        style: TextStyle(fontSize: 13),
+                  Observer(builder: (_) {
+                    return Container(
+                      margin: EdgeInsets.only(left: 6),
+                      child: DropdownButton(
+                        //isExpanded: true,
+                        hint: Text(
+                          'SELECIONE FORMA DE PAGAMENTO',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        value: selecionadoVenda,
+                        style: TextStyle(fontSize: 11, color: Colors.black),
+                        items: editVenda.formas.map((selecionadoVenda) {
+                          return DropdownMenuItem(
+                            value: selecionadoVenda != null
+                                ? selecionadoVenda
+                                : "SELECIONE FORMA DE PAGAMENTO",
+                            child: Text(selecionadoVenda.descricao),
+                          );
+                        }).toList(),
+                        onChanged: (valorNovo) {
+                          setState(() {
+                            selecionadoVenda = valorNovo;
+                          });
+                        },
                       ),
-                      value: selecionadoVenda,
-                      style: TextStyle(fontSize: 11, color: Colors.black),
-                      items: formas.map((selecionadoVenda) {
-                        return DropdownMenuItem(
-                          value: selecionadoVenda != null
-                              ? selecionadoVenda
-                              : "SELECIONE FORMA DE PAGAMENTO",
-                          child: Text(selecionadoVenda.descricao),
-                        );
-                      }).toList(),
-                      onChanged: (valorNovo) {
-                        setState(() {
-                          selecionadoVenda = valorNovo;
-                        });
-                      },
-                    ),
-                  ),
+                    );
+                  }),
                   Container(
                     decoration: BoxDecoration(
                         border: Border(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/vendas.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
 import 'package:lotus_erp/repository/vendas/lista_pedido_auth.dart';
 import 'package:lotus_erp/model/vendas/construtor_pedidos.dart';
 import 'package:intl/intl.dart';
 import 'package:lotus_erp/pages/balanco_estoque/balanco_estoque.dart';
-import 'package:lotus_erp/pages/clientes/clientes_page.dart';
 import 'package:lotus_erp/pages/consulta_produtos/functions/consulta_barcode.dart';
 import 'package:lotus_erp/pages/homepage/home_page.dart';
 import 'package:lotus_erp/pages/vendas/layout/adicionar_quantidade.dart';
@@ -18,9 +19,6 @@ var dataText = dataController.text;
 var idEdit;
 var clienteEdit;
 var clienteIdEdit;
-
-List<ListaPedidos> pedidos = [];
-List<ListaPedidos> pedidosDisplay = [];
 final formatoValores = NumberFormat.currency(locale: "pt_BR", symbol: "");
 
 class VendasPage extends StatefulWidget {
@@ -31,13 +29,10 @@ class VendasPage extends StatefulWidget {
 }
 
 class _VendasPageState extends State<VendasPage> {
-  @override
-  void initState() {
+  resetarCampos() {
     setState(() {
       valorCodigoBarras = "";
       dataText = "";
-      pedidos = [];
-      pedidosDisplay = [];
       isSearch = false;
       valoresProduto.clear();
       porcentagensProdutos.clear();
@@ -56,14 +51,14 @@ class _VendasPageState extends State<VendasPage> {
       qtdItens = 0;
       totalBrutoVenda = 0;
     });
+  }
 
+  @override
+  void initState() {
+    resetarCampos();
+    vendas.listarPedidos();
     dataController = TextEditingController(text: "");
-    getPedidos().then((value) {
-      setState(() {
-        pedidos.addAll(value);
-        pedidosDisplay = pedidos;
-      });
-    });
+
     super.initState();
   }
 
@@ -88,7 +83,7 @@ class _VendasPageState extends State<VendasPage> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: Container(
+            flexibleSpace: Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.centerLeft,
@@ -177,12 +172,9 @@ class _VendasPageState extends State<VendasPage> {
                                               dataText = dataController.text;
                                               dataText =
                                                   dataText.replaceAll("/", "");
-                                              getPedidos().then((value) {
-                                                setState(() {
-                                                  pedidos = value;
-                                                  pedidosDisplay = pedidos;
-                                                  dataText = "";
-                                                });
+                                              vendas.listarPedidos();
+                                              setState(() {
+                                                dataText = "";
                                               });
                                             },
                                           ),
@@ -248,32 +240,27 @@ class _VendasPageState extends State<VendasPage> {
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: Colors.transparent,
-                      // borderRadius: BorderRadius.circular(12),
-                      // border: Border(
-                      //   top: BorderSide(width: 1, color: Colors.black),
-                      //   bottom: BorderSide(width: 1, color: Colors.black),
-                      //   left: BorderSide(width: 1, color: Colors.black),
-                      //   right: BorderSide(width: 1, color: Colors.black),
-                      // ),
                     ),
-                    child: Container(
-                        //height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            itemCount: pedidosDisplay.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (pedidosDisplay.length > 0) {
-                                return listPedidos(context, index);
-                              } else {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            })),
+                    child: Observer(builder: (_) {
+                      return Container(
+                          //height: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: vendas.pedidosDisplay.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                if (vendas.pedidosDisplay.length > 0) {
+                                  return listPedidos(context, index);
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                              }));
+                    }),
                   ),
                 )
               ],
@@ -297,9 +284,9 @@ class _VendasPageState extends State<VendasPage> {
             child: GestureDetector(
               onTap: () {
                 setState(() {
-                  idEdit = pedidosDisplay[index].id;
-                  clienteEdit = pedidosDisplay[index].clienteNome;
-                  clienteIdEdit = pedidosDisplay[index].idCliente;
+                  idEdit = vendas.pedidosDisplay[index].id;
+                  clienteEdit = vendas.pedidosDisplay[index].clienteNome;
+                  clienteIdEdit = vendas.pedidosDisplay[index].idCliente;
                 });
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => EditarPedido()));
@@ -331,7 +318,7 @@ class _VendasPageState extends State<VendasPage> {
                       Row(
                         children: [
                           Text(
-                            pedidosDisplay[index].id.toString(),
+                            vendas.pedidosDisplay[index].id.toString(),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
@@ -339,7 +326,7 @@ class _VendasPageState extends State<VendasPage> {
                             width: 5,
                           ),
                           Text(
-                            pedidosDisplay[index].vendedorNome,
+                            vendas.pedidosDisplay[index].vendedorNome,
                             style: TextStyle(fontSize: 12),
                           ),
                         ],
@@ -350,7 +337,7 @@ class _VendasPageState extends State<VendasPage> {
                       Column(
                         children: [
                           Text(
-                            pedidosDisplay[index].clienteNome,
+                            vendas.pedidosDisplay[index].clienteNome,
                             style: TextStyle(fontSize: 12),
                           ),
                         ],
@@ -361,8 +348,8 @@ class _VendasPageState extends State<VendasPage> {
                       Column(
                         children: [
                           Text(
-                            pedidosDisplay[index].fpagtoDescricao != null
-                                ? pedidosDisplay[index].fpagtoDescricao
+                            vendas.pedidosDisplay[index].fpagtoDescricao != null
+                                ? vendas.pedidosDisplay[index].fpagtoDescricao
                                 : 'Forma de pagamento não informada',
                             style: TextStyle(fontSize: 10),
                           ),
@@ -374,13 +361,13 @@ class _VendasPageState extends State<VendasPage> {
                       Row(
                         children: [
                           Text(
-                            pedidosDisplay[index].dataVenda,
+                            vendas.pedidosDisplay[index].dataVenda,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 14),
                           ),
                           Text(
-                            formatoValores
-                                .format(pedidosDisplay[index].totLiquido),
+                            formatoValores.format(
+                                vendas.pedidosDisplay[index].totLiquido),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,

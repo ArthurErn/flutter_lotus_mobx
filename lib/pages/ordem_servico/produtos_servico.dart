@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/editar.os.controller.dart';
+import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_item.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
@@ -41,7 +42,6 @@ class _ProdutosServicoState extends State<ProdutosServico> {
           TextEditingController(text: descontoServico.toString());
       calcularTotal();
 
-      formas.clear();
       selecionadoVenda = null;
     });
     getListarProdutosOS().then((value) {
@@ -49,12 +49,7 @@ class _ProdutosServicoState extends State<ProdutosServico> {
         osController.produtosOS = value;
       });
     });
-    getFormaPagamento().then((value) {
-      setState(() {
-        formas = value;
-        // selecionadoVenda = formas.indexOf(fpagtoDescricao);
-      });
-    });
+    editVenda.listarPagamento();
     super.initState();
   }
 
@@ -225,31 +220,33 @@ class _ProdutosServicoState extends State<ProdutosServico> {
             SizedBox(
               height: 6,
             ),
-            Container(
-              margin: EdgeInsets.only(left: 6),
-              child: DropdownButton(
-                hint: Text(
-                  'EDITAR FORMA DE PAGAMENTO',
-                  style: TextStyle(fontSize: 14),
+            Observer(builder: (_) {
+              return Container(
+                margin: EdgeInsets.only(left: 6),
+                child: DropdownButton(
+                  hint: Text(
+                    'EDITAR FORMA DE PAGAMENTO',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  value: selecionadoVenda,
+                  style: TextStyle(fontSize: 14, color: Colors.black),
+                  items: editVenda.formas.map((selecionadoVenda) {
+                    return DropdownMenuItem(
+                      value: selecionadoVenda != null
+                          ? selecionadoVenda
+                          : "EDITAR FORMA DE PAGAMENTO",
+                      child: Text(selecionadoVenda.descricao),
+                    );
+                  }).toList(),
+                  onChanged: (valorNovo) {
+                    setState(() {
+                      selecionadoVenda = valorNovo;
+                      fpagtoId = selecionadoVenda.id;
+                    });
+                  },
                 ),
-                value: selecionadoVenda,
-                style: TextStyle(fontSize: 14, color: Colors.black),
-                items: formas.map((selecionadoVenda) {
-                  return DropdownMenuItem(
-                    value: selecionadoVenda != null
-                        ? selecionadoVenda
-                        : "EDITAR FORMA DE PAGAMENTO",
-                    child: Text(selecionadoVenda.descricao),
-                  );
-                }).toList(),
-                onChanged: (valorNovo) {
-                  setState(() {
-                    selecionadoVenda = valorNovo;
-                    fpagtoId = selecionadoVenda.id;
-                  });
-                },
-              ),
-            ),
+              );
+            }),
             SizedBox(
               height: 6,
             ),

@@ -162,7 +162,6 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
           padding: EdgeInsets.all(6),
           child: Container(
             width: MediaQuery.of(context).size.width / 1.005,
-            //margin: EdgeInsets.all(6),
             decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(8)),
@@ -234,21 +233,4 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
           ))
     ]);
   }
-
-  //////////////////////////////////////////////////////////////////////////////
-  //NAO UTILIZADO
-  void saveData() {
-    List<String> balancoSalvo = balanco.balancoEstoque
-        .map((item) => json.encode(item.toMap()))
-        .toList();
-    sharedPreferences.setStringList('list', balancoSalvo);
-  }
-
-  //NAO UTILIZADO
-  void loadData() {
-    List<String> balancoSalvo = sharedPreferences.getStringList('list');
-    balanco.balancoEstoque =
-        balancoSalvo.map((item) => Balanco.fromMap(json.decode(item))).toList();
-  }
-  //////////////////////////////////////////////////////////////////////////////
 }

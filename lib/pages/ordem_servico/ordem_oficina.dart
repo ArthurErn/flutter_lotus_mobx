@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
 import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
@@ -12,7 +13,6 @@ import 'package:lotus_erp/pages/ordem_servico/alocar_tecnico.dart';
 import 'package:lotus_erp/pages/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/pages/ordem_servico/produtos_servico.dart';
 import 'package:lotus_erp/pages/vendas/nova_venda.dart';
-
 
 List<Ordem> ordem = [];
 final oficina = OrdemOficinaController();
@@ -28,9 +28,7 @@ class _OrdemServicoOficinaState extends State<OrdemServicoOficina> {
   @override
   void initState() {
     setState(() {
-      getFormaPagamento().then((value) {
-        formas = value;
-      });
+      editVenda.listarPagamento();
       buscarController = TextEditingController(text: "");
     });
     super.initState();

@@ -3,6 +3,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/balanco.controller.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
 import 'package:lotus_erp/model/balanco_estoque/construtor_categoria.dart';
 import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
@@ -28,8 +30,6 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
   var valorController = TextEditingController(text: valorCodigoBarrasProduto);
   List<Produtos> produtoVendasLista = [];
   List<Produtos> produtoVendasListaDisplay = [];
-  List<GrupoProdutos> grupoValue = [];
-  List<GrupoProdutos> grupoDisplay = [];
 
   @override
   void initState() {
@@ -53,13 +53,9 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
           });
         }
       });
+      balanco.getListaGrupo();
     });
-    getGrupo().then((value) {
-      setState(() {
-        grupoValue.addAll(value);
-        grupoDisplay = grupoValue;
-      });
-    });
+
     super.initState();
   }
 
@@ -84,15 +80,16 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
       ),
       child: Scaffold(
           appBar: AppBar(
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: <Color>[Colors.blue[900], Colors.blue])),
-            ),
-            toolbarHeight: 65,
-              title: Text("Produtos"), backgroundColor: Colors.blue[900]),
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: <Color>[Colors.blue[900], Colors.blue])),
+              ),
+              toolbarHeight: 65,
+              title: Text("Produtos"),
+              backgroundColor: Colors.blue[900]),
           backgroundColor: Colors.transparent,
           body: SingleChildScrollView(
             child: Column(children: [
@@ -118,16 +115,18 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
               SizedBox(
                 height: 10,
               ),
-              Container(
-                  height: 70,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: grupoDisplay?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      return listGrupo(context, index);
-                    },
-                  )),
+              Observer(builder: (_) {
+                return Container(
+                    height: 70,
+                    width: MediaQuery.of(context).size.width,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: balanco.grupoDisplay?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return listGrupo(context, index);
+                      },
+                    ));
+              }),
               SizedBox(
                 height: 15,
               ),
@@ -139,7 +138,7 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                      physics: BouncingScrollPhysics(),
                       itemCount: produtoVendasListaDisplay.length,
                       // ignore: missing_return
                       itemBuilder: (BuildContext context, int index) {
@@ -163,13 +162,13 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
   }
 
   listGrupo(BuildContext context, index) {
-    String grupoId = grupoValue[index].idGrupoFormatado;
+    String grupoId = balanco.grupoValue[index].idGrupoFormatado;
     return GestureDetector(
       onTap: () {
         List<Produtos> produtosGrupo = [];
         setState(() {
           tipo = 5;
-          pvalor = grupoValue[index].idGrupo.toString();
+          pvalor = balanco.grupoValue[index].idGrupo.toString();
           getProdutos().then((value) {
             setState(() {
               produtosGrupo.addAll(value);
@@ -187,12 +186,25 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
               margin: EdgeInsets.symmetric(horizontal: 10),
               decoration: BoxDecoration(
                   border: Border(
-                  bottom: BorderSide(color: Colors.black, width: 1,),
-                  top: BorderSide(color: Colors.black, width: 1,),
-                  left: BorderSide(color: Colors.black, width: 1,),
-                  right: BorderSide(color: Colors.black, width: 1,),
-                ),
-                  borderRadius: BorderRadius.circular(8), color: Colors.white),
+                    bottom: BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                    top: BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                    left: BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                    right: BorderSide(
+                      color: Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white),
               child: Column(
                 children: [
                   Image(
@@ -208,7 +220,7 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text(grupoDisplay[index].grupoDescricao,
+                  Text(balanco.grupoDisplay[index].grupoDescricao,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 10.5,
@@ -261,45 +273,74 @@ class _AdicionarProdutoState extends State<AdicionarProduto> {
                             'authorization': basicAuth
                           })),
                   title: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 7),
-                    child: Text(produtoVendasListaDisplay[index].id_produto.toString(), 
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),),
-                  ),       
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border(
-                      bottom: BorderSide(color: Colors.grey[600],),
-                      top: BorderSide(color: Colors.grey[600],),
-                      left: BorderSide(color: Colors.grey[600],),
-                      right: BorderSide(color: Colors.grey[600],)
-                  ))
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 1, horizontal: 7),
+                            child: Text(
+                              produtoVendasListaDisplay[index]
+                                  .id_produto
+                                  .toString(),
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.grey[600],
+                                  ),
+                                  top: BorderSide(
+                                    color: Colors.grey[600],
+                                  ),
+                                  left: BorderSide(
+                                    color: Colors.grey[600],
+                                  ),
+                                  right: BorderSide(
+                                    color: Colors.grey[600],
+                                  )))),
+                      SizedBox(height: 2),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            produtoVendasListaDisplay[index].descricao,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black),
+                          ),
+                          SizedBox(height: 3),
+                          Text(
+                            produtoVendasListaDisplay[index].fabricante_nome,
+                            style: TextStyle(
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.normal,
+                                fontSize: 13),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            "R\$" +
+                                formatoValores
+                                    .format(produtoVendasListaDisplay[index]
+                                        .produto_pvenda)
+                                    .toString(),
+                            style: TextStyle(
+                              color: Colors.blue[900],
+                              fontWeight: FontWeight.w600,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                SizedBox(height: 2),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(produtoVendasListaDisplay[index].descricao, 
-                      style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),),
-
-                    SizedBox(height: 3),
-
-                    Text(produtoVendasListaDisplay[index].fabricante_nome, 
-                      style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.normal, fontSize: 13),),
-
-                    SizedBox(height: 4),
-
-                    Text("R\$"+formatoValores.format(produtoVendasListaDisplay[index].produto_pvenda).toString(), 
-                      style: TextStyle(color: Colors.blue[900], fontWeight: FontWeight.w600, ),)
-                  ],
-                )               
-              ],
-            ),
                 ),
               ],
             )),

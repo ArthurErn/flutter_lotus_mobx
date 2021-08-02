@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:lotus_erp/pages/login/login_page.dart';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
+import 'package:mobx/mobx.dart';
 
 //TIPO = 1 CASO NÃO UTILIZE CÓDIGO DE BARRAS, AO CONTRÁRIO UTILIZARÁ TIPO = 5
 int tipo = 1;
@@ -53,7 +54,7 @@ Future<List<Produtos>> getProdutos() async {
 }
 
 //RETORNA LISTA DE GRUPOS (FILTRO DE PRODUTOS) DE ACORDO COM A EMPRESA
-Future<List<GrupoProdutos>> getGrupo() async {
+Future<ObservableList<GrupoProdutos>> getGrupo() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
@@ -66,7 +67,7 @@ Future<List<GrupoProdutos>> getGrupo() async {
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
 
-  List<GrupoProdutos> grupos = [];
+  ObservableList<GrupoProdutos> grupos = ObservableList();
 
   for (var u in jsonData) {
     GrupoProdutos grupo = GrupoProdutos(

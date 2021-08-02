@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
+import 'package:lotus_erp/controllers/vendas.controller.dart';
 import 'package:lotus_erp/repository/vendas/alterar_pagamento.dart';
 import 'package:lotus_erp/repository/vendas/dropdown_venda_auth.dart';
 import 'package:asuka/asuka.dart' as asuka;
@@ -27,18 +30,14 @@ class _EditarPedidoState extends State<EditarPedido> {
   @override
   void initState() {
     setState(() {
-      pedidos.clear();
-      pedidosDisplay = pedidos;
+      vendas.pedidos.clear();
+      vendas.pedidosDisplay = vendas.pedidos;
       dataController = TextEditingController(text: "");
       isCliente = false;
       isEdit = true;
       selecionadoVenda = null;
     });
-    getFormaPagamento().then((value) {
-      setState(() {
-        formas = value;
-      });
-    });
+    editVenda.listarPagamento();
     getItensPedido().then((value) {
       setState(() {
         produtoVendas = product;
@@ -141,32 +140,34 @@ class _EditarPedidoState extends State<EditarPedido> {
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 6),
-                        child: DropdownButton(
-                          //isExpanded: true,
-                          hint: Text(
-                            'ALTERAR FORMA DE PAGAMENTO',
-                            style: TextStyle(fontSize: 13),
+                      Observer(builder: (_) {
+                        return Container(
+                          margin: EdgeInsets.only(left: 6),
+                          child: DropdownButton(
+                            //isExpanded: true,
+                            hint: Text(
+                              'ALTERAR FORMA DE PAGAMENTO',
+                              style: TextStyle(fontSize: 13),
+                            ),
+                            value: selecionadoVenda,
+                            style: TextStyle(fontSize: 11, color: Colors.black),
+                            items: editVenda.formas.map((selecionadoVenda) {
+                              return DropdownMenuItem(
+                                value: selecionadoVenda != null
+                                    ? selecionadoVenda
+                                    : "ALTERAR FORMA DE PAGAMENTO",
+                                child: Text(selecionadoVenda.descricao),
+                              );
+                            }).toList(),
+                            onChanged: (valorNovo) {
+                              setState(() {
+                                selecionadoVenda = valorNovo;
+                                alterarPagamento();
+                              });
+                            },
                           ),
-                          value: selecionadoVenda,
-                          style: TextStyle(fontSize: 11, color: Colors.black),
-                          items: formas.map((selecionadoVenda) {
-                            return DropdownMenuItem(
-                              value: selecionadoVenda != null
-                                  ? selecionadoVenda
-                                  : "ALTERAR FORMA DE PAGAMENTO",
-                              child: Text(selecionadoVenda.descricao),
-                            );
-                          }).toList(),
-                          onChanged: (valorNovo) {
-                            setState(() {
-                              selecionadoVenda = valorNovo;
-                              alterarPagamento();
-                            });
-                          },
-                        ),
-                      ),
+                        );
+                      }),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GestureDetector(

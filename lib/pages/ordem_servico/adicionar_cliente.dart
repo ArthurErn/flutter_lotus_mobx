@@ -137,13 +137,6 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.transparent,
-                    // borderRadius: BorderRadius.circular(8),
-                    // border: Border(
-                    //   top: BorderSide(width: 1, color: Colors.black),
-                    //   bottom: BorderSide(width: 1, color: Colors.black),
-                    //   left: BorderSide(width: 1, color: Colors.black),
-                    //   right: BorderSide(width: 1, color: Colors.black),
-                    // )
                   ),
                   child: Observer(builder: (_) {
                     return Container(

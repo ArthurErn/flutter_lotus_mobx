@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:lotus_erp/pages/login/functions/index_api.dart';
 import 'package:lotus_erp/pages/login/login_page.dart';
+import 'package:mobx/mobx.dart';
 
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA
-Future<List<FormaPagamento>> getFormaPagamento() async {
+Future<ObservableList<FormaPagamento>> getFormaPagamento() async {
 
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
@@ -19,7 +20,7 @@ Future<List<FormaPagamento>> getFormaPagamento() async {
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
-  List<FormaPagamento> formas = [];
+  ObservableList<FormaPagamento> formas = ObservableList();
 
   for (var u in jsonData) {
     FormaPagamento forma = FormaPagamento(
