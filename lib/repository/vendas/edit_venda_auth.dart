@@ -5,7 +5,6 @@ import 'package:lotus_erp/repository/login/login_auth.dart';
 import 'package:lotus_erp/views/homepage/home_page.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:lotus_erp/views/vendas/layout/adicionar_quantidade.dart';
-import 'package:lotus_erp/views/vendas/layout/editar_venda.dart';
 import 'package:lotus_erp/views/vendas/vendas_page.dart';
 
 double totalLiquidoVenda = 0;

@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:asuka/asuka.dart' as asuka;
 import 'package:flutter/services.dart';
 import 'package:lotus_erp/views/balanco_estoque/layout/adicionar_produto.dart';
-import 'package:lotus_erp/views/balanco_estoque/layout/produtos_balanco.dart';
 import 'package:lotus_erp/views/balanco_estoque/post.produto.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
-import 'package:lotus_erp/repository/balanco_estoque/adicionar_produto_auth.dart';
 
 int valorProduto;
 var _usuario = configLoginControllerText;

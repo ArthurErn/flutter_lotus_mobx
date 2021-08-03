@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/controllers/clientes.controller.dart';
 import 'package:lotus_erp/model/cadastro_clientes/construtor_municipio.dart';
-import 'package:lotus_erp/views/clientes/cadastro_page.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
 
 //PENULTIMA ROTA, PARA CONFIRMACAO DE IBGE, APÓS CONFIRMAÇÃO DE IBGE PARTIMOS PARA cadastro_clientes_auth (ROTA FINAL)

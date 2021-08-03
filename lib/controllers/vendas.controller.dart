@@ -18,7 +18,6 @@ abstract class _VendasControllerBase with Store {
   listarPedidos() {
     getPedidos().then((value) {
       pedidos.clear();
-      pedidosDisplay.clear();
       pedidos.addAll(value);
       pedidosDisplay = pedidos;
     });

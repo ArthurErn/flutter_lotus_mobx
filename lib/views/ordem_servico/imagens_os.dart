@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:lotus_erp/repository/ordem_servico/image_post.dart';
+import 'package:lotus_erp/repository/ordem_servico/inserir_imagem.dart';
 import 'package:lotus_erp/controllers/galeria_controller.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-
 
 var galeria = GaleriaOS();
 class ImagensOS extends StatefulWidget {

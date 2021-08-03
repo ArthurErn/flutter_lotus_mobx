@@ -6,7 +6,6 @@ import 'package:lotus_erp/views/login/functions/index_api.dart';
 import 'package:lotus_erp/views/login/layout/login_dropdown.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:lotus_erp/views/vendas/layout/adicionar_quantidade.dart';
-
 import 'package:lotus_erp/views/vendas/nova_venda.dart';
 import 'package:lotus_erp/views/vendas/vendas_page.dart';
 

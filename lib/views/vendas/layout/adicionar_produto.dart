@@ -10,7 +10,6 @@ import 'package:lotus_erp/views/balanco_estoque/functions/balanco_barcode.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:lotus_erp/views/vendas/vendas_page.dart';
 import 'package:mobx/mobx.dart';
-
 import 'adicionar_quantidade.dart';
 
 int valorId;

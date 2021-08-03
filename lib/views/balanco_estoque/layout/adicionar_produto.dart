@@ -1,12 +1,10 @@
 //TELA QUE APARECE AO CLICAR EM "ADICIONAR PRODUTO"
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/balanco.controller.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
-import 'package:lotus_erp/model/balanco_estoque/construtor_categoria.dart';
 import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/views/balanco_estoque/functions/balanco_barcode.dart';
 import 'package:lotus_erp/views/login/login_page.dart';

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lotus_erp/controllers/editar.os.controller.dart';
-import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/atualizar_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
-import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
 import 'package:lotus_erp/repository/ordem_servico/ordem_servico_auth.dart';
-import 'package:lotus_erp/model/ordem_servico/construtor_produtos.dart';
-import 'package:lotus_erp/views/ordem_servico/adicionar_produto.dart';
 import 'package:lotus_erp/views/ordem_servico/alocar_tecnico.dart';
 import 'package:lotus_erp/views/ordem_servico/checklist.dart';
 import 'package:lotus_erp/views/ordem_servico/editar_cliente.dart';
