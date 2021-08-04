@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:lotus_erp/views/ordem_servico/imagens_os.dart';
+import 'dart:typed_data';
+import 'package:async/async.dart';
 
 Future postImage() async {
   var _usuario = configLoginControllerText;
@@ -12,18 +14,19 @@ Future postImage() async {
   String base64Image = base64Encode(galeria.image.readAsBytesSync());
   String filename = galeria.image.path.split('/').last;
 
-  var url =
-      Uri.parse('http://$_ip/mobile/os_oficina_foto_enviar?idos=$ordemId');
+  var url = Uri.parse('http://$_ip/mobile/os_oficina_foto_enviar');
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  
-  http.post(url,
-      headers: <String, String>{'authorization': basicAuth},
-      body: {'imagem': base64Image, 'nome': filename}).then((resultado) {
-    print(resultado.body);
+  var json =
+      jsonEncode({'imagem': base64Image});
+  http
+      .post(url,
+          headers: <String, String>{'authorization': basicAuth}, body: json)
+      .then((value) {
+    print(value.body);
+    print(base64Image);
   });
-  
-  // ignore: deprecated_member_use
+
   // var stream =
   //     new http.ByteStream(DelegatingStream.typed(galeria.image.openRead()));
   // var length = await galeria.image.length();
