@@ -197,17 +197,13 @@ class _ItensBalancoState extends State<ItensBalanco> {
                               ),
                               IconButton(
                                 alignment: Alignment.center,
-                                onPressed: () {
+                                onPressed: () async{
                                   setState(() {
                                     idProduto = balancoProdutos
                                         .balancoEstoqueProdutos[index].idProduto
                                         .toString();
-                                    deleteProdutos();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ItensBalanco()));
+                                    
+
                                     asuka.showSnackBar(SnackBar(
                                         duration: Duration(seconds: 2),
                                         content: Row(
@@ -223,6 +219,9 @@ class _ItensBalancoState extends State<ItensBalanco> {
                                           ],
                                         )));
                                   });
+                                  await deleteProdutos().then((value) {
+                                      balancoProdutos.getLista();
+                                    });
                                 },
                                 icon: Icon(
                                   Icons.delete,

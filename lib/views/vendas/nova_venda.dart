@@ -40,7 +40,6 @@ class _NovaVendaState extends State<NovaVenda> {
     setState(() {
       produtoVendas = product;
     });
-    
     resetarValores();
     editVenda.listarPagamento();
     novaVenda.listarClientes();
@@ -120,9 +119,7 @@ class _NovaVendaState extends State<NovaVenda> {
                             if (novaVenda.clientesDisplayNovaVenda.length > 0) {
                               return listclientes(context, index);
                             } else {
-                              return Center(
-                                child: CircularProgressIndicator(),
-                              );
+                              return Center();
                             }
                           }),
                     );
@@ -304,29 +301,31 @@ class _NovaVendaState extends State<NovaVenda> {
                     ],
                   ),
                   Observer(builder: (_) {
-                    return Container(
-                      margin: EdgeInsets.only(left: 6),
-                      child: DropdownButton(
-                        //isExpanded: true,
-                        hint: Text(
-                          'SELECIONE FORMA DE PAGAMENTO',
-                          style: TextStyle(fontSize: 13),
+                    return Center(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 6),
+                        child: DropdownButton(
+                          //isExpanded: true,
+                          hint: Text(
+                            'SELECIONE FORMA DE PAGAMENTO',
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          value: selecionadoVenda,
+                          style: TextStyle(fontSize: 13, color: Colors.black),
+                          items: editVenda.formas.map((selecionadoVenda) {
+                            return DropdownMenuItem(
+                              value: selecionadoVenda != null
+                                  ? selecionadoVenda
+                                  : "SELECIONE FORMA DE PAGAMENTO",
+                              child: Text(selecionadoVenda.descricao),
+                            );
+                          }).toList(),
+                          onChanged: (valorNovo) {
+                            setState(() {
+                              selecionadoVenda = valorNovo;
+                            });
+                          },
                         ),
-                        value: selecionadoVenda,
-                        style: TextStyle(fontSize: 11, color: Colors.black),
-                        items: editVenda.formas.map((selecionadoVenda) {
-                          return DropdownMenuItem(
-                            value: selecionadoVenda != null
-                                ? selecionadoVenda
-                                : "SELECIONE FORMA DE PAGAMENTO",
-                            child: Text(selecionadoVenda.descricao),
-                          );
-                        }).toList(),
-                        onChanged: (valorNovo) {
-                          setState(() {
-                            selecionadoVenda = valorNovo;
-                          });
-                        },
                       ),
                     );
                   }),
@@ -437,6 +436,10 @@ class _NovaVendaState extends State<NovaVenda> {
                               postItem().then((value) {
                                 movimentarEstoque().then((value) {
                                   afterPost(context);
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => VendasPage()));
                                 });
                               });
                             },
@@ -448,6 +451,10 @@ class _NovaVendaState extends State<NovaVenda> {
                               statusCabecalho = 1;
                               postItem().then((value) {
                                 afterPost(context);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => VendasPage()));
                               });
                             },
                             child: Text("Não"),
@@ -484,10 +491,6 @@ class _NovaVendaState extends State<NovaVenda> {
                     FlatButton(
                         onPressed: () {
                           Navigator.of(_context).pop();
-                          Navigator.push(
-                              _context,
-                              MaterialPageRoute(
-                                  builder: (context) => VendasPage()));
                         },
                         child: Text('OK'))
                   ],

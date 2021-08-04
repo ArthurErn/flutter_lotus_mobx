@@ -27,7 +27,6 @@ class VendasPage extends StatefulWidget {
 }
 
 class _VendasPageState extends State<VendasPage> {
-
   @override
   void initState() {
     resetarCampos();
@@ -173,11 +172,12 @@ class _VendasPageState extends State<VendasPage> {
                     porcentagensProdutos.clear();
                     valorFinalProduto.clear();
                     totalLiquidoVenda = 0;
+                    product.clear();
                     aux = -1;
                     indice = 0;
                     qtdItens = 0;
                     totalBrutoVenda = 0;
-                    Navigator.pushReplacement(context,
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (context) => NovaVenda()));
                   },
                   child: Container(
@@ -209,8 +209,8 @@ class _VendasPageState extends State<VendasPage> {
                 Center(
                   child: Container(
                     height: isSearch == true
-                        ? MediaQuery.of(context).size.height / 1.36
-                        : MediaQuery.of(context).size.height / 1.25,
+                        ? MediaQuery.of(context).size.height / 1.46
+                        : MediaQuery.of(context).size.height / 1.35,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: Colors.transparent,
@@ -360,6 +360,7 @@ class _VendasPageState extends State<VendasPage> {
       ],
     );
   }
+
   resetarCampos() {
     setState(() {
       valorCodigoBarras = "";

@@ -55,8 +55,9 @@ class _EditarPedidoState extends State<EditarPedido> {
         appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => VendasPage()));
+                // Navigator.pushReplacement(context,
+                //     MaterialPageRoute(builder: (context) => VendasPage()));
+                Navigator.of(context).pop();
               },
               icon: Icon(Icons.arrow_back),
             ),
@@ -91,8 +92,8 @@ class _EditarPedidoState extends State<EditarPedido> {
                             fontSize: 19, fontWeight: FontWeight.bold),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          child: Container(
                             height: isCliente == true
                                 ? MediaQuery.of(context).size.height / 2.5
                                 : MediaQuery.of(context).size.height / 1.15 -
@@ -127,8 +128,7 @@ class _EditarPedidoState extends State<EditarPedido> {
                                     }
                                   });
                             }),
-                          )
-                      ),
+                          )),
                       Center(
                         child: Container(
                           child: Text(
