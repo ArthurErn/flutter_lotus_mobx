@@ -30,9 +30,11 @@ Future postImage() async {
   //   print(json);
   // });
 
-  // STREAM
+  //BYTESTREAM
   uploadFile('http://$_ip/mobile/os_oficina_foto_enviar',
       Uri.file(galeria.image.path), _usuario, _senha, ordemId);
+
+
   // var stream =
   //     new http.ByteStream(DelegatingStream.typed(galeria.image.openRead()));
   // var length = await galeria.image.length();
