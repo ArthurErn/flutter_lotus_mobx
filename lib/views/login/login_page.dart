@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lotus_erp/model/login/construtor_empresa.dart';
+import 'package:lotus_erp/repository/login/login_auth.dart';
+import 'package:lotus_erp/views/login/functions/persist_fields.dart';
 import 'package:lotus_erp/views/login/layout/api_field.dart';
 import 'package:lotus_erp/views/login/layout/login_field.dart';
-import 'package:lotus_erp/views/login/functions/persist_fields.dart';
-import '../../repository/login/login_auth.dart';
+
 
 //LOGIN
 var loginController = TextEditingController();
@@ -282,7 +283,7 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                         if (isLogin == true) {
                           setState(() {
-                            AuthenticationLogin().fetch();
+                            AuthenticationLogin().fetch(context);
                             AuthenticationLogin().getUsuario();
                             if (lembrar == true) {
                               salvarLogin();
@@ -290,7 +291,7 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         } else {
                           setState(() {
-                            AuthenticationEmpresas().getStatus();
+                            AuthenticationEmpresas().getStatus(context);
                             actionSalvar();
                             isLogin = true;
                             selecionado = null;

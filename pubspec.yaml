@@ -36,6 +36,8 @@ dependencies:
   mobx: ^2.0.1
   flutter_mobx:
   http_parser: ^4.0.0
+  page_transition: ^2.0.2
+  cherry_toast: ^1.0.0
 
 dev_dependencies:
   flutter_test:

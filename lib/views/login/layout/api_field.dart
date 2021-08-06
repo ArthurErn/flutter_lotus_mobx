@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lotus_erp/views/login/layout/textfield_layout.dart';
+
 import '../login_page.dart';
 
 //API FIELD
@@ -18,12 +19,12 @@ class ApiField extends StatelessWidget {
           buildTextField(context, Icons.meeting_room_outlined, 'IP/Porta',
               false, ipController),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           buildTextField(context, Icons.admin_panel_settings,
               'Insira o usuário', false, configLoginController),
           SizedBox(
-            height: 20,
+            height: 15,
           ),
           buildTextField(
               context, Icons.lock_open, 'Insira a senha', true, passController)

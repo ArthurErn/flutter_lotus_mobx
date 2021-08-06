@@ -1,13 +1,14 @@
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lotus_erp/model/login/construtor_empresa.dart';
+import 'package:lotus_erp/model/login/construtor_login.dart';
 import 'package:lotus_erp/views/homepage/home_page.dart';
-import 'package:lotus_erp/views/login/layout/error_messages.dart';
 import 'package:lotus_erp/views/login/functions/index_api.dart';
 import 'dart:convert';
 import '../../views/login/login_page.dart';
-import '../../views/login/layout/login_dropdown.dart';
-import '../../model/login/construtor_login.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:cherry_toast/cherry_toast.dart';
 
 var grade;
 var empresa = 0;
@@ -32,13 +33,15 @@ class AuthenticationEmpresas {
   }
 
   //CHECA A CONEXÃO COM A API
-  Future getStatus() async {
+  Future getStatus(BuildContext context) async {
     inicializar().then((response) {
       if (response.statusCode == 200) {
         isLogin = true;
+        erro(
+            context, 'Conectado com Sucesso!', Icons.check, Colors.green);
       } else if (response.statusCode == 401) {
         //ERRO DE API
-        errorApiInput(formKey.currentContext);
+        erro(context, 'Conexão invalida', Icons.error, Colors.red);
       }
     });
   }
@@ -96,19 +99,31 @@ class AuthenticationLogin {
   }
 
   //CHECA SE A RESPOSTA FOI 200 (SUCESSO), CASO NAO SEJA RETORNA UM ERRO
-  Future fetch() async {
-    inicializar().then((resposta) async {
-      var responseJson = await json.decode(resposta.body);
+  Future fetch(BuildContext context) async {
+    await inicializar().then((resposta) async {
       if (resposta.statusCode == 200) {
         if (resposta.body.contains("MESSAGE")) {
-          errorDadosInput(formKey.currentContext);
+          erro(context, 'Campos Invalidos!', Icons.error, Colors.red);
+          resposta.body = '';
         } else {
           print('logou');
-          Navigator.pushReplacement(formKey.currentContext,
-              MaterialPageRoute(builder: (context) => HomePage()));
+          erro(context, 'Login efetuado! redirecionando..', Icons.check,
+              Colors.green);
+          Future.delayed(Duration(seconds: 2)).then((value) {
+            Navigator.pushReplacement(
+            context,
+            PageTransition(
+              duration: Duration(milliseconds: 210),
+              type: PageTransitionType.leftToRight,
+              alignment: Alignment.topCenter,
+              child: HomePage(),
+            ),
+          );
+          });
+          
         }
       } else if (resposta.statusCode != 200) {
-        errorDadosInput(formKey.currentContext);
+        erro(context, 'Campos Invalidos!', Icons.error, Colors.red);
       }
     });
   }
@@ -120,4 +135,18 @@ class AuthenticationLogin {
       idUsuario = await responseJson[0]["usuario_id"];
     });
   }
+}
+
+Widget erro(BuildContext context, String text, IconData icon, Color color) {
+  return CherryToast(
+          themeColor: color,
+          icon: Icon(icon, color: color,),
+          title: "",
+          displayTitle: false,
+          description: text,
+          descriptionStyle: TextStyle(fontSize: 15),
+          animationType: ANIMATION_TYPE.FROM_LEFT,
+          animationDuration: Duration(milliseconds: 500),
+          autoDismiss: true)
+      .show(context);
 }
