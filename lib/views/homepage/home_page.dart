@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             //LOGO HOMEPAGE
             LogoHomePage(),
-            mobDashboard == 0
+            mobDashboard == 1
                 ? PageView(
                     children: [
                       Center(
@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18)),
                                     series: <ChartSeries>[
-                                      ColumnSeries<ChartModel, String>(
+                                      BarSeries<ChartModel, String>(
                                           name: "Vendas Mensais",
                                           color: Colors.blue[200],
                                           yAxisName: "Valores",
@@ -131,9 +131,18 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 25,
-                          )
+                          IconButton(
+                              icon: Icon(
+                                Icons.refresh,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                getListarVendaAnual().then((_value) {
+                                  setState(() {
+                                    vendasAnual = _value;
+                                  });
+                                });
+                              })
                         ],
                       )),
                       Center(
@@ -158,13 +167,13 @@ class _HomePageState extends State<HomePage> {
                                     legend: Legend(
                                         isVisible: false, isResponsive: true),
                                     title: ChartTitle(
-                                        text: "Contas Pagas",
+                                        text: "Contas a Pagar Pagas",
                                         textStyle: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18)),
                                     series: <ChartSeries>[
                                       ColumnSeries<ContasPagas, String>(
-                                          name: "Contas Pagas",
+                                          name: "Contas a Pagar Pagas",
                                           color: Colors.purple[200],
                                           yAxisName: "Valores",
                                           xAxisName: "Meses",
@@ -175,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                                               data.totPago,
                                           dataLabelSettings:
                                               const DataLabelSettings(
-                                                  isVisible: false),
+                                                  isVisible: true),
                                           enableTooltip: true),
                                     ],
                                     primaryXAxis: CategoryAxis(
@@ -187,9 +196,18 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 25,
-                          ),
+                          IconButton(
+                              icon: Icon(
+                                Icons.refresh,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                getListarContasPagas().then((_value) {
+                                  setState(() {
+                                    contasPagas = _value;
+                                  });
+                                });
+                              })
                         ],
                       )),
                       Center(
@@ -259,69 +277,28 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 25,
-                          )
+                          IconButton(
+                              icon: Icon(
+                                Icons.refresh,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                getListarContasPagar().then((_value) {
+                                  setState(() {
+                                    contasPagar = _value;
+                                  });
+                                });
+                                getListarContasReceber().then((_value) {
+                                  setState(() {
+                                    contasReceber = _value;
+                                  });
+                                });
+                              })
                         ],
                       )),
-                      // Center(
-                      //     child: Column(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     SizedBox(
-                      //       height: 70,
-                      //     ),
-                      //     Container(
-                      //       height: MediaQuery.of(context).size.height / 2,
-                      //       width: MediaQuery.of(context).size.width - 30,
-                      //       decoration: BoxDecoration(
-                      //           color: Colors.white,
-                      //           borderRadius: BorderRadius.circular(40)),
-                      //       child: Row(
-                      //         mainAxisAlignment: MainAxisAlignment.center,
-                      //         children: [
-                      //           SfCartesianChart(
-                      //               tooltipBehavior: TooltipBehavior(enable: true),
-                      //               legend:
-                      //                   Legend(isVisible: false, isResponsive: true),
-                      //               title: ChartTitle(
-                      //                   text: "Contas a Receber (PENDENTES)",
-                      //                   textStyle: TextStyle(
-                      //                       fontWeight: FontWeight.bold,
-                      //                       fontSize: 18)),
-                      //               series: <ChartSeries>[
-                      //                 StackedBarSeries<ChartModel, String>(
-                      //                     name: "Contas a Receber",
-                      //                     color: Colors.green[200],
-                      //                     yAxisName: "Valores",
-                      //                     xAxisName: "Meses",
-                      //                     dataSource: contasReceber,
-                      //                     xValueMapper: (ChartModel data, _) =>
-                      //                         data.mes,
-                      //                     yValueMapper: (ChartModel data, _) =>
-                      //                         num.parse(data.totLiquido.toString()),
-                      //                     dataLabelSettings: const DataLabelSettings(
-                      //                         isVisible: true),
-                      //                     enableTooltip: true),
-                      //               ],
-                      //               primaryXAxis: CategoryAxis(
-                      //                   edgeLabelPlacement:
-                      //                       EdgeLabelPlacement.shift)),
-                      //           SizedBox(
-                      //             width: 15,
-                      //           )
-                      //         ],
-                      //       ),
-                      //     ),
-                      //     SizedBox(
-                      //       height: 25,
-                      //     )
-                      //   ],
-                      // )),
                     ],
                   )
                 : Center(),
-            //LIST VIEW HORIZONTAL ESTILO NUBANK (BOTTOM)
             BottomHomePage()
           ],
         ),
