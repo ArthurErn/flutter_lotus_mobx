@@ -14,6 +14,7 @@ var grade;
 var empresa = 0;
 var idColaborador;
 var idUsuario;
+var mobDashboard;
 
 //LISTA DE EMPRESAS QUE APARECEM NO DROPDOWN
 class AuthenticationEmpresas {
@@ -107,8 +108,7 @@ class AuthenticationLogin {
           print('logou');
           // erro(context, 'Login efetuado! redirecionando..', Icons.check,
           //     Colors.green);
-          Future.delayed(Duration(seconds: 2)).then((value) {
-            Navigator.pushReplacement(
+          Navigator.pushReplacement(
             context,
             PageTransition(
               duration: Duration(milliseconds: 210),
@@ -117,8 +117,6 @@ class AuthenticationLogin {
               child: HomePage(),
             ),
           );
-          });
-          
         }
       } else if (resposta.statusCode != 200) {
         erro(context, 'Campos Invalidos!', Icons.error, Colors.red);
@@ -131,6 +129,7 @@ class AuthenticationLogin {
       var responseJson = await json.decode(resposta.body);
       idColaborador = await responseJson[0]["colaborador_id"];
       idUsuario = await responseJson[0]["usuario_id"];
+      mobDashboard = await responseJson[0]["mob_dashboard"];
     });
   }
 }
@@ -138,7 +137,10 @@ class AuthenticationLogin {
 Widget erro(BuildContext context, String text, IconData icon, Color color) {
   return CherryToast(
           themeColor: color,
-          icon: Icon(icon, color: color,),
+          icon: Icon(
+            icon,
+            color: color,
+          ),
           title: "",
           displayTitle: false,
           description: text,

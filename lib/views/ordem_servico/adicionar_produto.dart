@@ -256,7 +256,7 @@ class _AdicionarProdutoOrdemServicoState
 
                       //ROTA PARA TRAZER AS FOTOS DO GRUPO (FILTRO)
                       image: NetworkImage(
-                          "http://$_ip/contextmobile/findimagem?tipo=4&img=GRU_$grupoId.PNG&escala=1000",
+                          "http://$_ip/findimagem?tipo=1&escala=1000&img=PRO_$grupoId.PNG",
                           headers: <String, String>{
                             'authorization': basicAuth
                           }),
@@ -328,7 +328,7 @@ class _AdicionarProdutoOrdemServicoState
 
                       //ROTA PARA TRAZER AS IMAGENS DOS PRODUTOS
                       image: NetworkImage(
-                          "http://$_ip/contextmobile/findimagem?tipo=1&img=PRO_$produtoId.PNG&escala=3000",
+                          "http://$_ip/findimagem?tipo=1&escala=1000&img=PRO_${produtoId}_001.PNG",
                           headers: <String, String>{
                             'authorization': basicAuth
                           })),

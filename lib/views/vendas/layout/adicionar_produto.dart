@@ -184,7 +184,7 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
 
                       //ROTA PARA TRAZER AS FOTOS DO GRUPO (FILTRO)
                       image: NetworkImage(
-                          "http://$_ip/findimagem?tipo=1&escala=300&img=GRU_$grupoId.PNG",
+                          "http://$_ip/findimagem?tipo=1&escala=1000&img=GRU_$grupoId.PNG",
                           headers: <String, String>{
                             'authorization': basicAuth
                           }),
@@ -260,7 +260,7 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
 
                       //ROTA PARA TRAZER AS IMAGENS DOS PRODUTOS
                       image: NetworkImage(
-                          "http://$_ip/findimagem?tipo=1&escala=300&img=PRO_${produtoId}_001.PNG",
+                          "http://$_ip/findimagem?tipo=1&escala=1000&img=PRO_${produtoId}_001.PNG",
                           headers: <String, String>{
                             'authorization': basicAuth
                           })),

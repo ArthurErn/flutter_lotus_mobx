@@ -10,7 +10,7 @@ class LogoHomePage extends StatelessWidget {
       left: 0,
       right: 0,
       child: Container(
-        height: MediaQuery.of(context).size.height * .34,
+        height: MediaQuery.of(context).size.height * .24,
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("lib/assets/images/logo_azul.png"),
