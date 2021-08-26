@@ -51,12 +51,10 @@ Future editsVenda() async {
       "id_produto": produtoVendas[aux].id_produto,
       "complemento": complementoLista[aux],
       "vlr_vendido": produtoVendas[aux].produto_pvenda,
-      "vlr_vendido_original": produtoVendas[aux].produto_pvenda,
       "qtde": valoresProduto[aux],
       "tot_bruto": _totalBruto,
       "vlr_desc_prc": porcentagensProdutos[aux],
       "vlr_desc_vlr": _valorPorcentagemFinal,
-      "vlr_liquido": _totalBruto - _valorPorcentagemFinal,
       "grade": "UN",
       "id_vendedor": idColaborador
     });
@@ -64,11 +62,11 @@ Future editsVenda() async {
     var encoded = base64Encode(utf8.encode(jsonItem));
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobile/vendas_inserir_itm');
+    var url = Uri.parse('http://$_ip/mobVendasInserirItem');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},
-      body: encoded,
+      body: jsonItem,
     );
     print(data.body);
   }

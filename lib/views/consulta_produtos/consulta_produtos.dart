@@ -39,8 +39,8 @@ class _ConsultaProdutoState extends State<ConsultaProduto> {
         color: Color(0xff7c94b6),
         image: DecorationImage(
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+          colorFilter:
+              ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.dstOver),
           image: AssetImage(
             'lib/assets/images/background.png',
           ),

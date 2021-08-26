@@ -11,7 +11,7 @@ Future<ObservableList<ProdutoOS>> getListarProdutosOS() async {
   var _ip = ipController.text;
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobile/os_oficina_itens_os?idos=$ordemId');
+  var url = Uri.parse('http://$_ip/mobOSOficinaItemListar?pidos=$ordemId');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

@@ -11,8 +11,6 @@ import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:mobx/mobx.dart';
 
 //RECEBE O ID PARA PODER EDITAR
-
-
 class ClientesPage extends StatefulWidget {
   const ClientesPage({Key key}) : super(key: key);
 
@@ -47,7 +45,7 @@ class _ClientesPageState extends State<ClientesPage> {
         image: DecorationImage(
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+              Colors.black.withOpacity(0.4), BlendMode.dstOver),
           image: AssetImage(
             'lib/assets/images/background.png',
           ),
@@ -103,16 +101,11 @@ class _ClientesPageState extends State<ClientesPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              AnimatedContainer(
-                  duration: Duration(milliseconds: 250),
-                  height: isSearch == true ? 58 : 0,
-                  decoration: BoxDecoration(
-                      border: Border(
-                    bottom: BorderSide(width: 1, color: Colors.black),
-                  )),
+              Container(
+                  height: isSearch == true ? 60 : 0,
+                  color: Colors.white,
                   child: searchBar()),
-              AnimatedContainer(
-                  duration: Duration(milliseconds: 250),
+              Container(
                   margin: EdgeInsets.symmetric(horizontal: 14),
                   height: isSearch == true
                       ? MediaQuery.of(context).size.height / 1.3
@@ -149,27 +142,23 @@ class _ClientesPageState extends State<ClientesPage> {
     return TextField(
       onChanged: (text) {
         text = text.toLowerCase();
-        setState(() {
-          osController.clientesDisplay =
-              ObservableList.of(osController.clientes.where((cliente) {
-            var clienteId = cliente.id.toString();
-            var clienteNome = cliente.nomeRazao != null
-                ? cliente.nomeRazao.toLowerCase()
-                : "";
-            var clienteFantasia = cliente.apelidoFantasia != null
-                ? cliente.apelidoFantasia.toLowerCase()
-                : "";
-            return clienteId.contains(text) ||
-                clienteNome.contains(text) ||
-                clienteFantasia.contains(text);
-          }));
-        });
+        osController.clientesDisplay =
+            ObservableList.of(osController.clientes.where((cliente) {
+          var clienteId = cliente.id.toString();
+          var clienteNome =
+              cliente.nomeRazao != null ? cliente.nomeRazao.toLowerCase() : "";
+          var clienteFantasia = cliente.apelidoFantasia != null
+              ? cliente.apelidoFantasia.toLowerCase()
+              : "";
+          return clienteId.contains(text) ||
+              clienteNome.contains(text) ||
+              clienteFantasia.contains(text);
+        }));
       },
       controller: clienteController,
       decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        hintText: "Pesquisar cliente",
+        fillColor: isSearch == true ? Colors.white : Colors.transparent,
+        hintText: isSearch == true ? "Pesquisar cliente" : "",
         hintStyle: TextStyle(color: Colors.grey),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
@@ -227,62 +216,63 @@ class _ClientesPageState extends State<ClientesPage> {
                               builder: (context) => EditarClientes()));
                     },
                     child: ListTile(
-                        leading: Image.asset(
-                          "lib/assets/images/pessoa.png",
-                          color: Colors.black.withOpacity(0.75),
-                        ),
-                        title: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        leading: Column(
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                  text: osController.clientesDisplay[index]
-                                              .nomeRazao !=
-                                          null
-                                      ? osController
-                                          .clientesDisplay[index].nomeRazao
-                                      : "NOME NÃO INFORMADO",
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black)),
+                            Image.asset(
+                              "lib/assets/images/pessoa.png",
+                              color: Colors.black.withOpacity(0.75),
+                              height: 40,
                             ),
                             SizedBox(
-                              height: 5,
+                              height: 4,
                             ),
-                            RichText(
-                              text: TextSpan(
-                                  text: osController
-                                              .clientesDisplay[index].id !=
-                                          null
-                                      ? osController.clientesDisplay[index].id
-                                          .toString()
-                                      : "ID NÃO INFORMADO",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black87),
-                                  children: [
-                                    TextSpan(
-                                        text: osController
-                                                    .clientesDisplay[index]
-                                                    .cpfCnpj !=
-                                                null
-                                            ? "   CPF/CNPJ: " +
-                                                "\n" +
-                                                osController
-                                                    .clientesDisplay[index]
-                                                    .cpfCnpj
-                                            : "\n" + "CPF/CNPJ NÃO INFORMADO",
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey[600]))
-                                  ]),
-                            ),
+                            Text(
+                                osController.clientesDisplay[index].id != null
+                                    ? osController.clientesDisplay[index].id
+                                        .toString()
+                                    : "ID NÃO INFORMADO",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[600])),
                           ],
-                        )),
+                        ),
+                        title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                    text: osController.clientesDisplay[index]
+                                                .nomeRazao !=
+                                            null
+                                        ? osController
+                                            .clientesDisplay[index].nomeRazao
+                                        : "NOME NÃO INFORMADO",
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.black)),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              RichText(
+                                  text: TextSpan(
+                                      text: osController.clientesDisplay[index]
+                                                  .cpfCnpj !=
+                                              null
+                                          ? "CPF/CNPJ: " +
+                                              "\n" +
+                                              osController
+                                                  .clientesDisplay[index]
+                                                  .cpfCnpj
+                                          : "\n" + "CPF/CNPJ NÃO INFORMADO",
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.grey[600])))
+                            ])),
                   ),
                 ),
               ),

@@ -6,7 +6,6 @@ import 'package:lotus_erp/views/login/functions/persist_fields.dart';
 import 'package:lotus_erp/views/login/layout/api_field.dart';
 import 'package:lotus_erp/views/login/layout/login_field.dart';
 
-
 //LOGIN
 var loginController = TextEditingController();
 var loginControllerText = loginController.text;
@@ -77,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         image: DecorationImage(
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+              Colors.black.withOpacity(0.4), BlendMode.dstOver),
           image: AssetImage(
             'lib/assets/images/background.png',
           ),

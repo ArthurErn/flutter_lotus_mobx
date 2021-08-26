@@ -12,7 +12,10 @@ class CheckListOrdemOficina extends StatefulWidget {
 class _CheckListOrdemOficinaState extends State<CheckListOrdemOficina> {
   @override
   void initState() {
-    PersistChecklist().get();
+    setState(() {
+      PersistChecklist().get();
+    });
+    
     super.initState();
   }
 

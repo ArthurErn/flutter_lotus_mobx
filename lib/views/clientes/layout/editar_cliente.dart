@@ -637,6 +637,7 @@ class _EditarClientesState extends State<EditarClientes> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: Container(
+                          height: 40,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               border: Border(

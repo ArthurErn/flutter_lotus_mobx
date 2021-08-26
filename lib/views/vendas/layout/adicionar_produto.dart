@@ -106,14 +106,18 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
                         itemCount: novaVenda.produtoEstoqueAddDisplay.length,
+                        // ignore: missing_return
                         itemBuilder: (BuildContext context, int index) {
                           if (novaVenda.produtoEstoqueAddDisplay.length > 0) {
                             return listProduto(context, index);
-                          } else if (novaVenda.produtoEstoqueAddDisplay.length == 1) {
+                          } else if (novaVenda
+                                  .produtoEstoqueAddDisplay.length ==
+                              1) {
                             getProdutos().then((value) {
                               setState(() {
                                 novaVenda.produtoEstoqueAdd.addAll(value);
-                                novaVenda.produtoEstoqueAddDisplay = novaVenda.produtoEstoqueAdd;
+                                novaVenda.produtoEstoqueAddDisplay =
+                                    novaVenda.produtoEstoqueAdd;
                               });
                               return listProduto(context, index);
                             });
@@ -131,6 +135,7 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
     String grupoId = balanco.grupoValue[index].idGrupoFormatado;
     return GestureDetector(
       onTap: () {
+        // ignore: deprecated_member_use
         List<Produtos> produtosGrupo = List<Produtos>();
         setState(() {
           tipo = 5;
@@ -138,7 +143,8 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
           getProdutos().then((value) {
             setState(() {
               produtosGrupo.addAll(value);
-              novaVenda.produtoEstoqueAddDisplay = ObservableList.of(produtosGrupo);
+              novaVenda.produtoEstoqueAddDisplay =
+                  ObservableList.of(produtosGrupo);
             });
           });
         });
@@ -178,7 +184,7 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
 
                       //ROTA PARA TRAZER AS FOTOS DO GRUPO (FILTRO)
                       image: NetworkImage(
-                          "http://$_ip/contextmobile/findimagem?tipo=4&img=GRU_$grupoId.PNG&escala=1000",
+                          "http://$_ip/findimagem?tipo=1&escala=300&img=GRU_$grupoId.PNG",
                           headers: <String, String>{
                             'authorization': basicAuth
                           }),
@@ -212,13 +218,19 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
           unidade = novaVenda.produtoEstoqueAddDisplay[index].unidade;
           refFabrica = novaVenda.produtoEstoqueAddDisplay[index].ref_fabrica;
           gtin = novaVenda.produtoEstoqueAddDisplay[index].gtin;
-          fabricanteNome = novaVenda.produtoEstoqueAddDisplay[index].fabricante_nome;
-          produtoCompra = novaVenda.produtoEstoqueAddDisplay[index].produto_pcompra;
-          produtoCusto = novaVenda.produtoEstoqueAddDisplay[index].produto_pcusto;
-          produtoVenda = novaVenda.produtoEstoqueAddDisplay[index].produto_pvenda;
-          produtoSaldo = novaVenda.produtoEstoqueAddDisplay[index].produto_saldo;
+          fabricanteNome =
+              novaVenda.produtoEstoqueAddDisplay[index].fabricante_nome;
+          produtoCompra =
+              novaVenda.produtoEstoqueAddDisplay[index].produto_pcompra;
+          produtoCusto =
+              novaVenda.produtoEstoqueAddDisplay[index].produto_pcusto;
+          produtoVenda =
+              novaVenda.produtoEstoqueAddDisplay[index].produto_pvenda;
+          produtoSaldo =
+              novaVenda.produtoEstoqueAddDisplay[index].produto_saldo;
           grupoId = novaVenda.produtoEstoqueAddDisplay[index].grupo_id;
-          grupoDescricao = novaVenda.produtoEstoqueAddDisplay[index].grupo_descricao;
+          grupoDescricao =
+              novaVenda.produtoEstoqueAddDisplay[index].grupo_descricao;
           servico = novaVenda.produtoEstoqueAddDisplay[index].servico;
         });
 
@@ -248,7 +260,7 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
 
                       //ROTA PARA TRAZER AS IMAGENS DOS PRODUTOS
                       image: NetworkImage(
-                          "http://$_ip/contextmobile/findimagem?tipo=1&img=PRO_$produtoId.PNG&escala=3000",
+                          "http://$_ip/findimagem?tipo=1&escala=300&img=PRO_${produtoId}_001.PNG",
                           headers: <String, String>{
                             'authorization': basicAuth
                           })),
@@ -261,8 +273,8 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 1, horizontal: 7),
                             child: Text(
-                              novaVenda.produtoEstoqueAddDisplay[index]
-                                  .id_produto
+                              novaVenda
+                                  .produtoEstoqueAddDisplay[index].id_produto
                                   .toString(),
                               style: TextStyle(
                                   fontSize: 15,
@@ -299,7 +311,8 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
                           ),
                           SizedBox(height: 3),
                           Text(
-                            novaVenda.produtoEstoqueAddDisplay[index].fabricante_nome,
+                            novaVenda.produtoEstoqueAddDisplay[index]
+                                .fabricante_nome,
                             style: TextStyle(
                                 color: Colors.grey[600],
                                 fontWeight: FontWeight.normal,
@@ -309,7 +322,8 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
                           Text(
                             "R\$" +
                                 formatoValores
-                                    .format(novaVenda.produtoEstoqueAddDisplay[index]
+                                    .format(novaVenda
+                                        .produtoEstoqueAddDisplay[index]
                                         .produto_pvenda)
                                     .toString(),
                             style: TextStyle(
@@ -343,7 +357,8 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
         onChanged: (texto) {
           texto = texto.toUpperCase();
           setState(() {
-            novaVenda.produtoEstoqueAddDisplay = novaVenda.produtoEstoqueAdd.where((produto) {
+            novaVenda.produtoEstoqueAddDisplay =
+                novaVenda.produtoEstoqueAdd.where((produto) {
               var produtoId = produto.id_produto.toString();
               var produtoDescricao = produto.descricao;
               var produtoGtin = produto.gtin;

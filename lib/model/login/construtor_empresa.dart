@@ -6,8 +6,6 @@ class LoginEmpresa {
   String versaoLiberacao;
   int tipoOs;
   int descontoIndividual;
-  String ramo;
-  String versao;
   String codigoDescricao;
 
   LoginEmpresa(
@@ -18,7 +16,5 @@ class LoginEmpresa {
       this.versaoLiberacao,
       this.tipoOs,
       this.descontoIndividual,
-      this.ramo,
-      this.versao,
       this.codigoDescricao);
 }

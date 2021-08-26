@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/views/homepage/functions/bottom_homepage.dart';
 import 'package:lotus_erp/views/homepage/layout/logo_homepage.dart';
+
 List<Produtos> product = [];
 List<Produtos> produtoVendas = [];
 
@@ -20,18 +21,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
     ]);
     return Container(
       decoration: BoxDecoration(
-
         //BACKGROUND COM OPACIDADE
         color: const Color(0xff7c94b6),
         image: DecorationImage(
           fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+          colorFilter:
+              ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.dstOver),
           image: AssetImage(
             'lib/assets/images/background.png',
           ),
@@ -41,7 +41,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.blue[100].withOpacity(0.1),
         body: Stack(
           children: [
-
             //LOGO HOMEPAGE
             LogoHomePage(),
             //LIST VIEW HORIZONTAL ESTILO NUBANK (BOTTOM)

@@ -36,14 +36,13 @@ Future postEditUsuario() async {
     "complemento": complementoEditText,
     "email": emailEditText
   });
-  var encoded = base64Encode(utf8.encode(jsonProduto));
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobile/clientes_inserir');
+  var url = Uri.parse('http://$_ip/mobClientesInserir');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},
-    body: encoded,
+    body: jsonProduto,
   );
   //VERIFICAÇÃO
   if (data.statusCode == 200) {
@@ -56,13 +55,13 @@ Future postEditUsuario() async {
     } else {
       print(data.body);
       //CASO CRIE O USUARIO, ELE RETORNA UMA MENSAGEM DE SUCESSO
-      
+
       final String dataString = data.body;
       print(dataString);
       return null;
     }
   } else {
-    print('erro');
+    print('ERROR');
     return null;
   }
 }

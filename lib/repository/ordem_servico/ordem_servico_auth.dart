@@ -12,14 +12,14 @@ Future<ObservableList<Ordem>> getOrdem() async {
   var _senha = passControllerText;
   var _ip = ipController.text;
   var _empresa = getIndexEmpresa(val);
-  var _buscar = buscarController.text;
-  _buscar = _buscar.replaceAll("/", "");
   DateTime now = DateTime.now();
   String formatado = DateFormat('ddMMyyyy').format(now);
+  var _buscar = buscarController.text == "" ? formatado : buscarController.text;
+  _buscar = _buscar.replaceAll("/", "");
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobile/os_oficina_listar?idempresa=$_empresa&status=0&identificador=&dinicial=$_buscar&dfinal=$formatado');
+      'http://$_ip/mobOSOficinaListar?pidempresa=$_empresa&pstatus=0&pidentificador=&pdinicial=$_buscar&pfinal=$formatado');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

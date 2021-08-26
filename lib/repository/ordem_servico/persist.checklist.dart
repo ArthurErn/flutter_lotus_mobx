@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 
-
 var adicional1 = TextEditingController();
 var adicional2 = TextEditingController();
 var adicional3 = TextEditingController();
@@ -91,6 +90,5 @@ class PersistChecklist {
     adicional3 = TextEditingController(text: ckExtra3);
     adicional4 = TextEditingController(text: ckExtra4);
     adicional5 = TextEditingController(text: ckExtra5);
-
   }
 }

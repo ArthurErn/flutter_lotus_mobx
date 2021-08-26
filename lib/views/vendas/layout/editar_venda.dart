@@ -55,9 +55,8 @@ class _EditarPedidoState extends State<EditarPedido> {
         appBar: AppBar(
             leading: IconButton(
               onPressed: () {
-                // Navigator.pushReplacement(context,
-                //     MaterialPageRoute(builder: (context) => VendasPage()));
                 Navigator.of(context).pop();
+                vendas.listarPedidos();
               },
               icon: Icon(Icons.arrow_back),
             ),

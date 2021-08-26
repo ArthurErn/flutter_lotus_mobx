@@ -50,7 +50,7 @@ class _BalancoEstoqueState extends State<BalancoEstoque> {
         image: DecorationImage(
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+              Colors.black.withOpacity(0.4), BlendMode.dstOver),
           image: AssetImage(
             'lib/assets/images/background.png',
           ),

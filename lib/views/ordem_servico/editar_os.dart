@@ -4,6 +4,7 @@ import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/atualizar_oficina.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/ordem_servico_auth.dart';
+import 'package:lotus_erp/repository/ordem_servico/persist.checklist.dart';
 import 'package:lotus_erp/views/ordem_servico/alocar_tecnico.dart';
 import 'package:lotus_erp/views/ordem_servico/checklist.dart';
 import 'package:lotus_erp/views/ordem_servico/editar_cliente.dart';
@@ -87,6 +88,10 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
   @override
   void initState() {
     ProcessedData().dataProcess();
+    setState(() {
+      PersistChecklist().get();
+    });
+
     super.initState();
   }
 
@@ -97,16 +102,9 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await postEditOficina().then((value) async {
+              buscarController.text = "";
+              oficina.ordemDisplayInfo();
               Navigator.pop(context);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OrdemServicoOficina()));
-              await getOrdem().then((value) {
-                setState(() {
-                  oficina.ordemDisplay = value;
-                });
-              });
             });
           },
           child: Container(
@@ -644,7 +642,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                         DropdownButton(
                           isExpanded: true,
                           hint: Text('SELECIONE O TIPO DE OS'),
-                          value: selecionadoOS,
+                          value: ordemTipoOsSave,
                           items: tipoOs.map((selecionadoOS) {
                             return DropdownMenuItem(
                               value: selecionadoOS != null

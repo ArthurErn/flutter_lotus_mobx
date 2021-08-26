@@ -104,7 +104,7 @@ Future postEditOficina() async {
   });
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobile/os_oficina_atualizar');
+  var url = Uri.parse('http://$_ip/mobOSOficinaCabAtualizar');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},

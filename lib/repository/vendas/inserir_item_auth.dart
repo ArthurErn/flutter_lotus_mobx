@@ -45,19 +45,19 @@ Future postItem() async {
     "id_fpagto": selecionadoVenda.id,
     "id_usuario": idUsuario,
     "tot_bruto": totalBrutoVenda,
-    "tot_desc_prc": descontoIndividual == 0 ? porcentagemDescontoTotal.text : 0,
-    "tot_desc_vlr": descontoIndividual == 0 ? valorDescontoTotal.text : 0,
+    "tot_desc_prc": descontoIndividual == 0 ? double.parse(porcentagemDescontoTotal.text) : 0.0,
+    "tot_desc_vlr": descontoIndividual == 0 ? double.parse(valorDescontoTotal.text) : 0.0,
     "tot_liquido": totalLiquido,
     "status": statusCabecalho
   });
   var encoded = base64Encode(utf8.encode(jsonCabecalho));
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobile/vendas_inserir_cab');
+  var url = Uri.parse('http://$_ip/mobVendasInserirCab');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},
-    body: encoded,
+    body: jsonCabecalho,
   );
   print(data.body);
 
@@ -78,12 +78,10 @@ Future postItem() async {
       "id_produto": produtoVendas[aux].id_produto,
       "complemento": complementoLista[aux],
       "vlr_vendido": produtoVendas[aux].produto_pvenda,
-      "vlr_vendido_original": produtoVendas[aux].produto_pvenda,
       "qtde": valoresProduto[aux],
       "tot_bruto": _totalBruto,
       "vlr_desc_prc": porcentagensProdutos[aux],
       "vlr_desc_vlr": _valorPorcentagemFinal,
-      "vlr_liquido": _totalBruto - _valorPorcentagemFinal,
       "grade": "UN",
       "id_vendedor": idColaborador
     });
@@ -91,23 +89,23 @@ Future postItem() async {
     var encoded = base64Encode(utf8.encode(jsonItem));
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobile/vendas_inserir_itm');
+    var url = Uri.parse('http://$_ip/mobVendasInserirItem');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},
-      body: encoded,
+      body: jsonItem,
     );
     print(data.body);
   }
   if (descontoIndividual == 0) {
     var attCabecalho = jsonEncode({
-      "id_venda": idVenda,
+      "id_venda": int.parse(idVenda),
       "tot_bruto": totalBrutoVenda,
-      "tot_desc_prc": porcentagemDescontoTotal.text,
-      "tot_desc_vlr": valorDescontoTotal.text
+      "tot_desc_prc": double.parse(porcentagemDescontoTotal.text),
+      "tot_desc_vlr": double.parse(valorDescontoTotal.text)
     });
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobile/vendas_cab_desc_ger');
+    var url = Uri.parse('http://$_ip/mobVendasCabDescAcre');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},
@@ -138,12 +136,10 @@ Future editItem() async {
       "id_produto": produtoVendas[aux].id_produto,
       "complemento": complementoText,
       "vlr_vendido": produtoVendas[aux].produto_pvenda,
-      "vlr_vendido_original": produtoVendas[aux].produto_pvenda,
       "qtde": valoresProduto[aux],
       "tot_bruto": _totalBruto,
       "vlr_desc_prc": porcentagensProdutos[aux],
       "vlr_desc_vlr": _valorPorcentagemFinal,
-      "vlr_liquido": _totalBruto - _valorPorcentagemFinal,
       "grade": "UN",
       "id_vendedor": idColaborador
     });
@@ -151,11 +147,11 @@ Future editItem() async {
     var encoded = base64Encode(utf8.encode(jsonItem));
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobile/vendas_inserir_itm');
+    var url = Uri.parse('http://$_ip/mobVendasInserirItem');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},
-      body: encoded,
+      body: jsonItem,
     );
     print(data.body);
   }

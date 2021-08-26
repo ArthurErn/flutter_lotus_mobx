@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/editar.pedido.controller.dart';
 import 'package:lotus_erp/controllers/nova.venda.controller.dart';
+import 'package:lotus_erp/controllers/vendas.controller.dart';
 import 'package:lotus_erp/repository/clientes/get.cliente.data.dart';
 import 'package:lotus_erp/repository/vendas/inserir_item_auth.dart';
 import 'package:lotus_erp/repository/vendas/movimentar_estoque.dart';
@@ -434,13 +435,7 @@ class _NovaVendaState extends State<NovaVenda> {
                               Navigator.of(context).pop();
                               statusCabecalho = 0;
                               postItem().then((value) {
-                                movimentarEstoque().then((value) {
-                                  afterPost(context);
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => VendasPage()));
-                                });
+                                movimentarEstoque().then((value) => vendas.listarPedidos());
                               });
                             },
                             child: Text("Sim"),

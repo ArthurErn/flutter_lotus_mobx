@@ -14,10 +14,9 @@ Future excluirItem() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobile/vendas_item_delete?vidvenda=$idEdit&vitem=$_item');
+      'http://$_ip/mobVendasExcluirItem?pidvenda=$idEdit&pitem=$_item');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
-  var jsonData = json.decode(data.body);
 
-  return jsonData;
+  return data;
 }

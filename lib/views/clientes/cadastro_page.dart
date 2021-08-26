@@ -40,7 +40,7 @@ class _CadastroClienteState extends State<CadastroCliente> {
         image: DecorationImage(
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.4), BlendMode.dstATop),
+              Colors.black.withOpacity(0.4), BlendMode.dstOver),
           image: AssetImage(
             'lib/assets/images/background.png',
           ),
@@ -170,7 +170,6 @@ class _CadastroClienteState extends State<CadastroCliente> {
                                               setState(() {
                                                 clientes.fillCNPJ(context);
                                               });
-                                              
                                             },
                                             icon: Icon(Icons.more_horiz))
                                       ],
@@ -259,7 +258,6 @@ class _CadastroClienteState extends State<CadastroCliente> {
                                       setState(() {
                                         clientes.fillCEP(context);
                                       });
-                                      
                                     },
                                     icon: Icon(Icons.more_horiz));
                               })
@@ -459,7 +457,8 @@ class _CadastroClienteState extends State<CadastroCliente> {
                                                     labelStyle: TextStyle(
                                                         fontWeight:
                                                             FontWeight.normal)),
-                                                controller: clientes.complemento,
+                                                controller:
+                                                    clientes.complemento,
                                                 onChanged: (value) => clientes
                                                     .complementoText = value,
                                               ),
@@ -582,6 +581,7 @@ class _CadastroClienteState extends State<CadastroCliente> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 0),
                         child: Container(
+                          height: 40,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               border: Border(

@@ -20,14 +20,13 @@ Future postProdutos() async {
     "saldo_novo": valorProd,
     "grade": "UN"
   });
-  var encoded = base64Encode(utf8.encode(jsonProduto));
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobile/balanco_inserir');
+  var url = Uri.parse('http://$_ip/mobEstBalancosInserirItem');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},
-    body: encoded,
+    body: jsonProduto,
   );
   if (data.statusCode == 200) {
     final String dataString = data.body;
@@ -38,4 +37,3 @@ Future postProdutos() async {
     return null;
   }
 }
-

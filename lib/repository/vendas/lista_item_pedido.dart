@@ -13,7 +13,7 @@ Future<ObservableList<ListVenda>> getItensPedido() async {
   var _ip = ipController.text;
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobile/vendas_listar_itens?idvenda=$idEdit');
+  var url = Uri.parse('http://$_ip/mobVendasItensListar?pidvenda=$idEdit');
   var data = await http.get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
   ObservableList<ListVenda> itensPedido = ObservableList();

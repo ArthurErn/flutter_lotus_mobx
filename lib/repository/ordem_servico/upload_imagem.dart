@@ -11,7 +11,8 @@ uploadFile(
   request.fields['idos'] = ordemid.toString();
   request.files.add(new http.MultipartFile.fromBytes(
       'file', await File.fromUri(uri).readAsBytes(),
-      contentType: new MediaType('image', 'jpeg'), filename: ordemid.toString()+"_imagem"));
+      contentType: new MediaType('image', 'jpeg'),
+      filename: ordemid.toString() + "_imagem"));
   request.headers.addAll(<String, String>{'authorization': basicAuth});
 
   request.send().then((response) {

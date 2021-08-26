@@ -16,7 +16,7 @@ Future postItem() async {
 
   var jsonProduto = jsonEncode({
     "id_os": ordemId,
-    "item": osController.produtoLength + 1,
+    "item": osController.produtosOS.length + 1,
     "id_produto": produtosOrdem.id_produto,
     "complemento": '',
     "vlr_vendido": produtosOrdem.produto_pvenda,
@@ -29,7 +29,7 @@ Future postItem() async {
   });
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobile/os_oficina_item');
+  var url = Uri.parse('http://$_ip/mobOSOficinaItemInserir');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/repository/consulta_produtos/consulta_auth.dart';
+import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/inserir_item.dart';
 import 'package:lotus_erp/repository/ordem_servico/listar_produtos.dart';
 import 'package:lotus_erp/model/balanco_estoque/construtor_categoria.dart';
 import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/views/balanco_estoque/functions/balanco_barcode.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
+import 'package:lotus_erp/views/ordem_servico/ordem_oficina.dart';
 import 'package:lotus_erp/views/ordem_servico/produtos_servico.dart';
 import 'package:lotus_erp/views/vendas/layout/adicionar_quantidade.dart';
 import 'package:lotus_erp/views/vendas/vendas_page.dart';
@@ -43,14 +45,18 @@ calcularTotal() {
     for (var u in osController.produtosOS) {
       if (osController.produtosOS[aux].servico == 1) {
         totalServicoOrdem = totalServicoOrdem +
-            (osController.produtosOS[aux].vlrVendido * osController.produtosOS[aux].qtde);
-        totalLiquidoServico =
-            totalServicoOrdem - double.parse(descontoServicoController.text);
+            (osController.produtosOS[aux].vlrVendido *
+                osController.produtosOS[aux].qtde);
+        totalLiquidoServico = totalServicoOrdem -
+            double.parse(
+                oficina.ordemDisplay[indice].totServicosDescVlr.toString());
       } else {
         totalProdutosOrdem = totalProdutosOrdem +
-            (osController.produtosOS[aux].vlrVendido * osController.produtosOS[aux].qtde);
-        totalLiquidoProdutos =
-            totalProdutosOrdem - double.parse(descontoProdutoController.text);
+            (osController.produtosOS[aux].vlrVendido *
+                osController.produtosOS[aux].qtde);
+        totalLiquidoProdutos = totalProdutosOrdem -
+            double.parse(
+                oficina.ordemDisplay[indice].totPecasDescVlr.toString());
       }
 
       aux++;

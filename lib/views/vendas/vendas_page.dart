@@ -85,7 +85,7 @@ class _VendasPageState extends State<VendasPage> {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.4), BlendMode.dstATop),
+                    Colors.black.withOpacity(0.4), BlendMode.dstOver),
                 image: AssetImage(
                   'lib/assets/images/background.png',
                 ),
@@ -262,7 +262,7 @@ class _VendasPageState extends State<VendasPage> {
                   clienteEdit = vendas.pedidosDisplay[index].clienteNome;
                   clienteIdEdit = vendas.pedidosDisplay[index].idCliente;
                 });
-                Navigator.pushReplacement(context,
+                Navigator.push(context,
                     MaterialPageRoute(builder: (context) => EditarPedido()));
               },
               child: Container(

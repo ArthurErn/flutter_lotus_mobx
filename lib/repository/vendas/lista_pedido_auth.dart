@@ -21,7 +21,7 @@ Future<ObservableList<ListaPedidos>> getPedidos() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobile/vendas_listar?idempresa=$_empresa&dinicial=$_data&dfinal=$_datafinal');
+      'http://$_ip/mobVendasListar?pidempresa=$_empresa&pdinicial=$_data&pfinal=$_datafinal');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
@@ -43,7 +43,5 @@ Future<ObservableList<ListaPedidos>> getPedidos() async {
     );
     pedidos.add(pedido);
   }
-
-  print(pedidos.length);
   return pedidos;
 }
