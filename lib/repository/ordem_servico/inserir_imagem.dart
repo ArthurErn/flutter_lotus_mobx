@@ -1,12 +1,7 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:lotus_erp/controllers/galeria_controller.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/repository/ordem_servico/upload_imagem.dart';
 import 'package:lotus_erp/views/login/login_page.dart';
 import 'package:lotus_erp/views/ordem_servico/imagens_os.dart';
-import 'dart:typed_data';
-import 'package:async/async.dart';
 
 Future postImage() async {
   if (galeria.image == null) return;

@@ -441,6 +441,7 @@ class _OrdemServicoOficinaState extends State<OrdemServicoOficina> {
         barrierDismissible: true,
         barrierLabel: '',
         context: context,
+        // ignore: missing_return
         pageBuilder: (context, animation1, animation2) {});
   }
 

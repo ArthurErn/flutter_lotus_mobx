@@ -430,6 +430,7 @@ class _NovaVendaState extends State<NovaVenda> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // ignore_for_file: deprecated_member_use
                           FlatButton(
                             onPressed: () {
                               Navigator.of(context).pop();

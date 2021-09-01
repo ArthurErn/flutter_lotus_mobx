@@ -207,6 +207,7 @@ class _AdicionarQuantidadeState extends State<AdicionarQuantidade> {
                               setState(() {
                                 valorProduto >= 0
                                     ? valorProduto = valorProduto + 1
+                                    // ignore: unnecessary_statements
                                     : null;
                                 valor.text = valorProduto.toString();
                                 valorItem = produtoVenda * valorProduto;
@@ -427,6 +428,7 @@ class _AdicionarQuantidadeState extends State<AdicionarQuantidade> {
                       left: BorderSide(width: .5, color: Colors.black),
                       bottom: BorderSide(width: .5, color: Colors.black),
                     )),
+                    // ignore: deprecated_member_use
                     child: FlatButton(
                       onPressed: () {
                         setState(() {

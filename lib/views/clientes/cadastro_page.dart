@@ -593,6 +593,7 @@ class _CadastroClienteState extends State<CadastroCliente> {
                                     BorderSide(width: 1, color: Colors.black),
                               ),
                               color: Colors.yellow[600]),
+                          // ignore: deprecated_member_use
                           child: FlatButton(
                               onPressed: () {
                                 if (clientes.cepText == null ||

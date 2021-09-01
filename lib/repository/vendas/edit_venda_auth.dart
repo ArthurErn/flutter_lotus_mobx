@@ -59,8 +59,6 @@ Future editsVenda() async {
       "id_vendedor": idColaborador
     });
 
-    var encoded = base64Encode(utf8.encode(jsonItem));
-
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
     var url = Uri.parse('http://$_ip/mobVendasInserirItem');
     var data = await http.post(

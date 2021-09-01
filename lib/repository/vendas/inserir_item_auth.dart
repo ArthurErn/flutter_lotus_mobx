@@ -17,6 +17,7 @@ int qtdItens = 0;
 double totalBrutoVenda = 0;
 
 getTotal() {
+  // ignore: unused_local_variable
   for (var produto in produtoVendas) {
     totalBrutoVenda = totalBrutoVenda +
         (produtoVendas[indice].produto_pvenda * valoresProduto[indice]);
@@ -50,7 +51,6 @@ Future postItem() async {
     "tot_liquido": totalLiquido,
     "status": statusCabecalho
   });
-  var encoded = base64Encode(utf8.encode(jsonCabecalho));
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse('http://$_ip/mobVendasInserirCab');
@@ -64,6 +64,7 @@ Future postItem() async {
   idVenda = data.body.replaceAll("{\"MESSAGE\":\"", "");
   idVenda = idVenda.replaceAll("\",\"RESULT\":\"200\"}", "");
 
+  // ignore: unused_local_variable
   for (var produto in produtoVendas) {
     aux = aux + 1;
 
@@ -85,8 +86,6 @@ Future postItem() async {
       "grade": "UN",
       "id_vendedor": idColaborador
     });
-
-    var encoded = base64Encode(utf8.encode(jsonItem));
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
     var url = Uri.parse('http://$_ip/mobVendasInserirItem');
@@ -119,8 +118,8 @@ Future editItem() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
-  var _empresa = getIndexEmpresa(val);
 
+  // ignore: unused_local_variable
   for (var produto in produtoVendas) {
     aux = aux + 1;
 
@@ -143,8 +142,6 @@ Future editItem() async {
       "grade": "UN",
       "id_vendedor": idColaborador
     });
-
-    var encoded = base64Encode(utf8.encode(jsonItem));
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
     var url = Uri.parse('http://$_ip/mobVendasInserirItem');

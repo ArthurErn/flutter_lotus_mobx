@@ -42,6 +42,7 @@ calcularTotal() {
   totalServicoOrdem = 0;
   getListarProdutosOS().then((value) {
     osController.produtosOS = value;
+    // ignore: unused_local_variable
     for (var u in osController.produtosOS) {
       if (osController.produtosOS[aux].servico == 1) {
         totalServicoOrdem = totalServicoOrdem +
@@ -74,6 +75,7 @@ class AdicionarProdutoOrdemServico extends StatefulWidget {
 class _AdicionarProdutoOrdemServicoState
     extends State<AdicionarProdutoOrdemServico> {
   var valorController = TextEditingController(text: valorCodigoBarrasProduto);
+  // ignore_for_file: deprecated_member_use
   List<Produtos> produtoEstoqueAdd = List<Produtos>();
   List<Produtos> produtoEstoqueAddDisplay = List<Produtos>();
   List<GrupoProdutos> grupoValue = [];
@@ -185,6 +187,7 @@ class _AdicionarProdutoOrdemServicoState
                   child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       itemCount: produtoEstoqueAddDisplay.length,
+                      // ignore: missing_return
                       itemBuilder: (BuildContext context, int index) {
                         if (produtoEstoqueAddDisplay.length > 0) {
                           return listProduto(context, index);

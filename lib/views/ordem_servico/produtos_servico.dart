@@ -8,7 +8,6 @@ import 'package:lotus_erp/model/consulta_produtos/construtor_consulta.dart';
 import 'package:lotus_erp/repository/ordem_servico/persist.checklist.dart';
 import 'package:lotus_erp/repository/ordem_servico/process.data.os.dart';
 import 'package:lotus_erp/views/ordem_servico/adicionar_produto.dart';
-import 'package:lotus_erp/views/ordem_servico/editar_os.dart';
 import 'package:lotus_erp/views/vendas/layout/adicionar_quantidade.dart';
 import 'package:lotus_erp/views/vendas/nova_venda.dart';
 

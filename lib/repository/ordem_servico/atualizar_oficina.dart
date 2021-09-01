@@ -16,6 +16,7 @@ Future postEditOficina() async {
   var situacaoOS = situacao.indexOf(selecionado2);
   var combust = combustivel.indexOf(combustivelSelecionado);
   var tot_geral_bruto = (totalProdutosOrdem + totalServicoOrdem);
+  // ignore_for_file: non_constant_identifier_names
   var ck_antena = antena == true ? 1 : 0;
   var ck_calotas = calota == true ? 1 : 0;
   var ck_tapetes = tapetes == true ? 1 : 0;

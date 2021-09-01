@@ -5,6 +5,7 @@ import 'package:lotus_erp/controllers/clientes.controller.dart';
 
 //PRIMEIRA ROTA, PARA RECOLHER O CNPJ E TRAZER OUTROS CAMPOS
 Future<List<Cnpj>> getCNPJ() async {
+  // ignore: unused_local_variable
   var cnpj = clientes.cnpjText;
   var url =
       Uri.parse('https://www.receitaws.com.br/v1/cnpj/${clientes.cnpjText}');

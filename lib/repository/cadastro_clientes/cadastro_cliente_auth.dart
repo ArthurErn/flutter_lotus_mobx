@@ -38,6 +38,7 @@ Future postUsuario() async {
     "complemento": clientes.complementoText,
     "email": clientes.emailText
   });
+  // ignore: unused_local_variable
   var encoded = base64Encode(utf8.encode(jsonProduto));
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));

@@ -12,6 +12,7 @@ Future postItem() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
+  // ignore: unused_local_variable
   var empresa = getIndexEmpresa(aux);
 
   var jsonProduto = jsonEncode({

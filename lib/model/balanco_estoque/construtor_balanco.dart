@@ -2,6 +2,7 @@
 class Balanco {
   int id;
   String data;
+  // ignore: non_constant_identifier_names
   String balanco_motivo;
 
   Balanco(this.id, this.data, this.balanco_motivo);
