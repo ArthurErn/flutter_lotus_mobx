@@ -86,7 +86,6 @@ class EditarOrdemServico extends StatefulWidget {
 class _EditarOrdemServicoState extends State<EditarOrdemServico> {
   @override
   void initState() {
-    ProcessedData().dataProcess();
     setState(() {
       PersistChecklist().get();
     });
@@ -906,6 +905,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                               height: 40,
                               width: 110,
                               child: TextField(
+                                keyboardType: TextInputType.number,
                                 onChanged: (valor) {
                                   ordemVeicKmSave = valor;
                                 },
@@ -925,6 +925,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                               height: 40,
                               width: 110,
                               child: TextField(
+                                keyboardType: TextInputType.number,
                                 onChanged: (valor) {
                                   ordemVeicAnoSave = valor;
                                 },
@@ -952,6 +953,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                             height: 40,
                             width: 110,
                             child: TextField(
+                              keyboardType: TextInputType.number,
                               onChanged: (valor) {
                                 ordemVeicReboque1Save = valor;
                               },
@@ -971,6 +973,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                             height: 40,
                             width: 110,
                             child: TextField(
+                              keyboardType: TextInputType.number,
                               onChanged: (valor) {
                                 ordemVeicReboque2Save = valor;
                               },

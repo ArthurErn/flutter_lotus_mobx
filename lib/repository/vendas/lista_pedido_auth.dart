@@ -11,7 +11,7 @@ import 'package:mobx/mobx.dart';
 //RETORNA OS BALANÇOS DE ACORDO COM A EMPRESA
 Future<ObservableList<ListaPedidos>> getPedidos() async {
   DateTime now = DateTime.now();
-  var _datafinal = DateFormat('dMMyyyy').format(now);
+  var _datafinal = DateFormat('ddMMyyyy').format(now);
   var _data = dataText != "" ? dataText : _datafinal;
   _datafinal = _data != "" ? _data : _datafinal;
   var _usuario = configLoginControllerText;
@@ -21,7 +21,7 @@ Future<ObservableList<ListaPedidos>> getPedidos() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobVendasListar?pidempresa=$_empresa&pdinicial=$_data&pfinal=$_datafinal');
+      'http://$_ip/lotuserp/mobVendasListar?pidempresa=$_empresa&pdinicial=$_data&pfinal=$_datafinal');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

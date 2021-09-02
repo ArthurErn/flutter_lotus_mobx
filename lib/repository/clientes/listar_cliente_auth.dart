@@ -13,7 +13,7 @@ Future getListarCliente() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobPessoasListar?ptipocad=$tipoCad&ptipopesquisa=1&pvalorpesquisa=');
+      'http://$_ip/lotuserp/mobPessoasListar?ptipocad=$tipoCad&ptipopesquisa=1&pvalorpesquisa=');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonDecode = json.decode(data.body);

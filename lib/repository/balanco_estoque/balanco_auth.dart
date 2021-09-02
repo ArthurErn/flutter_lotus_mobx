@@ -16,7 +16,7 @@ Future<ObservableList<Balanco>> getBalanco() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobEstBalancosListar?pidempresa=$_empresa');
+      'http://$_ip/lotuserp/mobEstBalancosListar?pidempresa=$_empresa');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

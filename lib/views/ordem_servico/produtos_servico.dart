@@ -34,6 +34,8 @@ class _ProdutosServicoState extends State<ProdutosServico> {
   @override
   void initState() {
     setState(() {
+      porcentagemProdutoController.text = "";
+      porcentagemServicoController.text = "";
       descontoProdutoController =
           TextEditingController(text: descontoProdutos.toString());
       descontoServicoController =
@@ -70,10 +72,10 @@ class _ProdutosServicoState extends State<ProdutosServico> {
           IconButton(
               onPressed: () async {
                 Navigator.pop(context);
-                ProcessedData().dataProcess();
-                setState(() {
-                  PersistChecklist().get();
-                });
+                // ProcessedData().dataProcess();
+                // setState(() {
+                //   PersistChecklist().get();
+                // });
               },
               icon: Icon(Icons.check))
         ],
@@ -230,9 +232,7 @@ class _ProdutosServicoState extends State<ProdutosServico> {
                   style: TextStyle(fontSize: 14, color: Colors.black),
                   items: editVenda.formas.map((selecionadoVenda) {
                     return DropdownMenuItem(
-                      value: selecionadoVenda != null
-                          ? selecionadoVenda
-                          : "EDITAR FORMA DE PAGAMENTO",
+                      value: selecionadoVenda != null ? selecionadoVenda : 1,
                       child: Text(selecionadoVenda.descricao),
                     );
                   }).toList(),

@@ -16,7 +16,7 @@ Future<ObservableList<FormaPagamento>> getFormaPagamento() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobFPagtosListar?pidempresa=$_empresa&pdescricao=');
+      'http://$_ip/lotuserp/mobFPagtosListar?pidempresa=$_empresa&pdescricao=');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

@@ -86,7 +86,7 @@ class _AdicionarValorProdutoState extends State<AdicionarValorProduto> {
                             image: NetworkImage(
 
                                 //RETORNA A FOTO ESPECIFICA DO PRODUTO
-                                "http://$_ip/contextmobile/findimagem?tipo=1&img=PRO_$produtoId.PNG&escala=1000",
+                                "http://$_ip/lotuserp/findimagem?tipo=1&img=PRO_$produtoId.PNG&escala=1000",
                                 headers: <String, String>{
                                   'authorization': basicAuth
                                 }))),

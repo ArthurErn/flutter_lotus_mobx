@@ -19,7 +19,7 @@ Future<ObservableList<Ordem>> getOrdem() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobOSOficinaListar?pidempresa=$_empresa&pstatus=0&pidentificador=&pdinicial=$_buscar&pfinal=$formatado');
+      'http://$_ip/lotuserp/mobOSOficinaListar?pidempresa=$_empresa&pstatus=0&pidentificador=&pdinicial=$_buscar&pfinal=$formatado');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

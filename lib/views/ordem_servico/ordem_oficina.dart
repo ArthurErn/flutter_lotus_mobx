@@ -5,6 +5,8 @@ import 'package:lotus_erp/controllers/ordem_oficina_controller.dart';
 import 'package:lotus_erp/repository/clientes/listar_cliente_auth.dart';
 import 'package:lotus_erp/repository/ordem_servico/get.user.data.dart';
 import 'package:lotus_erp/model/ordem_servico/ordem_servico.dart';
+import 'package:lotus_erp/repository/ordem_servico/persist.checklist.dart';
+import 'package:lotus_erp/repository/ordem_servico/process.data.os.dart';
 import 'package:lotus_erp/views/ordem_servico/adicionar_cliente.dart';
 import 'package:lotus_erp/views/ordem_servico/editar_os.dart';
 List<Ordem> ordem = [];
@@ -202,6 +204,8 @@ class _OrdemServicoOficinaState extends State<OrdemServicoOficina> {
                       setState(() {
                         indice = index;
                         UserData().get();
+                        ProcessedData().dataProcess();
+                        PersistChecklist().get();
                       });
 
                       Navigator.push(

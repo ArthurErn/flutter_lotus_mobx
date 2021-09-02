@@ -26,7 +26,7 @@ Future postImage() async {
   // });
 
   //BYTESTREAM
-  uploadFile('http://$_ip/mobile/os_oficina_foto_enviar',
+  uploadFile('http://$_ip/lotuserp/mobile/os_oficina_foto_enviar',
       Uri.file(galeria.image.path), _usuario, _senha, ordemId);
 
 

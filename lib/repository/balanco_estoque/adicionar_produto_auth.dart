@@ -14,15 +14,15 @@ Future postProdutos() async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
-  var jsonProduto = jsonEncode({
+  var jsonProduto = jsonEncode([{
     "id_balanco": idBalanco,
     "id_produto": valorId,
     "saldo_novo": valorProd,
     "grade": "UN"
-  });
+  }]);
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobEstBalancosInserirItem');
+  var url = Uri.parse('http://$_ip/lotuserp/mobEstBalancosInserirItem');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},

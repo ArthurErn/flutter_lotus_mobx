@@ -13,7 +13,7 @@ Future deleteProdutos() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobEstBalancosDeleteItem?pidbalanco=$idBalanco&pidproduto=$_idProduto&pgrade=UN');
+      'http://$_ip/lotuserp/mobEstBalancosDeleteItem?pidbalanco=$idBalanco&pidproduto=$_idProduto&pgrade=UN');
   // ignore: unused_local_variable
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});

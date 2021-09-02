@@ -15,7 +15,7 @@ Future postItem() async {
   // ignore: unused_local_variable
   var empresa = getIndexEmpresa(aux);
 
-  var jsonProduto = jsonEncode({
+  var jsonProduto = jsonEncode([{
     "id_os": ordemId,
     "item": osController.produtosOS.length + 1,
     "id_produto": produtosOrdem.id_produto,
@@ -27,10 +27,10 @@ Future postItem() async {
     "vlr_desc_vlr": 0,
     "vlr_liquido": (produtosOrdem.produto_pvenda * quantidadeProdutoOrdem),
     "id_tecnico": idUsuario
-  });
+  }]);
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobOSOficinaItemInserir');
+  var url = Uri.parse('http://$_ip/lotuserp/mobOSOficinaItemInserir');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},

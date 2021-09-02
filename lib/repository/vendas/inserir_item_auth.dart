@@ -38,22 +38,27 @@ Future postItem() async {
   var _ip = ipController.text;
   var _empresa = getIndexEmpresa(val);
 
-  var jsonCabecalho = jsonEncode({
-    "id_venda": 0,
-    "id_empresa": _empresa,
-    "id_cliente": indexCliente,
-    "id_vendedor": idColaborador,
-    "id_fpagto": selecionadoVenda.id,
-    "id_usuario": idUsuario,
-    "tot_bruto": totalBrutoVenda,
-    "tot_desc_prc": descontoIndividual == 0 ? double.parse(porcentagemDescontoTotal.text) : 0.0,
-    "tot_desc_vlr": descontoIndividual == 0 ? double.parse(valorDescontoTotal.text) : 0.0,
-    "tot_liquido": totalLiquido,
-    "status": statusCabecalho
-  });
+  var jsonCabecalho = jsonEncode([
+    {
+      "id_venda": 0,
+      "id_empresa": _empresa,
+      "id_cliente": indexCliente,
+      "id_vendedor": idColaborador,
+      "id_fpagto": selecionadoVenda.id,
+      "id_usuario": idUsuario,
+      "tot_bruto": totalBrutoVenda,
+      "tot_desc_prc": descontoIndividual == 0
+          ? double.parse(porcentagemDescontoTotal.text)
+          : 0.0,
+      "tot_desc_vlr":
+          descontoIndividual == 0 ? double.parse(valorDescontoTotal.text) : 0.0,
+      "tot_liquido": totalLiquido,
+      "status": statusCabecalho
+    }
+  ]);
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobVendasInserirCab');
+  var url = Uri.parse('http://$_ip/lotuserp/mobVendasInserirCab');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},
@@ -61,8 +66,10 @@ Future postItem() async {
   );
   print(data.body);
 
-  idVenda = data.body.replaceAll("{\"MESSAGE\":\"", "");
-  idVenda = idVenda.replaceAll("\",\"RESULT\":\"200\"}", "");
+  idVenda = data.body
+      .replaceAll("{\"status\":true,\"mensagem\":\"Registro gerado: ", "");
+  idVenda = idVenda.replaceAll("\",\"data\":[]}", "");
+  print("IDVENDA FICOU ASSIM: " + idVenda);
 
   // ignore: unused_local_variable
   for (var produto in produtoVendas) {
@@ -73,22 +80,23 @@ Future postItem() async {
         produtoVendas[aux].produto_pvenda * valoresProduto[aux];
     dynamic _valorPorcentagemFinal =
         _totalBruto * porcentagensProdutos[aux] / 100;
-    var jsonItem = jsonEncode({
-      "id_venda": idVenda,
-      "item": qtdItens,
-      "id_produto": produtoVendas[aux].id_produto,
-      "complemento": complementoLista[aux],
-      "vlr_vendido": produtoVendas[aux].produto_pvenda,
-      "qtde": valoresProduto[aux],
-      "tot_bruto": _totalBruto,
-      "vlr_desc_prc": porcentagensProdutos[aux],
-      "vlr_desc_vlr": _valorPorcentagemFinal,
-      "grade": "UN",
-      "id_vendedor": idColaborador
-    });
+    var jsonItem = jsonEncode([
+      {
+        "id_venda": int.parse(idVenda),
+        "item": qtdItens,
+        "id_produto": produtoVendas[aux].id_produto,
+        "complemento": complementoLista[aux],
+        "vlr_vendido": produtoVendas[aux].produto_pvenda,
+        "qtde": valoresProduto[aux],
+        "vlr_desc_prc": porcentagensProdutos[aux],
+        "vlr_desc_vlr": _valorPorcentagemFinal,
+        "grade": "UN",
+        "id_vendedor": idColaborador
+      }
+    ]);
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobVendasInserirItem');
+    var url = Uri.parse('http://$_ip/lotuserp/mobVendasInserirItem');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},
@@ -97,14 +105,16 @@ Future postItem() async {
     print(data.body);
   }
   if (descontoIndividual == 0) {
-    var attCabecalho = jsonEncode({
-      "id_venda": int.parse(idVenda),
-      "tot_bruto": totalBrutoVenda,
-      "tot_desc_prc": double.parse(porcentagemDescontoTotal.text),
-      "tot_desc_vlr": double.parse(valorDescontoTotal.text)
-    });
+    var attCabecalho = jsonEncode([
+      {
+        "id_venda": int.parse(idVenda),
+        "tot_bruto": totalBrutoVenda,
+        "tot_desc_prc": double.parse(porcentagemDescontoTotal.text),
+        "tot_desc_vlr": double.parse(valorDescontoTotal.text)
+      }
+    ]);
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobVendasCabDescAcre');
+    var url = Uri.parse('http://$_ip/lotuserp/mobVendasCabDescAcre');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},
@@ -129,22 +139,23 @@ Future editItem() async {
     dynamic _valorPorcentagemFinal =
         _totalBruto * porcentagensProdutos[aux] / 100;
 
-    var jsonItem = jsonEncode({
-      "id_venda": idEdit,
-      "item": qtdItens,
-      "id_produto": produtoVendas[aux].id_produto,
-      "complemento": complementoText,
-      "vlr_vendido": produtoVendas[aux].produto_pvenda,
-      "qtde": valoresProduto[aux],
-      "tot_bruto": _totalBruto,
-      "vlr_desc_prc": porcentagensProdutos[aux],
-      "vlr_desc_vlr": _valorPorcentagemFinal,
-      "grade": "UN",
-      "id_vendedor": idColaborador
-    });
+    var jsonItem = jsonEncode([
+      {
+        "id_venda": idEdit,
+        "item": qtdItens,
+        "id_produto": produtoVendas[aux].id_produto,
+        "complemento": complementoText,
+        "vlr_vendido": produtoVendas[aux].produto_pvenda,
+        "qtde": valoresProduto[aux],
+        "vlr_desc_prc": porcentagensProdutos[aux],
+        "vlr_desc_vlr": _valorPorcentagemFinal,
+        "grade": "UN",
+        "id_vendedor": idColaborador
+      }
+    ]);
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobVendasInserirItem');
+    var url = Uri.parse('http://$_ip/lotuserp/mobVendasInserirItem');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},

@@ -14,7 +14,7 @@ Future<ObservableList<ProdutosBalanco>> getProdutosBalanco() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobEstBalancosListarItens?pidbalanco=$idBalanco');
+      'http://$_ip/lotuserp/mobEstBalancosListarItens?pidbalanco=$idBalanco');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

@@ -27,7 +27,7 @@ class AuthenticationEmpresas {
     var ip = ipController.text;
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
 
-    var url = Uri.parse('http://$ip/mobEmpresasListar');
+    var url = Uri.parse('http://$ip/lotuserp/mobEmpresasListar');
     var response = await http
         .get(url, headers: <String, String>{'authorization': basicAuth});
     return response;
@@ -38,11 +38,11 @@ class AuthenticationEmpresas {
     inicializar().then((response) {
       if (response.statusCode == 200) {
         isLogin = true;
-        // erro(
-        //     context, 'Conectado com Sucesso!', Icons.check, Colors.green);
+        erro(
+            context, 'Conectado com Sucesso!', Icons.check, Colors.green);
       } else if (response.statusCode != 200) {
         //ERRO DE API
-        erro(context, 'Conexão invalida', Icons.error, Colors.red);
+        erro(context, 'Conexão inválida', Icons.error, Colors.red);
       }
     });
   }
@@ -54,7 +54,7 @@ class AuthenticationEmpresas {
     var _ip = ipController.text;
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
 
-    var url = Uri.parse('http://$_ip/mobEmpresasListar');
+    var url = Uri.parse('http://$_ip/lotuserp/mobEmpresasListar');
     var response = await http
         .get(url, headers: <String, String>{'authorization': basicAuth});
     var body = response.body;
@@ -91,7 +91,7 @@ class AuthenticationLogin {
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
     var url = Uri.parse(
-        'http://$_ip/mobUsuarioLogar?pUsuario=$_user&pSenha=$_pass&pidempresa=$_empresa');
+        'http://$_ip/lotuserp/mobUsuarioLogar?pUsuario=$_user&pSenha=$_pass&pidempresa=$_empresa');
     var response = await http
         .get(url, headers: <String, String>{'authorization': basicAuth});
     return response;
@@ -147,6 +147,8 @@ Widget erro(BuildContext context, String text, IconData icon, Color color) {
           descriptionStyle: TextStyle(fontSize: 15),
           animationType: ANIMATION_TYPE.FROM_LEFT,
           animationDuration: Duration(milliseconds: 500),
-          autoDismiss: true)
+          autoDismiss: true,
+          displayCloseButton: false,
+          )
       .show(context);
 }

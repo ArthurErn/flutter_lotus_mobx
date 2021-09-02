@@ -11,7 +11,7 @@ Future<List<ChartModel>> getListarContasPagar() async {
   var _empresa = getIndexEmpresa(val);
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobDashContasPagarPen?pidempresa=$_empresa');
+  var url = Uri.parse('http://$_ip/lotuserp/mobDashContasPagarPen?pidempresa=$_empresa');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

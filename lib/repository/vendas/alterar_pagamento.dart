@@ -12,7 +12,7 @@ Future alterarPagamento() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobVendasAlterarFPagto?pidvenda=$idEdit&pidfpagto=$fPagamento');
+      'http://$_ip/lotuserp/mobVendasAlterarFPagto?pidvenda=$idEdit&pidfpagto=$fPagamento');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

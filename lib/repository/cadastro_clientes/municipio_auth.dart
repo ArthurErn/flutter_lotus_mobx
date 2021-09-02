@@ -12,7 +12,7 @@ Future<List<Municipio>> getMunicipio() async {
   var _ip = ipController.text;
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobMunicipiosListar?ptipo=2&ptipo_valor=${clientes.ibge}');
+      'http://$_ip/lotuserp/mobMunicipiosListar?ptipo=2&ptipo_valor=${clientes.ibge}');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonDecode = json.decode(data.body);

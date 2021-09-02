@@ -12,17 +12,17 @@ Future postOficina() async {
   var _senha = passControllerText;
   var _ip = ipController.text;
   var empresa = getIndexEmpresa(aux);
-  var jsonProduto = jsonEncode({
+  var jsonProduto = jsonEncode([{
     "id_empresa": empresa,
     "id_usuario": idUsuario,
     "identificador": identificadorControllerAdd.text.toUpperCase(),
     "id_cliente": ordemIdPessoaSave,
     "id_atendente": idColaborador
-  });
+  }]);
   //var encoded = base64Encode(utf8.encode(jsonProduto));
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobOSOficinaCabInserir');
+  var url = Uri.parse('http://$_ip/lotuserp/mobOSOficinaCabInserir');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},

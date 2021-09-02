@@ -15,7 +15,7 @@ Future movimentarEstoque() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobVendasMovEstoque?pidempresa=$_empresa&pidvenda=$_idVenda&pidusuario=$_idUsuario');
+      'http://$_ip/lotuserp/mobVendasMovEstoque?pidempresa=$_empresa&pidvenda=$_idVenda&pidusuario=$_idUsuario');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
 

@@ -17,7 +17,7 @@ Future postEditUsuario() async {
   var _senha = passControllerText;
   var _ip = ipController.text;
   var _empresa = getIndexEmpresa(val);
-  var jsonProduto = jsonEncode({
+  var jsonProduto = jsonEncode([{
     "id_empresa": _empresa,
     "id": clienteId,
     "nome_razao": nomeRazaoEditText.toUpperCase(),
@@ -35,10 +35,10 @@ Future postEditUsuario() async {
     "id_municipio": municipioEditId,
     "complemento": complementoEditText,
     "email": emailEditText
-  });
+  }]);
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobClientesInserir');
+  var url = Uri.parse('http://$_ip/lotuserp/mobClientesInserir');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},

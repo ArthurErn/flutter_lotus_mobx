@@ -14,12 +14,12 @@ List<Cnpj> cnpjs;
 
 //SAO FEITAS TODAS AS OUTRAS AUTENTICACOES ANTES DE CHEGAR NESSA
 //METODO POST QUE ADICIONA USUÁRIO NA API
-Future postUsuario() async {
+Future postUsuario(context) async {
   var _usuario = configLoginControllerText;
   var _senha = passControllerText;
   var _ip = ipController.text;
   var _empresa = getIndexEmpresa(val);
-  var jsonProduto = jsonEncode({
+  var jsonProduto = jsonEncode([{
     "id_empresa": _empresa,
     "id": 0,
     "nome_razao": clientes.nomeRazaoText.toUpperCase(),
@@ -37,12 +37,12 @@ Future postUsuario() async {
     "id_municipio": clientes.municipioId!=null?clientes.municipioId:0,
     "complemento": clientes.complementoText,
     "email": clientes.emailText
-  });
+  }]);
   // ignore: unused_local_variable
   var encoded = base64Encode(utf8.encode(jsonProduto));
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobClientesInserir');
+  var url = Uri.parse('http://$_ip/lotuserp/mobClientesInserir');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},
@@ -54,13 +54,12 @@ Future postUsuario() async {
     //PRINTA MENSAGEM DE ERRO
     if (data.body.contains("\"RESULT\"\:\"500\"")) {
       print(data.body);
-      errorValidar(formKey.currentContext);
+      errorValidar(context);
       return null;
     } else {
       print(data.body);
       //CASO CRIE O USUARIO, ELE RETORNA UMA MENSAGEM DE SUCESSO
-      Navigator.pop(formKey.currentContext);
-      Navigator.pop(formKey.currentContext);
+      Navigator.pop(context);
       asuka.showSnackBar(SnackBar(
           duration: Duration(seconds: 2),
           content: Row(

@@ -435,8 +435,8 @@ class _NovaVendaState extends State<NovaVenda> {
                             onPressed: () {
                               Navigator.of(context).pop();
                               statusCabecalho = 0;
-                              postItem().then((value) {
-                                movimentarEstoque().then((value) => vendas.listarPedidos());
+                              postItem().then((value) async{
+                                await movimentarEstoque().then((value) => vendas.listarPedidos());
                               });
                             },
                             child: Text("Sim"),

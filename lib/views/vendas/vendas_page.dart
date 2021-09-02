@@ -146,9 +146,9 @@ class _VendasPageState extends State<VendasPage> {
                                               dataText =
                                                   dataText.replaceAll("/", "");
                                               vendas.listarPedidos();
-                                              setState(() {
-                                                dataText = "";
-                                              });
+                                              // setState(() {
+                                              //   dataText = "";
+                                              // });
                                             },
                                           ),
                                         ],

@@ -33,7 +33,7 @@ Future postEditOficina() async {
   var tot_servicos_desc_vlr = descontoServicoController.text != ""
       ? double.parse(descontoServicoController.text)
       : 0;
-  var jsonProduto = jsonEncode({
+  var jsonProduto = jsonEncode([{
     "tipo_servico": indexSelecionado,
     "situacao_os": situacaoOS,
     "veic_combustivel": combust,
@@ -100,12 +100,12 @@ Future postEditOficina() async {
     "ck_comb_1_2": combustivelUmMeio == true ? 1 : 0,
     "ck_comb_1_4": combustivelUmQuarto == true ? 1 : 0,
     "ck_comb_0": combustivelZero == true ? 1 : 0,
-    "id_formapagto": fpagtoId,
+    "id_formapagto": fpagtoId == 0?1:fpagtoId,
     "id_os": ordemId
-  });
+  }]);
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-  var url = Uri.parse('http://$_ip/mobOSOficinaCabAtualizar');
+  var url = Uri.parse('http://$_ip/lotuserp/mobOSOficinaCabAtualizar');
   var data = await http.post(
     url,
     headers: <String, String>{'authorization': basicAuth},

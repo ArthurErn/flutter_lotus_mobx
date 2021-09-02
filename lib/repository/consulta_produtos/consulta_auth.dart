@@ -23,7 +23,7 @@ Future<ObservableList<Produtos>> getProdutos() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobProdutosListar?pidempresa=$_empresa&ptipo=$tipo&pvalor=$pvalor');
+      'http://$_ip/lotuserp/mobProdutosListar?pidempresa=$_empresa&ptipo=$tipo&pvalor=$pvalor');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);
@@ -62,7 +62,7 @@ Future<ObservableList<GrupoProdutos>> getGrupo() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobProdutosGruposListar?pidempresa=$_empresa');
+      'http://$_ip/lotuserp/mobProdutosGruposListar?pidempresa=$_empresa');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonData = json.decode(data.body);

@@ -45,22 +45,21 @@ Future editsVenda() async {
         produtoVendas[aux].produto_pvenda * valoresProduto[aux];
     dynamic _valorPorcentagemFinal =
         _totalBruto * porcentagensProdutos[aux] / 100;
-    var jsonItem = jsonEncode({
+    var jsonItem = jsonEncode([{
       "id_venda": idEdit,
       "item": qtdItens,
       "id_produto": produtoVendas[aux].id_produto,
       "complemento": complementoLista[aux],
       "vlr_vendido": produtoVendas[aux].produto_pvenda,
       "qtde": valoresProduto[aux],
-      "tot_bruto": _totalBruto,
       "vlr_desc_prc": porcentagensProdutos[aux],
       "vlr_desc_vlr": _valorPorcentagemFinal,
       "grade": "UN",
       "id_vendedor": idColaborador
-    });
+    }]);
 
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
-    var url = Uri.parse('http://$_ip/mobVendasInserirItem');
+    var url = Uri.parse('http://$_ip/lotuserp/mobVendasInserirItem');
     var data = await http.post(
       url,
       headers: <String, String>{'authorization': basicAuth},

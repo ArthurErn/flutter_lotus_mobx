@@ -13,7 +13,7 @@ Future getListarTecnico() async {
 
   var basicAuth = 'Basic ' + base64Encode(utf8.encode('$_usuario:$_senha'));
   var url = Uri.parse(
-      'http://$_ip/mobOSOficinaAlocarTecnicoListar?pidos=$ordemId');
+      'http://$_ip/lotuserp/mobOSOficinaAlocarTecnicoListar?pidos=$ordemId');
   var data = await http
       .get(url, headers: <String, String>{'authorization': basicAuth});
   var jsonDecode = json.decode(data.body);

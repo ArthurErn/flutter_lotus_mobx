@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:lotus_erp/controllers/clientes.controller.dart';
+import 'package:lotus_erp/controllers/editar.os.controller.dart';
 import 'package:lotus_erp/views/clientes/reset.fields.cadastro.dart';
 import 'package:lotus_erp/repository/cadastro_clientes/cadastro_cliente_auth.dart';
 import 'package:lotus_erp/views/clientes/layout/error_message.dart';
@@ -612,7 +613,7 @@ class _CadastroClienteState extends State<CadastroCliente> {
                                       clientes.cnpjText == "") {
                                     errorCNPJvazio(context);
                                   } else {
-                                    postUsuario();
+                                    postUsuario(context).then((value)=>osController.listarClientes());
                                   }
                                 }
                               },
