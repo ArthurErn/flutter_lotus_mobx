@@ -10,7 +10,6 @@ import 'package:lotus_erp/views/ordem_servico/editar_cliente.dart';
 import 'package:lotus_erp/views/ordem_servico/imagens_os.dart';
 import 'package:lotus_erp/views/ordem_servico/ordem_oficina.dart';
 import 'package:lotus_erp/views/ordem_servico/produtos_servico.dart';
-import 'package:lotus_erp/repository/ordem_servico/process.data.os.dart';
 
 var identificadorController = TextEditingController();
 var controllerMarca = TextEditingController();
@@ -89,14 +88,13 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
     setState(() {
       PersistChecklist().get();
     });
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await postEditOficina().then((value) async {
@@ -142,7 +140,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pushReplacement(context,
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (context) => ImagensOS()));
                   },
                   icon: Icon(
@@ -165,9 +163,9 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
           ),
           title: Row(
             children: [
-              Text("OS " + ordemId.toString(), style:TextStyle(fontSize: 18)),
+              Text("OS " + ordemId.toString(), style: TextStyle(fontSize: 18)),
               Spacer(),
-              Text("Status ", style:TextStyle(color: Colors.grey[200])),
+              Text("Status ", style: TextStyle(color: Colors.grey[200])),
               Text(ordemStatusNome)
             ],
           ),
