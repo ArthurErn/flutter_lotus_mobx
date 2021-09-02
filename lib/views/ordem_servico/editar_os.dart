@@ -96,7 +96,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             await postEditOficina().then((value) async {
@@ -107,7 +107,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
           },
           child: Container(
             width: 60,
-            height: 60,
+            height: 80,
             child: Icon(
               Icons.check,
               size: 36,
@@ -131,7 +131,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Icon(
                   Icons.edit,
-                  size: 40,
+                  size: 30,
                   color: Colors.white,
                 ),
               ),
@@ -147,7 +147,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
                   },
                   icon: Icon(
                     Icons.camera_alt,
-                    size: 40,
+                    size: 30,
                     color: Colors.white,
                   ),
                 ),
@@ -157,9 +157,20 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
         ),
         appBar: AppBar(
           flexibleSpace: Container(
-            decoration: BoxDecoration(color: Colors.blue[900]),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: <Color>[Colors.blue[900], Colors.blue])),
           ),
-          title: Text("Editar OS"),
+          title: Row(
+            children: [
+              Text("OS " + ordemId.toString(), style:TextStyle(fontSize: 18)),
+              Spacer(),
+              Text("Status ", style:TextStyle(color: Colors.grey[200])),
+              Text(ordemStatusNome)
+            ],
+          ),
           toolbarHeight: 65,
           centerTitle: true,
           backgroundColor: Colors.blue[900],
@@ -167,82 +178,9 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
         ),
         body: SingleChildScrollView(
           child: Column(children: [
-            Container(
-              height: 130,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(45),
-                  ),
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[Colors.blue[900], Colors.blue])),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "OS",
-                          style:
-                              TextStyle(fontSize: 19, color: Colors.grey[400]),
-                          textAlign: TextAlign.start,
-                        ),
-                        Text(
-                          ordemId.toString(),
-                          style: TextStyle(fontSize: 19, color: Colors.white),
-                        ),
-                        SizedBox(
-                          height: 17,
-                        ),
-                        Text(
-                          "Status",
-                          style:
-                              TextStyle(fontSize: 19, color: Colors.grey[400]),
-                        ),
-                        Text(
-                          ordemStatusNome,
-                          style: TextStyle(fontSize: 19, color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 25),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Image.asset(
-                              "lib/assets/images/whatsapp.png",
-                              height: 73,
-                              width: 73,
-                            ),
-                            SizedBox(
-                              width: 28,
-                            ),
-                            Image.asset(
-                              "lib/assets/images/email.png",
-                              height: 73,
-                              width: 73,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
             SingleChildScrollView(
               child: Container(
-                height: MediaQuery.of(context).size.height - 264,
+                height: MediaQuery.of(context).size.height - 164,
                 child: ListView.builder(
                   itemCount: 1,
                   itemBuilder: (context, index) => Column(
