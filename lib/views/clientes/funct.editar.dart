@@ -16,7 +16,9 @@ class FuncEditarCliente {
         numeroEditText == null ||
         numeroEditText == "" ||
         bairroEditText == null ||
-        bairroEditText == "") {
+        bairroEditText == "" ||
+        cnpjEditText == null ||
+        cnpjEditText == "") {
       errorCampos(context);
     } else {
       if (cnpjEditText == null || cnpjEditText == "") {

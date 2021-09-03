@@ -180,6 +180,7 @@ class _EditarOrdemServicoState extends State<EditarOrdemServico> {
               child: Container(
                 height: MediaQuery.of(context).size.height - 164,
                 child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: 1,
                   itemBuilder: (context, index) => Column(
                     children: [

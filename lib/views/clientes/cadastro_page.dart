@@ -253,15 +253,13 @@ class _CadastroClienteState extends State<CadastroCliente> {
                                   ),
                                 );
                               }),
-                              Observer(builder: (_) {
-                                return IconButton(
+                              IconButton(
                                     onPressed: () {
                                       setState(() {
                                         clientes.fillCEP(context);
                                       });
                                     },
-                                    icon: Icon(Icons.more_horiz));
-                              })
+                                    icon: Icon(Icons.more_horiz))
                             ],
                           ),
                         ),

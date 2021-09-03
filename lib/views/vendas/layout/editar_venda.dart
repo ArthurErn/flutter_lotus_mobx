@@ -23,7 +23,7 @@ class _EditarPedidoState extends State<EditarPedido> {
   @override
   void initState() {
     setState(() {
-      vendas.pedidos.clear();
+      // vendas.pedidos.clear();
       vendas.pedidosDisplay = vendas.pedidos;
       dataController = TextEditingController(text: "");
       isCliente = false;

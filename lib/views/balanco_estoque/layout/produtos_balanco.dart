@@ -54,7 +54,7 @@ class _ItensBalancoState extends State<ItensBalanco> {
       ),
       child: Scaffold(
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+              FloatingActionButtonLocation.miniCenterFloat,
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               valorCodigoBarras = null;

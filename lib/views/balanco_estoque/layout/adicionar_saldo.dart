@@ -86,7 +86,7 @@ class _AdicionarValorProdutoState extends State<AdicionarValorProduto> {
                             image: NetworkImage(
 
                                 //RETORNA A FOTO ESPECIFICA DO PRODUTO
-                                "http://$_ip/lotuserp/findimagem?tipo=1&img=PRO_$produtoId.PNG&escala=1000",
+                                "http://$_ip/lotuserp/findimagem?tipo=1&escala=1000&img=PRO_${produtoId}_001.PNG",
                                 headers: <String, String>{
                                   'authorization': basicAuth
                                 }))),
@@ -176,6 +176,7 @@ class _AdicionarValorProdutoState extends State<AdicionarValorProduto> {
                             padding: EdgeInsets.only(top: 5, right: 5),
                             child: Text(
                               produtoBalanco,
+                              textAlign: TextAlign.center,
                               style: TextStyle(color: Colors.red[800]),
                             ),
                           )
