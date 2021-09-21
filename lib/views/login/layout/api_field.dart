@@ -16,7 +16,7 @@ class ApiField extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          buildTextField(context, Icons.meeting_room_outlined, 'IP/Porta',
+          buildTextField(context, Icons.meeting_room_outlined, 'IP',
               false, ipController),
           SizedBox(
             height: 15,

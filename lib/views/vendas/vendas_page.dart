@@ -168,6 +168,7 @@ class _VendasPageState extends State<VendasPage> {
                 ),
                 GestureDetector(
                   onTap: () {
+                    persistNomeRazao = "";
                     valoresProduto.clear();
                     porcentagensProdutos.clear();
                     valorFinalProduto.clear();

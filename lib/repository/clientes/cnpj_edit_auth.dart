@@ -12,7 +12,6 @@ Future getEditCNPJ() async {
   Map<String, dynamic> jsonData = json.decode(data.body);
   List<Cnpj> clientes = [];
   if (data.statusCode == 200) {
-    print(jsonData['cep']);
     Cnpj cliente = Cnpj(jsonData['cep'], jsonData['logradouro'],
         jsonData['numero'], jsonData['bairro'], jsonData['complemento']);
     clientes.add(cliente);

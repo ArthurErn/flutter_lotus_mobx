@@ -358,7 +358,7 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
           texto = texto.toUpperCase();
           setState(() {
             novaVenda.produtoEstoqueAddDisplay =
-                novaVenda.produtoEstoqueAdd.where((produto) {
+                ObservableList.of(novaVenda.produtoEstoqueAdd.where((produto) {
               var produtoId = produto.id_produto.toString();
               var produtoDescricao = produto.descricao;
               var produtoGtin = produto.gtin;
@@ -377,7 +377,7 @@ class _AdicionarProdutoVendaState extends State<AdicionarProdutoVenda> {
               } else {
                 return false;
               }
-            }).toList();
+            }));
           });
         },
         controller: valorController,

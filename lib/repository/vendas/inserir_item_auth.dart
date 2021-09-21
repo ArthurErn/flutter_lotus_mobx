@@ -64,12 +64,11 @@ Future postItem() async {
     headers: <String, String>{'authorization': basicAuth},
     body: jsonCabecalho,
   );
-  print(data.body);
+  //print(data.body);
 
   idVenda = data.body
       .replaceAll("{\"status\":true,\"mensagem\":\"Registro gerado: ", "");
   idVenda = idVenda.replaceAll("\",\"data\":[]}", "");
-  print("IDVENDA FICOU ASSIM: " + idVenda);
 
   // ignore: unused_local_variable
   for (var produto in produtoVendas) {
@@ -102,7 +101,7 @@ Future postItem() async {
       headers: <String, String>{'authorization': basicAuth},
       body: jsonItem,
     );
-    print(data.body);
+    //print(data.body);
   }
   if (descontoIndividual == 0) {
     var attCabecalho = jsonEncode([
@@ -120,7 +119,7 @@ Future postItem() async {
       headers: <String, String>{'authorization': basicAuth},
       body: attCabecalho,
     );
-    print(data.body);
+    //print(data.body);
   }
 }
 
@@ -161,6 +160,6 @@ Future editItem() async {
       headers: <String, String>{'authorization': basicAuth},
       body: jsonItem,
     );
-    print(data.body);
+    //print(data.body);
   }
 }

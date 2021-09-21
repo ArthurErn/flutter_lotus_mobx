@@ -49,15 +49,15 @@ Future postEditUsuario() async {
     //CASO RETORNE RESULT 500 (JSON VAZIO)
     //PRINTA MENSAGEM DE ERRO
     if (data.body.contains("\"RESULT\"\:\"500\"")) {
-      print(data.body);
+      //print(data.body);
       errorValidar(formKey.currentContext);
       return null;
     } else {
-      print(data.body);
+      //print(data.body);
       //CASO CRIE O USUARIO, ELE RETORNA UMA MENSAGEM DE SUCESSO
 
       final String dataString = data.body;
-      print(dataString);
+      //print(dataString);
       return null;
     }
   } else {

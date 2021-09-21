@@ -149,9 +149,7 @@ class _NovaVendaState extends State<NovaVenda> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              persistNomeRazao != null
-                                  ? persistNomeRazao
-                                  : "NENHUM SELECIONADO",
+                              persistNomeRazao != null ? persistNomeRazao : "",
                               style: TextStyle(
                                   fontSize: 15, fontStyle: FontStyle.italic),
                             ),
@@ -201,18 +199,16 @@ class _NovaVendaState extends State<NovaVenda> {
                       )
                     ],
                   ),
-                  Observer(builder: (_) {
-                    return Container(
-                      height: persistNomeRazao != ""
-                          ? MediaQuery.of(context).size.height / 3 - 10
-                          : MediaQuery.of(context).size.height / 2.5 - 10,
-                      child: ListView.builder(
-                          itemCount: product.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return listVenda(context, index);
-                          }),
-                    );
-                  }),
+                  Container(
+                    height: persistNomeRazao != ""
+                        ? MediaQuery.of(context).size.height / 3 - 10
+                        : MediaQuery.of(context).size.height / 2.5 - 10,
+                    child: ListView.builder(
+                        itemCount: product.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return listVenda(context, index);
+                        }),
+                  ),
                   if (descontoIndividual == 0)
                     Container(
                       height: 60,
@@ -433,24 +429,25 @@ class _NovaVendaState extends State<NovaVenda> {
                           // ignore_for_file: deprecated_member_use
                           FlatButton(
                             onPressed: () {
-                              Navigator.of(context).pop();
-                              statusCabecalho = 0;
-                              postItem().then((value) async{
-                                await movimentarEstoque().then((value) => vendas.listarPedidos());
+                              statusCabecalho = 1;
+                              postItem().then((value) async {
+                                movimentarEstoque().then((value) {
+                                  vendas.listarPedidos();
+                                  afterPost(context);
+                                });
                               });
+                              afterPost(context);
                             },
                             child: Text("Sim"),
                           ),
                           FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              statusCabecalho = 1;
-                              postItem().then((value) {
-                                afterPost(context);
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => VendasPage()));
+                            onPressed: () async {
+                              statusCabecalho = 0;
+                              postItem().then((value) async {
+                                movimentarEstoque().then((value) {
+                                  vendas.listarPedidos();
+                                  afterPost(context);
+                                });
                               });
                             },
                             child: Text("Não"),
@@ -463,20 +460,29 @@ class _NovaVendaState extends State<NovaVenda> {
             ));
   }
 
-  afterPost(BuildContext _context) {
+  afterPost(BuildContext context) {
     showDialog(
-        context: _context,
-        builder: (context) => Dialog(
-            child: Container(
+        context: context,
+        builder: (context) => AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            content: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
+                ),
                 height: 120,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SizedBox(
+                      height: 10,
+                    ),
                     Text(
                       "ID da Venda",
                       style: TextStyle(fontWeight: FontWeight.normal),
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 12,
                     ),
                     Text(
                       idVenda,
@@ -486,7 +492,8 @@ class _NovaVendaState extends State<NovaVenda> {
                     SizedBox(height: 20),
                     FlatButton(
                         onPressed: () {
-                          Navigator.of(_context).pop();
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
                         },
                         child: Text('OK'))
                   ],
